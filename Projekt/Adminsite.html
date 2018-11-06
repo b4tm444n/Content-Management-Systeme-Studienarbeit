@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+ <head>
+  <meta charset="utf-8">
+  <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <title>Adminbereich</title>
+  <script src="library/connectionlibrary.js"></script>
+  <script src="library/contentlibrary.js"></script>
+  <script>
+  $(document).ready(function() {
+    $("body").hide();
+    var tokenInfo = AUTHENTICATION.checkToken("admin", "index.html");
+    if(tokenInfo['status']) $("body").show();
+  });
+    $( function() {
+      $( "#Btn1" ).click( function( event ) {
+        event.preventDefault();
+        var projectData = PROJECT.searchProjects();
+        $("#projectContent").append("<p>"+projectData["name"]+"</p>");
+        $("#projectContent").append("<p>"+projectData["author"]+"</p>");
+        $("#projectContent").append("<p>"+projectData["picture"]+"</p>");
+        $("#projectContent").append("<p>"+projectData["state"]+"</p>");
+      } );
+    } );
+  </script>
+ </head>
+
+ <body>   <!-- erklären -->
+  <h3>Adminsite</h3>
+    <form>
+      <input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Projekte laden">
+    </form>
+    <div id="projectContent"></div>
+  </body>
+ </html>

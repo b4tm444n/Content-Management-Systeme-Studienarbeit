@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+ <head>
+  <meta charset="utf-8">
+  <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <title>Loginbereich</title>
+  <script src="library/connectionlibrary.js"></script>
+  <script>
+  $( function() {
+    $( "#Submitbutton" ).click( function( event ) {
+      event.preventDefault();
+        $.post( "server/token.php", { name: $("#name").val(), pw: $("#pw").val()}, "json").done(function( data ) {
+          data = JSON.parse(data);
+          if(data['status'] == true)
+          {
+            if(data['type'] == "admin")
+            {
+              CONNECT.redirectPost("Adminsite.html", {});
+            }
+            if(data['type'] == "user")
+            {
+              CONNECT.redirectPost("Usersite.html", {});
+            }
+          }
+          else $("#userMessage").text("Falscher Nutzername oder Passwort");
+        });
+      });
+  } );
+</script>
+ </head>
+
+ <body>   <!-- erklären -->
+  <h3>Anmeldeseite</h3>
+    <form>
+      Accountname: <input type="text" id="name"><br>
+      Passwort: <input type="password" id="pw"><br>
+      <input class="ui-button ui-widget ui-corner-all" id="Submitbutton" type="submit" value="Anmelden">
+    </form>
+    <p id="userMessage"></p>
+  </body>
+ </html>
