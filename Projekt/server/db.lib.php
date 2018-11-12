@@ -1,4 +1,11 @@
 <?php
+//Verbindung zur Datenbank herstellen
+function dbsConnect()
+{
+  $conn = new mysqli("localhost", "nutzer", "nutzer876", "contentmanagementsysteme");
+  return $conn;
+}
+
 /*Funktion zur Überprüfung ob ein Tabelleneintrag existiert
 * Input:  $database - Datenbankverbindung
 *         $table - Zu durchsuchende Tabelle
@@ -6,14 +13,17 @@
 * Output: boolean - true(Eintrag existiert)/false(Eintrag existiert nicht)
 * Beispiel $clause: "id=1"
 */
-function dbsEntryExists(connection $database, string $table, string $clause)
+function dbsEntryExists($database, $table, $clause)
 {
-  $query = "SELECT FROM $table WHERE $clause";
-  $entrys = $database->query($query);
-  if ($entrys->num_rows > 0) {
-    return true;
+  $query = "SELECT * FROM $table WHERE $clause";
+  if($entrys = $database->query($query))
+  {
+    while ($row = $entrys->fetch_assoc())
+    {
+      return true;
+    }
   }
-  else return false;
+  return false;
 }
 
 /*Funktion zur Rückgabe eines bestimmten Feldwerts in der Tabelle
@@ -25,16 +35,18 @@ function dbsEntryExists(connection $database, string $table, string $clause)
 * Output: $result - Wert des gesuchten Feldes
 * Beispiel $clause: "id=1"; $field: "role"
 */
-function dbsSingleValue(connection $database, string $table, string $field, string $clause, boolean $stringify = false)
+function dbsSingleValue($database, $table, $field, $clause, $stringify = false)
 {
-  $query = "SELECT FROM $table WHERE $clause";
-  $entrys = $database->query($query);
-  if($entrys->num_rows > 0)
+  $query = "SELECT $field FROM $table WHERE $clause";
+  if($entrys = $database->query($query))
   {
-    $tablerow = $entrys->fetch_assoc();
-    $result = $tablerow[$field];
-    if($stringify) return (string)$result;
-    else return $result;
+    if($entrys->num_rows > 0)
+    {
+      $tablerow = $entrys->fetch_assoc();
+      $result = $tablerow[$field];
+      if($stringify) return (string)$result;
+      else return $result;
+    }
   }
   else return null;
 }
@@ -48,21 +60,23 @@ function dbsSingleValue(connection $database, string $table, string $field, stri
 * Output: $result - Array mit allen gefundenen Feldwerten
 * Beispiel $clause: "role='admin'"; $field: "id"
 */
-function dbsMultipleValues(connection $database, string $table, string $field, string $clause, boolean $stringify = false)
+function dbsMultipleValues($database, $table, $field, $clause, $stringify = false)
 {
-  $query = "SELECT FROM $table WHERE $clause";
-  $entrys = $database->query($query);
-  if($entrys->num_rows > 0)
+  $query = "SELECT $field FROM $table WHERE $clause";
+  if($entrys = $database->query($query))
   {
-    $result = array();
-    while($tablerow = $entrys->fetch_assoc())
+    if($entrys->num_rows > 0)
     {
-      if($stringify) array_push($result, (string)$tablerow[$field]);
-      else array_push($result, $tablerow[$field]);
+      $result = array();
+      while($tablerow = $entrys->fetch_assoc())
+      {
+        if($stringify) array_push($result, (string)$tablerow[$field]);
+        else array_push($result, $tablerow[$field]);
+      }
+      return $result;
     }
-    return $result;
   }
-  else return null;
+  return null;
 }
 
 /*Liefert alle gefundenen Einträge zurück
@@ -70,16 +84,18 @@ function dbsMultipleValues(connection $database, string $table, string $field, s
 *         $query - Eine komplette SELECT SQL-Anfrage
 * Output: $result - Gefundene Tabellenreihe / null
 * Outputaccess -> while($row = $result->fetch_assoc())
-* Beispiel $query: "SELECT FROM table1 WHERE name='vorname'"
+* Beispiel $query: "SELECT * FROM table1 WHERE name='vorname'"
 */
-function dbsSelect(connection $database, string $query)
+function dbsSelect($database, $query)
 {
-  $entrys = $database->query($query);
-  if($entrys->num_rows > 0)
+  if($entrys = $database->query($query))
   {
-    return $entrys;
+    if($entrys->num_rows > 0)
+    {
+      return $entrys;
+    }
   }
-  else return null;
+  return null;
 }
 
 /*Liefert den ersten gefundenen Eintrag(komplette Tabellenreihe) zurück
@@ -89,13 +105,15 @@ function dbsSelect(connection $database, string $query)
 * Outputaccess -> $result['Tabellenspaltenname']
 * Beispiel $query: "SELECT FROM table1 WHERE name='vorname'"
 */
-function dbsSingleRow(connection $database, string $query)
+function dbsSingleRow($database, $query)
 {
-  $entrys = $database->query($query);
-  if($entrys->num_rows > 0)
+  if($entrys = $database->query($query))
   {
-    $result = $entrys->fetch_assoc();
-    return $result;
+    if($entrys->num_rows > 0)
+    {
+      $result = $entrys->fetch_assoc();
+      return $result;
+    }
   }
   else return null;
 }
@@ -107,7 +125,7 @@ function dbsSingleRow(connection $database, string $query)
 * Beispiel $SQL: "INSERT INTO nutzer (vorname, nachname, email)
 *                 VALUES ('John', 'Doe', 'john@example.com')"
 */
-function dbsExecuteSQL(connection $database, string $SQL)
+function dbsExecuteSQL($database, $SQL)
 {
   if ($database->query($SQL) === TRUE)
   {
@@ -126,7 +144,7 @@ function dbsExecuteSQL(connection $database, string $SQL)
 * Beispiel $SQL: "INSERT INTO nutzer (vorname, nachname, email)
 *                 VALUES ('John', 'Doe', 'john@example.com')"
 */
-function dbsBeginTransaction(connection $database, string $SQL)
+function dbsBeginTransaction($database, $SQL)
 {
   $database->begin_transaction();
   if ($database->query($SQL) === TRUE)
@@ -147,7 +165,7 @@ function dbsBeginTransaction(connection $database, string $SQL)
 * Beispiel $SQL: "INSERT INTO nutzer (vorname, nachname, email)
 *                 VALUES ('John', 'Doe', 'john@example.com')"
 */
-function dbsAddTransaction(connection $database, string $SQL)
+function dbsAddTransaction($database, $SQL)
 {
   if ($database->query($SQL) === TRUE)
   {
@@ -167,7 +185,7 @@ function dbsAddTransaction(connection $database, string $SQL)
 * Beispiel $SQL: "INSERT INTO nutzer (vorname, nachname, email)
 *                 VALUES ('John', 'Doe', 'john@example.com')"
 */
-function dbsEndTransaction(connection $database, string $SQL)
+function dbsEndTransaction($database, $SQL)
 {
   $database->begin_transaction();
   if ($database->query($SQL) === TRUE)
@@ -184,14 +202,14 @@ function dbsEndTransaction(connection $database, string $SQL)
 
 /*Liefert den ersten gefundenen Eintrag(komplette Tabellenreihe) zurück
 * Input:  $database - Datenbankverbindung
-*         $comp - Zeichen des Vergleichs
+*         $comp - Zeichen des Vergleichs "<", ">", "="
 *         $number - Anzahl mit der verglichen werden soll
 *         $table - Tabelle die durchsucht wird
 *         $clause - WHERE-Statement der SQL-Anfrage
 * Output: boolean - true(Vergleich erfolgreich)/false(Vergleich fehlgeschlagen)
 * Beispiel $clause: "name='vorname' AND email='email'"
 */
-function dbsCheckNumOfEntrys(connection $database, string $comp, int $number, string $table, string $clause)
+function dbsCheckNumOfEntrys($database, $comp, $number, $table, $clause)
 {
   $entrys = $database->query($query);
   switch($comp)
