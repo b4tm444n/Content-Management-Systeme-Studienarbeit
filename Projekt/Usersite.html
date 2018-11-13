@@ -19,12 +19,34 @@
     $( function() {
       $( "#Btn1" ).click( function( event ) {
         event.preventDefault();
-        var projectData = PROJECT.searchProjects();
-        $("#projectContent").append("<p>"+projectData["name"]+"</p>");
-        $("#projectContent").append("<p>"+projectData["author"]+"</p>");
-        $("#projectContent").append("<p>"+projectData["picture"]+"</p>");
-        $("#projectContent").append("<p>"+projectData["state"]+"</p>");
-      } );
+        $.when(PROJECT.searchAllProjects()).then(function(result)
+        {
+          console.log(result);
+          for(i = 0; i<result.length; i++)
+          {
+            $("#projectContent").append("<p>Name: "+result[i]["Benennung"]+"</p>");
+            $("#projectContent").append("<p>Zustand: "+result[i]["Zustand"]+"</p>");
+            $("#projectContent").append("<p>Projektleiter: "+result[i]["Projektleiter"]+"</p>");
+            $("#projectContent").append("<p>KnowHow: "+result[i]["GesuchtesKnowHow"]+"</p>");
+            $("#projectContent").append("<p>------------------------</p><br>");
+          }
+        });
+      });
+      $( "#Btn2" ).click( async function( event ) {
+        event.preventDefault();
+        $.when(PROJECT.searchUserProjects()).then(function(result)
+        {
+          console.log(result);
+          for(i = 0; i<result.length; i++)
+          {
+            $("#projectContent").append("<p>Name: "+result[i]["Benennung"]+"</p>");
+            $("#projectContent").append("<p>Zustand: "+result[i]["Zustand"]+"</p>");
+            $("#projectContent").append("<p>Projektleiter: "+result[i]["Projektleiter"]+"</p>");
+            $("#projectContent").append("<p>KnowHow: "+result[i]["GesuchtesKnowHow"]+"</p>");
+            $("#projectContent").append("<p>------------------------</p><br>");
+          }
+        });
+      });
     } );
   </script>
  </head>
@@ -33,6 +55,7 @@
   <h3>Webseite</h3>
     <form>
       <input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Projekte laden">
+      <input class="ui-button ui-widget ui-corner-all" id="Btn2" type="submit" value="Meine Projekte">
     </form>
     <div id="projectContent"></div>
   </body>
