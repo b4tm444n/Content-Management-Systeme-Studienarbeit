@@ -1,19 +1,34 @@
 $(document).ready(function(){
 PROJECT = {
-    searchProjects: function()
+    searchAllProjects: function()
     {
-      var data;
-      $.ajax({
-            async: false,
-            type: "GET",
-            url: "server/projectdata.php",
-            contentType: "application/json; charset=utf-8",
+      return $.ajax({
+            method: "POST",
+            url: "server/projectRouter.php",
+            data: { route: "all" },
             dataType: "json",
             success: function (response) {
-                data = response;
+                return response;
+            },
+            fail: function (output){
+              return null;
             }
-        });
-      return data;
+        }).promise();
+    },
+    searchUserProjects: function()
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/projectRouter.php",
+            data: { route: "user" },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
     }
 };
 });
