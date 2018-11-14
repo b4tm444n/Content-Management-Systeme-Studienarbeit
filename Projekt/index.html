@@ -1,45 +1,75 @@
 <!DOCTYPE html>
-<html lang="de-DE">
- <head>
-  <meta charset="utf-8">
-  <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
-  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-latest.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <title>Loginbereich</title>
-  <script src="library/connectionlibrary.js"></script>
-  <script>
-  $( function() {
-    $( "#Submitbutton" ).click( function( event ) {
-      event.preventDefault();
-        $.post( "server/token.php", { name: $("#name").val(), pw: $("#pw").val()}, "json").done(function( data ) {
-          data = JSON.parse(data);
-          if(data['status'] == true)
-          {
-            if(data['type'] == "admin")
-            {
-              CONNECT.redirectPost("Adminsite.html", {});
-            }
-            if(data['type'] == "user")
-            {
-              CONNECT.redirectPost("Usersite.html", {});
-            }
-          }
-          else $("#userMessage").text("Falscher Nutzername oder Passwort");
-        });
-      });
-  } );
-</script>
- </head>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
 
- <body>   <!-- erklären -->
-  <h3>Anmeldeseite</h3>
-    <form>
-      Accountname: <input type="text" id="name"><br>
-      Passwort: <input type="password" id="pw"><br>
-      <input class="ui-button ui-widget ui-corner-all" id="Submitbutton" type="submit" value="Anmelden">
-    </form>
-    <p id="userMessage"></p>
-  </body>
- </html>
+  <link href="jquery-ui.css" rel="stylesheet" type="text/css" />
+  <script src="jquery-latest.js"></script>
+  <script src="jquery-ui.js"></script>
+
+  <script src="index.js"></script>
+
+<!-- nötig für token? -->
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="library/connectionlibrary.js"></script>
+
+  <title></title>
+</head>
+<body>
+<header>
+
+  </header>
+
+  <nav>
+        <ul>
+            <label for="search">Suche: <input id="search" name="search"> </label>
+        </ul>
+          <div class="menu-bar">Menu
+              <span class="hamburger-icon"><i class="fa fa-bars"></i></span>
+        </div>
+    </nav>
+
+  <div class="container">
+      <div class="section">
+          <div class="col span_2_of_3">
+          </div>
+
+          <aside class="col span_1_of_3">
+              <div class="side-post" id="topbox">
+              </div>
+
+              <div class="side-post" id="language">
+                  <h3 class="side-content">Sprachauswahl</h3>
+                  <a onclick="load_language('ger')" class="button">Deutsch</a>
+                  <a onclick="load_language('eng')" class="button">English</a>
+                  <a onclick="load_language('lat')" class="button">Lateinus</a>
+              </div>
+           </aside>
+      </div>
+  </div>
+
+  <div id="popup1" class="overlay">
+  <div class="popup">
+    <h2>Login</h2>
+    <a class="close" href="#">&times;</a>
+    <div class="content">
+      <p><label for="username">Benutzername: <input id="username" name="username"> </label></p>
+      <p><label for="password">Passwort: <input type="password" id="password" name="password"> </label></p>
+      <p>  <input id = "btnSubmit" type="submit" value="Login"/> </p>
+    </div>
+  </div>
+</div>
+
+<div id="popup2" class="overlay">
+  <div class="popup">
+    <h2>Account erstellen</h2>
+    <a class="close" href="#">&times;</a>
+    <div class="content">
+      <p><label for="e-mail">E-Mail: <input id="e-mail" name="e-mail"> </label></p>
+      <p><label for="username">Benutzername: <input id="username" name="username"> </label></p>
+      <p><label for="password">Passwort: <input id="password" name="password"> </label></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
