@@ -2,7 +2,7 @@
 //Verbindung zur Datenbank herstellen
 function dbsConnect()
 {
-  $conn = new mysqli("localhost", "nutzer", "nutzer876", "contentmanagementsysteme");
+  $conn = new mysqli("localhost", "root", "", "contentmanagementsysteme");
   return $conn;
 }
 
