@@ -73,4 +73,15 @@ $(document).ready(function(){
         });
       });
   } );
+
+
+	$( function createAC(){
+		$( "#btnCreateAC" ).click( function( event ) {
+			$.post( "server/createAC.php", {  Passwort: $("#passwordNew").val(), Vorname: $("#usernameNew").val()}).done(function(data){
+				alert(data);
+			});
+		});
+	});
+
+
 });
