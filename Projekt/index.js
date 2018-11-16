@@ -31,10 +31,20 @@ function test(){
 	load_css('start.css')
 	load_img('1400x200&text=img.png')
 	load_buttons()
-	add_projekt('Title',content,'1')
-	add_projekt('Title',content,'2')
-	add_projekt('Title',content,'3')
 
+	//add_projekt('Title',content,'1')
+	//add_projekt('Title',content,'2')
+	//add_projekt('Title',content,'3')
+
+
+	//algorithmus um für jedes projekt add projet aufzurufen
+	$.post( "server/DisplayProjects.php").done(function( data ) {
+		alert(data);
+		data = JSON.parse(data);
+		data.forEach(function x (item) {
+				add_projekt(item, content,'1')
+			});
+	});
 }
 
 function db(){
@@ -43,7 +53,7 @@ function db(){
 
 $( function categorie(){
 	$.post( "server/DisplayCategories.php").done(function( data ) {
-		//alert(data);
+		alert(data);
 		data = JSON.parse(data);
 
 		data.forEach(function x (item) {

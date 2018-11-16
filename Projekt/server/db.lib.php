@@ -99,20 +99,6 @@ function dbsMultipleValuesNoClause ($database, $table, $field)
     array_push($result, $tablerow[$field]);
   }
   return $result;
-  /*if($entrys = $database->query($query))
-  {
-    if($entrys->num_rows > 0)
-    {
-      $result = array();
-      while($tablerow = $entrys->fetch_assoc())
-      {
-        if($stringify) array_push($result, (string)$tablerow[$field]);
-        else array_push($result, $tablerow[$field]);
-      }
-      return $result;
-    }
-  }
-  return null;*/
 }
 /* Liefert alle gefundenen Einträge zurück
 *  Keine WHERE Klausel!

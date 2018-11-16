@@ -1,14 +1,13 @@
 <?php
 require "db.lib.php";
+require "projectFuncs.php";
 
 session_start();
 //Verbindung herstellen
 $database = dbsConnect();
+$column = "Benennung";
 
-$table = "Kategorie";
-$field = "KategorieName";
-
-$data = dbsMultipleValuesNoClause($database, $table, $field);
+$data = getColumnFromAllProjects($database, $column);
 echo json_encode($data);
 
- ?>
+?>
