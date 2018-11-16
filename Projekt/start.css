@@ -1,3 +1,10 @@
+/*Style für Kategorie Bar*/
+CategoriesEntries{
+  float: left;
+  margin-left: 2%;
+}
+
+
 /* Base Styles */
 
 body{
@@ -258,7 +265,7 @@ ul{
         padding: 15px;
           margin: -2% auto 8% auto; }
   .projekt-title{ font-size: 1.95em; }
-  .date{ font-size: .9em; }   
+  .date{ font-size: .9em; }
 }
 
 /* @480px */
@@ -271,7 +278,7 @@ ul{
                 box-sizing: border-box;
             width:100%;
             padding: 15px; }
-  
+
   .menu-bar{ display: block; }
 
 }

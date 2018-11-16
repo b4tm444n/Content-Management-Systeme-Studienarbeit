@@ -41,7 +41,22 @@ function db(){
 	//db verbindung
 }
 
+$( function categorie(){
+	$.post( "server/DisplayCategories.php").done(function( data ) {
+		//alert(data);
+		data = JSON.parse(data);
 
+		data.forEach(function x (item) {
+				//$("#Categories").text($("#Categories").text()+ item);
+				//$("$Categories").add( "div" ).addClass( "widget" );//.addID(item);
+				var helpString = "<CategoriesEntries>" + item + "</CategoriesEntries>";
+				$( 'Categories' ).append( helpString );
+
+				alert(item);
+			});
+	});
+
+});
 
 
 
@@ -49,6 +64,8 @@ function db(){
 
 $(document).ready(function(){
 	test()
+
+
 
 
 
@@ -82,6 +99,8 @@ $(document).ready(function(){
 			});
 		});
 	});
+
+
 
 
 });

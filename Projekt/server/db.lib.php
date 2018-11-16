@@ -86,6 +86,40 @@ function dbsMultipleValues($database, $table, $field, $clause, $stringify = fals
 * Outputaccess -> while($row = $result->fetch_assoc())
 * Beispiel $query: "SELECT * FROM table1 WHERE name='vorname'"
 */
+
+function dbsMultipleValuesNoClause ($database, $table, $field)
+{
+  $query = "SELECT $field FROM $table";
+  $result = array();
+  $entrys = $database->query($query);
+  while($tablerow = $entrys->fetch_assoc())
+  {
+    //if($stringify) array_push($result, (string)$tablerow[$field]);
+    //else
+    array_push($result, $tablerow[$field]);
+  }
+  return $result;
+  /*if($entrys = $database->query($query))
+  {
+    if($entrys->num_rows > 0)
+    {
+      $result = array();
+      while($tablerow = $entrys->fetch_assoc())
+      {
+        if($stringify) array_push($result, (string)$tablerow[$field]);
+        else array_push($result, $tablerow[$field]);
+      }
+      return $result;
+    }
+  }
+  return null;*/
+}
+/* Liefert alle gefundenen Einträge zurück
+*  Keine WHERE Klausel!
+*/
+
+
+
 function dbsSelect($database, $query)
 {
   if($entrys = $database->query($query))
