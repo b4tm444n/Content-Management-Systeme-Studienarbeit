@@ -101,7 +101,7 @@ $(document).ready(function(){
 
 	$( function createAC(){
 		$( "#btnCreateAC" ).click( function( event ) {
-			$.post( "server/createAC.php", {  Passwort: $("#passwordNew").val(), Vorname: $("#nameNew").val(), Nachname: $("#familynameNew").val(), Username: $("#usernameNew").val()}).done(function(data){
+			$.post( "server/userRouter.php", { route: 'create' ,Passwort: $("#passwordNew").val(), Vorname: $("#nameNew").val(), Nachname: $("#familynameNew").val(), Username: $("#usernameNew").val()}).done(function(data){
 				alert(data);
 			});
 		});
