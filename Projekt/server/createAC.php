@@ -1,7 +1,6 @@
 <?php
 require "db.lib.php";
 
-session_start();
 //Verbindung herstellen
 $database = dbsConnect();
 

@@ -38,11 +38,10 @@ function test(){
 
 
 	//algorithmus um für jedes projekt add projet aufzurufen
-	$.post( "server/DisplayProjects.php").done(function( data ) {
-		alert(data);
+	$.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
 		data = JSON.parse(data);
 		data.forEach(function x (item) {
-				add_projekt(item, content,'1')
+				add_projekt(item, content,'1');
 			});
 	});
 }
@@ -53,16 +52,14 @@ function db(){
 
 $( function categorie(){
 	$.post( "server/DisplayCategories.php").done(function( data ) {
-		alert(data);
 		data = JSON.parse(data);
-
 		data.forEach(function x (item) {
 				//$("#Categories").text($("#Categories").text()+ item);
 				//$("$Categories").add( "div" ).addClass( "widget" );//.addID(item);
 				var helpString = "<CategoriesEntries>" + item + "</CategoriesEntries>";
 				$( 'Categories' ).append( helpString );
 
-				alert(item);
+
 			});
 	});
 

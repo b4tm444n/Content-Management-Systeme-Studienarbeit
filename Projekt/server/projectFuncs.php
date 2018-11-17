@@ -1,6 +1,5 @@
 <?php
 require_once "db.lib.php";
-session_start();
 
 function getAllProjects($database)
 {
