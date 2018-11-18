@@ -51,15 +51,33 @@ function db(){
 }
 
 $( function categorie(){
+		//hinzufügen der Kategorie "Alle"
+	var helpString = "<CategoriesEntries>Alle</CategoriesEntries>";
+	$( 'Categories' ).append( helpString );
+
+	$( "CategoriesEntries:nth-of-type(1)" ).click(function(event){
+		alert('');
+		//Code um Projekte neu zu laden
+		//...
+		//$("#Categories").empty();
+	});
+
+
+		//hinzufügen der Kategorien aus Datenbank
 	$.post( "server/DisplayCategories.php").done(function( data ) {
 		data = JSON.parse(data);
+		var i = 2;	//Varible für n-te Position von <ProjectCategories>
 		data.forEach(function x (item) {
-				//$("#Categories").text($("#Categories").text()+ item);
-				//$("$Categories").add( "div" ).addClass( "widget" );//.addID(item);
 				var helpString = "<CategoriesEntries>" + item + "</CategoriesEntries>";
 				$( 'Categories' ).append( helpString );
-
-
+				//click Event
+				$( "CategoriesEntries:nth-of-type("+ i +")" ).on("click", function(){
+					alert($(this).text());
+					//Code  um Projekte neu zu laden
+					//...
+					$('#Categories').remove();
+				});
+				i++;
 			});
 	});
 
