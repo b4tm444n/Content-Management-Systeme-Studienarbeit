@@ -47,6 +47,13 @@
           }
         });
       });
+      $( "#Btn3" ).click( async function( event ) {
+        event.preventDefault();
+        $.when(PROJECT.createProject()).then(function(result)
+        {
+          console.log(result);
+        });
+      });
     } );
   </script>
  </head>
@@ -56,6 +63,7 @@
     <form>
       <input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Projekte laden">
       <input class="ui-button ui-widget ui-corner-all" id="Btn2" type="submit" value="Meine Projekte">
+      <input class="ui-button ui-widget ui-corner-all" id="Btn3" type="submit" value="Projekt erstellen">
     </form>
     <div id="projectContent"></div>
   </body>
