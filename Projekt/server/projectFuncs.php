@@ -28,14 +28,18 @@ function getColumnFromAllProjects($database, $column)
 
 function getCategorieProjects($database, $column, $categorie)
 {
-   $sql = "SELECT $column FROM projekt WHERE Kategorie=$categorie";
+   $sql = "SELECT $column FROM projekt WHERE GesuchtesKnowHow=$categorie";
+   echo("<script>console.log('PHP: ".$sql."');</script>");
    //$projectData = dbsSelect($database, $sql);
    $projects = array();
    $projectData = $database->query($sql);
+   array_push($projects, $projectData);
+   /*
    while($dataRow = $projectData->fetch_assoc())
    {
       array_push($projects, $dataRow);
    }
+   */
    return $projects;
 }
 /* Funktion um nur Projekte zu einer Kategorie auszugeben
