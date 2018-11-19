@@ -57,9 +57,15 @@ $( function categorie(){
 
 	$( "CategoriesEntries:nth-of-type(1)" ).click(function(event){
 		alert('');
-		//Code um Projekte neu zu laden
-		//...
-		//$("#Categories").empty();
+		//Projekt liste leeren
+		$('.col.span_2_of_3').empty();
+		//Projekte hinzufügen
+		$.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
+			data = JSON.parse(data);
+			data.forEach(function x (item) {
+					add_projekt(item, content,'1');
+				});
+		});
 	});
 
 
@@ -75,7 +81,20 @@ $( function categorie(){
 					alert($(this).text());
 					//Code  um Projekte neu zu laden
 					//...
-					$('#Categories').remove();
+					$('.col.span_2_of_3').empty();
+
+					//Timout zum besseren Debuggen
+					setTimeout(function(){
+					//$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: $(this).text() }).done(function( data ) {
+					$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: "C Programmierung" }).done(function( data ) {
+						alert(data);
+						data = JSON.parse(data);
+						data.forEach(function x (item) {
+								add_projekt(item, content,'1');
+							});
+					});
+				}, 1000);
+
 				});
 				i++;
 			});

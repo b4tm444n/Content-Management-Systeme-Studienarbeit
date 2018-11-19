@@ -29,8 +29,9 @@ function getColumnFromAllProjects($database, $column)
 function getCategorieProjects($database, $column, $categorie)
 {
    $sql = "SELECT $column FROM projekt WHERE Kategorie=$categorie";
-   $projectData = dbsSelect($database, $sql);
+   //$projectData = dbsSelect($database, $sql);
    $projects = array();
+   $projectData = $database->query($sql);
    while($dataRow = $projectData->fetch_assoc())
    {
       array_push($projects, $dataRow);
