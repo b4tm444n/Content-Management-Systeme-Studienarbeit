@@ -44,6 +44,13 @@ function test(){
 				add_projekt(item, content,'1');
 			});
 	});
+
+	//text suche aus json_encode
+	var text = JSON.parse(deutsch);
+//Text ersetzen ohne subelemente zu löschen Quelle: https://stackoverflow.com/questions/4106809/how-can-i-change-an-elements-text-without-changing-its-child-elements
+	$("#searchLabel").contents().filter(function(){
+  return this.nodeType == 3;
+})[0].nodeValue = text.search;
 }
 
 function db(){
