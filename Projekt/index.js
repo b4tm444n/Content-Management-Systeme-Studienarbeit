@@ -8,7 +8,7 @@ function load_img(url){
 
 function load_buttons(){
 	$('#topbox').append('<a class="button" id ="LoginButton" href="#popup1">login</a>')
-	$('#topbox').append('<a class="button" href="#popup2">Account erstellen</a>')
+	$('#topbox').append('<a class="button" id ="CreateAccount" href="#popup2">Account erstellen</a>')
 }
 
 function load_language(language){
@@ -18,15 +18,13 @@ function load_language(language){
 
 }
 
-function loadLanguage(language = "deutsch"){
-
+function loadLanguage(language = deutsch){
 	var text = JSON.parse(language);
 	for(var i in text){
 	/*Text ersetzen ohne subelemente zu löschen (Quellcode von Ursprung angepasst)
 	*Quelle: https://stackoverflow.com/questions/4106809/how-can-i-change-an-elements-text-without-changing-its-child-elements
 	*abgerufen am 19.11.2018
 	*/
-	alert($("#" + i));
 	$("#" + i).contents().filter(function(){
 			return this.nodeType == 3;
 		})[0].nodeValue = text[i]; ;
@@ -60,7 +58,7 @@ function test(){
 	});
 
 	//Default Sprache initialisieren
-	loadLanguage();
+	loadLanguage(englisch);
 
 }
 
