@@ -25,6 +25,9 @@ function loadLanguage(language = deutsch){
 	*Quelle: https://stackoverflow.com/questions/4106809/how-can-i-change-an-elements-text-without-changing-its-child-elements
 	*abgerufen am 19.11.2018
 	*/
+	if (i== "btnSubmit" || i=="btnCreateAC"){$("#" + i).val(text[i])}
+
+	else{
 	$("#" + i).contents().filter(function(){
 			return this.nodeType == 3;
 		})[0].nodeValue = text[i]; ;
@@ -32,6 +35,7 @@ function loadLanguage(language = deutsch){
 	/*
 	* Quellcode aus Quelle zu ende
 	*/
+	}
 }
 
 function add_projekt(title, content, id){
@@ -58,7 +62,7 @@ function test(){
 	});
 
 	//Default Sprache initialisieren
-	loadLanguage(englisch);
+	loadLanguage();
 
 }
 
@@ -68,7 +72,7 @@ function db(){
 
 $( function categorie(){
 		//hinzufügen der Kategorie "Alle"
-	var helpString = "<CategoriesEntries>Alle</CategoriesEntries>";
+	var helpString = "<CategoriesEntries id='CategoriesAll'>Alle</CategoriesEntries>";
 	$( 'Categories' ).append( helpString );
 
 	$( "CategoriesEntries:nth-of-type(1)" ).click(function(event){

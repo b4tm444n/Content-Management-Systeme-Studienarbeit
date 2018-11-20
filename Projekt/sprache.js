@@ -1,3 +1,3 @@
-var deutsch = '{"searchLabel":"Suche", "LoginButton":"Anmelden","LoginUsername":"Benutzername", "LoginPassword":"Passwort" }';
+var deutsch = '{"searchLabel":"Suche", "CategoriesAll":"Alle", "LoginButton":"Anmelden","loginWindow":"Anmelden","LoginUsername":"Benutzername", "LoginPassword":"Passwort", "btnSubmit":"Anmelden", "CreateAccount":"Account erstellen","CreateAcWindow":"Account erstellen","CreateAcFamilyname":"Nachname","CreateAcName":"Vorname", "CreateAcUsername":"Nutzername","CreateAcPassword":"Passwort", "btnCreateAC":"Account erstellen"}';
 
-var englisch = '{"searchLabel":"search", "LoginButton":"Login","LoginUsername":"username", "LoginPassword":"password" }';
+var englisch = '{"searchLabel":"search", "CategoriesAll":"All", "LoginButton":"Login","loginWindow":"Login","LoginUsername":"username", "LoginPassword":"password",          "btnSubmit":"Login",    "CreateAccount":"Create Account",   "CreateAcWindow":"Create Account",   "CreateAcFamilyname":"Familyname","CreateAcName":"Prename", "CreateAcUsername":"Username","CreateAcPassword":"Password",   "btnCreateAC":"Create Account" }';
