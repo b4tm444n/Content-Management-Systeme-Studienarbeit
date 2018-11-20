@@ -7,7 +7,7 @@ function load_img(url){
 }
 
 function load_buttons(){
-	$('#topbox').append('<a class="button" href="#popup1">login</a>')
+	$('#topbox').append('<a class="button" id ="LoginButton" href="#popup1">login</a>')
 	$('#topbox').append('<a class="button" href="#popup2">Account erstellen</a>')
 }
 
@@ -15,6 +15,25 @@ function load_language(language){
 	$.each($('.projekt-title'),function(key,value){
 		value.textContent='test'
 	});
+
+}
+
+function loadLanguage(language = "deutsch"){
+
+	var text = JSON.parse(language);
+	for(var i in text){
+	/*Text ersetzen ohne subelemente zu löschen (Quellcode von Ursprung angepasst)
+	*Quelle: https://stackoverflow.com/questions/4106809/how-can-i-change-an-elements-text-without-changing-its-child-elements
+	*abgerufen am 19.11.2018
+	*/
+	alert($("#" + i));
+	$("#" + i).contents().filter(function(){
+			return this.nodeType == 3;
+		})[0].nodeValue = text[i]; ;
+	}
+	/*
+	* Quellcode aus Quelle zu ende
+	*/
 }
 
 function add_projekt(title, content, id){
@@ -32,11 +51,6 @@ function test(){
 	load_img('1400x200&text=img.png')
 	load_buttons()
 
-	//add_projekt('Title',content,'1')
-	//add_projekt('Title',content,'2')
-	//add_projekt('Title',content,'3')
-
-
 	//algorithmus um für jedes projekt add projet aufzurufen
 	$.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
 		data = JSON.parse(data);
@@ -45,12 +59,9 @@ function test(){
 			});
 	});
 
-	//text suche aus json_encode
-	var text = JSON.parse(deutsch);
-//Text ersetzen ohne subelemente zu löschen Quelle: https://stackoverflow.com/questions/4106809/how-can-i-change-an-elements-text-without-changing-its-child-elements
-	$("#searchLabel").contents().filter(function(){
-  return this.nodeType == 3;
-})[0].nodeValue = text.search;
+	//Default Sprache initialisieren
+	loadLanguage();
+
 }
 
 function db(){
