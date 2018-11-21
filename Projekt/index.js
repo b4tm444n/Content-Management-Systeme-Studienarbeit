@@ -42,10 +42,30 @@ function add_projekt(title, content, id){
 	$('.col.span_2_of_3').append('<div class="projekt-post" id="'+id+'">'+
         '<h1 class="projekt-title">'+title+'</h1>'+
         '<p class="projekt-content">'+content+'</p>'+
-        '<a href="#" class="post-link">Read More...</a>'+
+        '<a  class="post-link" >Read More...</a>'+
         '      </div>');
+
+	//Weiterleitung auf Projekt Details mit Parameter Projektname
+	$('.post-link').click(function(){
+					projectname = "eins"; //testwert
+					/*hier muss der entsprechende Titel in die variable geschrieben werden
+
+					*/
+					help = encodeURI("projektDetails.html?projektname="+ projectname);
+					window.open(help,"_self")
+	});
 }
 
+//test
+
+/*function getUrlVars() {
+	var vars = {};
+	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+			vars[key] = value;
+	});
+	return vars;
+}*/
+//testende
 
 function test(){
 	var content= 'Ut noster tractavissent, summis hic eiusmod te quem. Doctrina velit litteris eu eu fore ingeniis philosophari ne quid o ingeniis ne anim, illum ea iudicem. Pariatur duis dolor hic dolor ad vidisse amet elit ita summis, quo duis te  malis, velit nostrud ingeniis. Appellat elit tamen iudicem multos, mentitum quae sed appellat illustriora. Velit commodo cernantur se si anim do labore, probant ab aliqua aut non laborum fidelissimae. Ex quae se fugiat, et malis officia in et enim cillum ita incididunt, a irure amet an ingeniis.'
