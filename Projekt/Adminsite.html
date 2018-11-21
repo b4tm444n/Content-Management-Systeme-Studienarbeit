@@ -10,23 +10,8 @@
   <title>Adminbereich</title>
   <script src="library/connectionlibrary.js"></script>
   <script src="library/contentlibrary.js"></script>
-  <script>
-  $(document).ready(function() {
-    $("body").hide();
-    var tokenInfo = AUTHENTICATION.checkToken("admin", "index.html");
-    if(tokenInfo['status']) $("body").show();
-  });
-    $( function() {
-      $( "#Btn1" ).click( function( event ) {
-        event.preventDefault();
-        var projectData = PROJECT.searchProjects();
-        $("#projectContent").append("<p>"+projectData["name"]+"</p>");
-        $("#projectContent").append("<p>"+projectData["author"]+"</p>");
-        $("#projectContent").append("<p>"+projectData["picture"]+"</p>");
-        $("#projectContent").append("<p>"+projectData["state"]+"</p>");
-      } );
-    } );
-  </script>
+
+    <script src="adminseite.js"></script>
  </head>
 
  <body>   <!-- erklären -->
@@ -34,10 +19,10 @@
     <form>
       <!--<input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Projekte laden">-->
       <input class="ui-button ui-widget ui-corner-all" id="Categories" type="submit" value="Kategorien Verwalten">
-      <input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Titelbild anpassen">
-      <input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Nutzer Verwalten">
-      <input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Standard Sprache einstellen">
-      <input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Layout und Theme verwalten">
+      <input class="ui-button ui-widget ui-corner-all" id="ChangePicture" type="submit" value="Titelbild anpassen">
+      <input class="ui-button ui-widget ui-corner-all" id="ManageUsers" type="submit" value="Nutzer Verwalten">
+      <input class="ui-button ui-widget ui-corner-all" id="StandardLanguage" type="submit" value="Standard Sprache einstellen">
+      <input class="ui-button ui-widget ui-corner-all" id="ManageLayoutTheme" type="submit" value="Layout und Theme verwalten">
 
 
     </form>
