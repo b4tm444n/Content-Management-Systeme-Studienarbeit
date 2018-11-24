@@ -18,13 +18,26 @@ function getAllProjects($database)
 
 function getColumnFromAllProjects($database, $column)
 {
-   $sql = "SELECT $column FROM Projekt";
+   $sql = "SELECT $column FROM projekt";
    //$projectData = dbsSelect($database, $sql);
    $projects = array();
    $projectData = $database->query($sql);
    while($dataRow = $projectData->fetch_assoc())
    {
       array_push($projects, $dataRow[$column]);
+   }
+   return $projects;
+}
+
+function getNameDesProjects($database)
+{
+   $sql = "SELECT projekt.Benennung AS name, beschreibung.Text AS description FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID";
+   //$projectData = dbsSelect($database, $sql);
+   $projects = array();
+   $projectData = $database->query($sql);
+   while($dataRow = $projectData->fetch_assoc())
+   {
+      array_push($projects, $dataRow);
    }
    return $projects;
 }

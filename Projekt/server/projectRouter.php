@@ -14,6 +14,11 @@ else if($_POST['route'] == 'allNames')
   $data = getColumnFromAllProjects($database, 'Benennung');
   echo json_encode($data);
 }
+else if($_POST['route'] == 'allNamesDes')
+{
+  $data = getNameDesProjects($database);
+  echo json_encode($data);
+}
 else if($_POST['route'] == 'KategorieNames')
 {
   $categorie = $_POST['categorie'];

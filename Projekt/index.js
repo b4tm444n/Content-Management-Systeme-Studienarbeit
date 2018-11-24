@@ -100,10 +100,10 @@ $( function categorie(){
 		//Projekt liste leeren
 		$('.col.span_2_of_3').empty();
 		//Projekte hinzufügen
-		$.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
+		$.post( "server/projectRouter.php", { route: "allNamesDes" }).done(function( data ) {
 			data = JSON.parse(data);
 			data.forEach(function x (item) {
-					add_projekt(item, content,'1');
+					add_projekt(item['name'], item['description'],'1');
 				});
 		});
 	});
