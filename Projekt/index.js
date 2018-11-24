@@ -130,7 +130,7 @@ $( function categorie(){
 						alert(data);
 						data = JSON.parse(data);
 						data.forEach(function x (item) {
-								add_projekt(item['Benennung'], content,'1');
+								add_projekt(item['Benennung'], item['beschreibung'],'1');
 							});
 					});
 				}, 1000);
