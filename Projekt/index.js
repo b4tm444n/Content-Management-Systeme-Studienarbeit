@@ -52,7 +52,7 @@ function add_projekt(title, content, id){
 
 					*/
 					help = encodeURI("projektDetails.html?projektname="+ projectname);
-					window.open(help,"_self")
+					window.open(help,"_self");
 	});
 }
 

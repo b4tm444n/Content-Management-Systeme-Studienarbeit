@@ -89,7 +89,7 @@ function getUserProjects($database, $NutzerID)
    return null;
 }
 
-function createProject($database, $projectLeader, $picturePath, $pictureType, $projectName, $description, $desLanguage, $knowHow, $state, $rights, $webLink, $gitLink, $projCategoryID)
+function createProject($database, $projectLeader, $picturePath, $pictureType, $projectName, $description, $desLanguage, $knowHow, $state, $rights, $webLink = "", $gitLink = "", $projCategoryID)
 {
   $result = false;
   $pictureSQL = "INSERT INTO titelbild (Pfad, Dateityp) VALUES ('".$picturePath."', '".$pictureType."')";

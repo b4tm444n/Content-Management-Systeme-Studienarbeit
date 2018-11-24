@@ -49,10 +49,13 @@
       });
       $( "#Btn3" ).click( async function( event ) {
         event.preventDefault();
+        help = encodeURI("createProject.html");
+        window.open(help,"_self");
+        /*
         $.when(PROJECT.createProject()).then(function(result)
         {
           console.log(result);
-        });
+        });*/
       });
     } );
   </script>
