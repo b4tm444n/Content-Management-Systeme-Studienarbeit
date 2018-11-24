@@ -47,6 +47,21 @@ PROJECT = {
               return null;
             }
         }).promise();
+    },
+    getCategories: function()
+    {
+      return $.ajax({
+        method: "POST",
+        url: "server/projectRouter.php",
+        data: { route: "allCategories" },
+        dataType: "json",
+        success: function (response) {
+            return response;
+        },
+        fail: function (output){
+          return null;
+        }
+      }).promise();
     }
 };
 });

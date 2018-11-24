@@ -122,15 +122,15 @@ $( function categorie(){
 					//Code  um Projekte neu zu laden
 					//...
 					$('.col.span_2_of_3').empty();
-
+					var categorieName = $(this).text();
 					//Timout zum besseren Debuggen
 					setTimeout(function(){
 					//$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: $(this).text() }).done(function( data ) {
-					$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: "C Programmierung" }).done(function( data ) {
+					$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: categorieName }).done(function( data ) {
 						alert(data);
 						data = JSON.parse(data);
 						data.forEach(function x (item) {
-								add_projekt(item, content,'1');
+								add_projekt(item['Benennung'], content,'1');
 							});
 					});
 				}, 1000);

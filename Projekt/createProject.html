@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+
+  <link href="jquery-ui.css" rel="stylesheet" type="text/css" />
+  <script src="jquery-latest.js"></script>
+  <script src="jquery-ui.js"></script>
+  <!--
+  <script src="index.js"></script>
+  <script src="sprache.js"></script>
+  -->
+<!-- nötig für token? -->
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="library/connectionlibrary.js"></script>
+<script src="library/contentlibrary.js"></script>
+
+  <title></title>
+<script>
+  $(document).ready(function() {
+    $("body").hide();
+    var tokenInfo = AUTHENTICATION.checkToken("registered", "index.html");
+    if(tokenInfo['status'])
+    {
+      $("body").show();
+      $("#categorie").empty();
+      $.when(PROJECT.getCategories()).then(function(result)
+      {
+        console.log(result);
+        for(i = 0; i<result.length; i++)
+        {
+          $("#categorie").append('<option value="'+result[i]['CatID']+'">'+result[i]['CatName']+'</option>');
+        }
+      });
+    }
+  });
+  $( function()
+  {
+    $( "#SubmitBtn" ).click( function( event )
+    {
+        event.preventDefault();
+        $.when(PROJECT.createProject("testpic/path", "jpeg", $("#name").val(), $("#description").val(),
+          $("#language").val(), $("#knowHow").val(), "Warte auf Teilnehmer", "0",
+          $("#web").val(), $("#git").val(), $("#categorie").val())).then(function(result)
+          {
+            if(result == true) CONNECT.redirectPost("index.html", {});
+            else alert("Projekt erstellen fehlgeschlagen");
+          });
+    });
+  });
+</script>
+</head>
+<body>
+<header>
+
+</header>
+<label id="categorieLabel" for="categorie">Projektkategorie:
+   <select name="categorie" id="categorie">
+     <option>-</option>
+   </select>
+ </label>
+ <br>
+ <label id="nameLabel" for="name">Projektname: <input id="name" name="name"></label>
+ <br>
+ <label id="descriptionLabel" for="description">Beschreibung: <input id="description" name="description"></label>
+ <br>
+ <label id="knowHowLabel" for="knowHow">Gesuchtes KnowHow: <input id="knowHow" name="knowHow"></label>
+ <br>
+ <label id="languageLabel" for="language">Sprache:
+   <select name="language" id="language">
+     <option value="de">Deutsch</option>
+     <option value="en">English</option>
+     <option value="lt">Latin</option>
+   </select>
+</label>
+<br>
+<label id="gitLabel" for="git">Github Link: <input id="git" name="git"></label>
+<br>
+<label id="webLabel" for="web">Web Link: <input id="web" name="web"></label>
+<br>
+<label id="pictureLabel" for="pictureLabel">Projektbild:
+    <input id="picture" name="picture" type="file" accept="image/*">
+  </label>
+<br>
+<input class="ui-button ui-widget ui-corner-all" id="SubmitBtn" type="submit" value="Projekt erstellen">
+</body>
+</html>

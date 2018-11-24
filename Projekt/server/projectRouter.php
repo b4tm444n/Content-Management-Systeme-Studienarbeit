@@ -17,7 +17,14 @@ else if($_POST['route'] == 'allNames')
 else if($_POST['route'] == 'KategorieNames')
 {
   $categorie = $_POST['categorie'];
+  error_log($categorie);
   $data = getCategorieProjects($database, 'Benennung', $categorie);
+  echo json_encode($data);
+}
+else if($_POST['route'] == 'allCategories')
+{
+  error_log("Try to get");
+  $data = getCategories($database);
   echo json_encode($data);
 }
 else if($_POST['route'] == 'details' && isset($_POST['id']))
@@ -37,8 +44,8 @@ else if($_POST['route'] == 'create')
 {
   $token = explode(",", $_SESSION['token']);
   $userid = $token[2];
-  $data = createProject($database, $_POST['picturePath'], $_POST['pictureType'], $userid, $_POST['state'], $_POST['projectName'], $_POST['rights'],
-  $_POST['knowHow'], $_POST['webLink'], $_POST['gitLink'], $_POST['description'], $_POST['descriptionLanguage'], $_POST['categoryID']);
+  $data = createProject($database, $userid, $_POST['picturePath'], $_POST['pictureType'], $_POST['projectName'], $_POST['description'], $_POST['descriptionLanguage'], $_POST['knowHow'], $_POST['state'], $_POST['rights'],
+  $_POST['webLink'], $_POST['gitLink'], $_POST['categoryID']);
   echo json_encode($data);
 }
 else return null;
