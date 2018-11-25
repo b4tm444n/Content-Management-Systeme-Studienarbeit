@@ -57,9 +57,16 @@ function getCategorieProjects($database, $column, $categorie)
    return null;
 }
 
-function getCategories($database)
+function getCategories($database, $exclCats)
 {
    $sql = "SELECT KategorieID AS CatID, KategorieName AS CatName FROM kategorie";
+   if(!empty($exclCats))
+   {
+     $sql .= " WHERE KategorieID<>".$exclCats[0];
+     for ($i = 1; $i < count($exclCats); $i++) {
+       $sql .= " AND KategorieID<>".$exclCats[$i];
+     }
+   }
    //$projectData = dbsSelect($database, $sql);
    $categories = array();
    if($categoriesData = dbsSelect($database, $sql))
@@ -102,7 +109,7 @@ function getUserProjects($database, $NutzerID)
    return null;
 }
 
-function createProject($database, $projectLeader, $picturePath, $pictureType, $projectName, $description, $desLanguage, $knowHow, $state, $rights, $webLink = "", $gitLink = "", $projCategoryID)
+function createProject($database, $projectLeader, $picturePath, $pictureType, $projectName, $description, $desLanguage, $knowHow, $state, $rights, $webLink, $gitLink, $projCategoryIDs)
 {
   $result = false;
   $pictureSQL = "INSERT INTO titelbild (Pfad, Dateityp) VALUES ('".$picturePath."', '".$pictureType."')";
@@ -116,8 +123,22 @@ function createProject($database, $projectLeader, $picturePath, $pictureType, $p
       $descriptionSQL = "INSERT INTO beschreibung(ProjektID, Sprache, Text) VALUES ('".$projectID."', '".$desLanguage."', '".$description."')";
       if(dbsAddTransaction($database, $descriptionSQL))
       {
-        $categorySQL = "INSERT INTO projekt_kategorie(ProjektID, KategorieID) VALUES ('".$projectID."', '".$projCategoryID."')";
-        $result = dbsEndTransaction($database, $categorySQL);
+        for($i = 0; $i < count($projCategoryIDs); ++$i) {
+          if($i == (count($projCategoryIDs)-1))
+          {
+            $categorySQL = "INSERT INTO projekt_kategorie(ProjektID, KategorieID) VALUES ('".$projectID."', '".$projCategoryIDs[$i]."')";
+            $result = dbsEndTransaction($database, $categorySQL);
+          }
+          else
+          {
+            $categorySQL = "INSERT INTO projekt_kategorie(ProjektID, KategorieID) VALUES ('".$projectID."', '".$projCategoryIDs[$i]."')";
+            if(!dbsAddTransaction($database, $categorySQL))
+            {
+              $result = false;
+              break;
+            }
+          }
+        }
       }
     }
   }

@@ -28,8 +28,8 @@ else if($_POST['route'] == 'KategorieNames')
 }
 else if($_POST['route'] == 'allCategories')
 {
-  error_log("Try to get");
-  $data = getCategories($database);
+  if(empty($_POST['exclCats'])) $_POST['exclCats'] = null;
+  $data = getCategories($database, $_POST['exclCats']);
   echo json_encode($data);
 }
 else if($_POST['route'] == 'details' && isset($_POST['id']))
@@ -50,7 +50,7 @@ else if($_POST['route'] == 'create')
   $token = explode(",", $_SESSION['token']);
   $userid = $token[2];
   $data = createProject($database, $userid, $_POST['picturePath'], $_POST['pictureType'], $_POST['projectName'], $_POST['description'], $_POST['descriptionLanguage'], $_POST['knowHow'], $_POST['state'], $_POST['rights'],
-  $_POST['webLink'], $_POST['gitLink'], $_POST['categoryID']);
+  $_POST['webLink'], $_POST['gitLink'], $_POST['categoryIDs']);
   echo json_encode($data);
 }
 else return null;

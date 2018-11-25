@@ -30,7 +30,7 @@ PROJECT = {
             }
         }).promise();
     },
-    createProject: function(picPath, picType, projName, projDescription, projDesLanguage, searchedKnowHow, projState, projRights, projWebLink, projGitLink, projCatID)
+    createProject: function(picPath, picType, projName, projDescription, projDesLanguage, searchedKnowHow, projState, projRights, projWebLink, projGitLink, projCatIDs)
     {
       return $.ajax({
             method: "POST",
@@ -38,7 +38,7 @@ PROJECT = {
             data: { route: "create", picturePath: picPath, pictureType: picType, projectName: projName,
                     description: projDescription, descriptionLanguage: projDesLanguage, knowHow: searchedKnowHow,
                     state: projState, rights: projRights, webLink: projWebLink,
-                    gitLink: projGitLink, categoryID: projCatID},
+                    gitLink: projGitLink, categoryIDs: projCatIDs},
             dataType: "json",
             success: function (response) {
                 return response;
@@ -48,12 +48,12 @@ PROJECT = {
             }
         }).promise();
     },
-    getCategories: function()
+    getCategories: function(excludedCategories)
     {
       return $.ajax({
         method: "POST",
         url: "server/projectRouter.php",
-        data: { route: "allCategories" },
+        data: { route: "allCategories", exclCats: excludedCategories },
         dataType: "json",
         success: function (response) {
             return response;

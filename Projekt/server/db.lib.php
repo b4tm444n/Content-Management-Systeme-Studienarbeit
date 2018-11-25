@@ -169,6 +169,7 @@ function dbsExecuteSQL($database, $SQL)
 function dbsBeginTransaction($database, $SQL)
 {
   $database->begin_transaction();
+  $database->autocommit(FALSE);
   if ($database->query($SQL) === TRUE)
   {
     return true;
