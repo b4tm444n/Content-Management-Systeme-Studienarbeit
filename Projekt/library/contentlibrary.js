@@ -64,4 +64,37 @@ PROJECT = {
       }).promise();
     }
 };
+USER =
+{
+  getAllUsers: function()
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/userRouter.php",
+          data: { route: "all" },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  deleteUser: function(userID)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/userRouter.php",
+          data: { route: "delete", id: userID },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  }
+};
 });

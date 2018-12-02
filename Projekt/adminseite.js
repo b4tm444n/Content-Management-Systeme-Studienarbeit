@@ -15,18 +15,37 @@ $( function() {
     } );
 
 
-});/*
-  $( function() {
-    $( "#Btn1" ).click( function( event ) {
+});
+
+  $( function()
+  {
+    $( "#ManageUsers" ).click( function( event ) {
       event.preventDefault();
-      var projectData = PROJECT.searchProjects();
-      $("#projectContent").append("<p>"+projectData["name"]+"</p>");
-      $("#projectContent").append("<p>"+projectData["author"]+"</p>");
-      $("#projectContent").append("<p>"+projectData["picture"]+"</p>");
-      $("#projectContent").append("<p>"+projectData["state"]+"</p>");
+      ADMINPAGE.refreshUserContent();
     } );
+  });
 
-
-});*/
-
+  ADMINPAGE =
+  {
+    refreshUserContent: function()
+    {
+      $("#Content").empty();
+      $.when(USER.getAllUsers()).then(function(result){
+        console.log(result);
+        for(i = 0; i<result.length; i++)
+        {
+          var currentID = result[i]['NutzerID'];
+          $("#Content").append("<p>"+currentID+" "+result[i]['Username']+"</p>");
+          $("#Content").append("<button id='user"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
+          $("#user"+i).click(function(event)
+          {
+            $.when(USER.deleteUser(currentID)).then(function(result){
+              if(result == true) ADMINPAGE.refreshUserContent();
+              else alert("Failed to delete user.");
+            });
+          });
+        }
+      });
+    }
+  };
 });
