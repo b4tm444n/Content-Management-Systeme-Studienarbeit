@@ -64,7 +64,6 @@ $( function() {
     {
       $("#Content").empty();
       $.when(PROJECT.searchAllProjects()).then(function(result){
-        console.log(result);
         for(i = 0; i<result.length; i++)
         {
           var currentID = result[i]['ProjektID'];
@@ -88,7 +87,6 @@ $( function() {
       $("#Content").empty();
       var allCategories = new Array();
       $.when(CATEGORIE.getAllCategories()).then(function(result){
-        console.log(result);
         for(i = 0; i<result.length; i++)
         {
           var currentID = result[i]['KategorieID'];

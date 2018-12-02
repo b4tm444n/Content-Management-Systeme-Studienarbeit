@@ -109,33 +109,37 @@ function getUserProjects($database, $NutzerID)
    return null;
 }
 
-function createProject($database, $projectLeader, $picturePath, $pictureType, $projectName, $description, $desLanguage, $knowHow, $state, $rights, $webLink, $gitLink, $projCategoryIDs)
+function createProject($database, $projectLeader, $picturePath, $pictureType, $projectName, $description, $desLanguage, $knowHow, $state, $rights, $webLink, $gitLink, $projCategoryIDs, $pictureFile)
 {
+  $pictureType = pathinfo($pictureFile['name'], PATHINFO_EXTENSION);
   $result = false;
   $pictureSQL = "INSERT INTO titelbild (Pfad, Dateityp) VALUES ('".$picturePath."', '".$pictureType."')";
   if(dbsBeginTransaction($database, $pictureSQL))
   {
     $pictureID = $database->insert_id;
-    $projectSQL = "INSERT INTO projekt (Projektleiter, Zustand, TitelbildID, Benennung, Rechte, GesuchtesKnowHow, TrelloTasks, WebpageLink, GitHubLink) VALUES ($projectLeader, '".$state."', $pictureID, '".$projectName."', $rights, '".$knowHow."', 0, '".$webLink."', '".$gitLink."')";
-    if(dbsAddTransaction($database, $projectSQL))
+    if(dbsUploadFile($pictureFile, $pictureID.".jpg", $picturePath))
     {
-      $projectID = $database->insert_id;
-      $descriptionSQL = "INSERT INTO beschreibung(ProjektID, Sprache, Text) VALUES ('".$projectID."', '".$desLanguage."', '".$description."')";
-      if(dbsAddTransaction($database, $descriptionSQL))
+      $projectSQL = "INSERT INTO projekt (Projektleiter, Zustand, TitelbildID, Benennung, Rechte, GesuchtesKnowHow, TrelloTasks, WebpageLink, GitHubLink) VALUES ($projectLeader, '".$state."', $pictureID, '".$projectName."', $rights, '".$knowHow."', 0, '".$webLink."', '".$gitLink."')";
+      if(dbsAddTransaction($database, $projectSQL))
       {
-        for($i = 0; $i < count($projCategoryIDs); ++$i) {
-          if($i == (count($projCategoryIDs)-1))
-          {
-            $categorySQL = "INSERT INTO projekt_kategorie(ProjektID, KategorieID) VALUES ('".$projectID."', '".$projCategoryIDs[$i]."')";
-            $result = dbsEndTransaction($database, $categorySQL);
-          }
-          else
-          {
-            $categorySQL = "INSERT INTO projekt_kategorie(ProjektID, KategorieID) VALUES ('".$projectID."', '".$projCategoryIDs[$i]."')";
-            if(!dbsAddTransaction($database, $categorySQL))
+        $projectID = $database->insert_id;
+        $descriptionSQL = "INSERT INTO beschreibung(ProjektID, Sprache, Text) VALUES ('".$projectID."', '".$desLanguage."', '".$description."')";
+        if(dbsAddTransaction($database, $descriptionSQL))
+        {
+          for($i = 0; $i < count($projCategoryIDs); ++$i) {
+            if($i == (count($projCategoryIDs)-1))
             {
-              $result = false;
-              break;
+              $categorySQL = "INSERT INTO projekt_kategorie(ProjektID, KategorieID) VALUES ('".$projectID."', '".$projCategoryIDs[$i]."')";
+              $result = dbsEndTransaction($database, $categorySQL);
+            }
+            else
+            {
+              $categorySQL = "INSERT INTO projekt_kategorie(ProjektID, KategorieID) VALUES ('".$projectID."', '".$projCategoryIDs[$i]."')";
+              if(!dbsAddTransaction($database, $categorySQL))
+              {
+                $result = false;
+                break;
+              }
             }
           }
         }

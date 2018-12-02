@@ -263,4 +263,19 @@ function dbsCheckNumOfEntrys($database, $comp, $number, $table, $clause)
   return false;
 }
 
+function dbsUploadFile($file, $filename, $directoryPath)
+{
+  $uploadDir = '../' . $directoryPath;
+  if(!file_exists($uploadDir))
+  {
+    if(!mkdir($uploadDir, 0655, true)) return false;
+  }
+  $uploadPath = $uploadDir;
+  $uploadPath .= $filename;
+  if(move_uploaded_file($file['tmp_name'], $uploadPath))
+  {
+    return true;
+  }
+  else return false;
+}
  ?>

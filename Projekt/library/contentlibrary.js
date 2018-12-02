@@ -30,15 +30,29 @@ PROJECT = {
             }
         }).promise();
     },
-    createProject: function(picPath, picType, projName, projDescription, projDesLanguage, searchedKnowHow, projState, projRights, projWebLink, projGitLink, projCatIDs)
+    createProject: function(picPath, picType, projName, projDescription, projDesLanguage, searchedKnowHow, projState, projRights, projWebLink, projGitLink, projCatIDs, pictureFile)
     {
+      var formdata = new FormData();
+      formdata.append("route", "create");
+      formdata.append("picturePath", "projectImages/");
+      formdata.append("pictureType", picType);
+      formdata.append("projectName", projName);
+      formdata.append("description", projDescription);
+      formdata.append("descriptionLanguage", projDesLanguage);
+      formdata.append("knowHow", searchedKnowHow);
+      formdata.append("state", projState);
+      formdata.append("rights", projRights);
+      formdata.append("webLink", projWebLink);
+      formdata.append("gitLink", projGitLink);
+      formdata.append("categoryIDs", projCatIDs);
+      formdata.append("picFile", pictureFile);
+      console.log(pictureFile);
       return $.ajax({
             method: "POST",
+            processData: false,
+            contentType: false,
             url: "server/projectRouter.php",
-            data: { route: "create", picturePath: picPath, pictureType: picType, projectName: projName,
-                    description: projDescription, descriptionLanguage: projDesLanguage, knowHow: searchedKnowHow,
-                    state: projState, rights: projRights, webLink: projWebLink,
-                    gitLink: projGitLink, categoryIDs: projCatIDs},
+            data: formdata,
             dataType: "json",
             success: function (response) {
                 return response;
@@ -47,6 +61,23 @@ PROJECT = {
               return null;
             }
         }).promise();
+      /*return $.ajax({
+            method: "POST",
+            processData: false,
+            contentType: false,
+            url: "server/projectRouter.php",
+            data: { route: "create", picturePath: "projectImages/", pictureType: picType, projectName: projName,
+                    description: projDescription, descriptionLanguage: projDesLanguage, knowHow: searchedKnowHow,
+                    state: projState, rights: projRights, webLink: projWebLink,
+                    gitLink: projGitLink, categoryIDs: projCatIDs, picFile: pictureFile},
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();*/
     },
     deleteProject: function(projectID)
     {

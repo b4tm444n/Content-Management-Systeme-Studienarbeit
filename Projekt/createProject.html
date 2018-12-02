@@ -70,9 +70,9 @@
             catValuesArr.push($("#categorie"+value).val());
           }
         });
-        $.when(PROJECT.createProject("testpic/path", "jpeg", $("#name").val(), $("#description").val(),
+        $.when(PROJECT.createProject("testpic/path", "undefined", $("#name").val(), $("#description").val(),
           $("#language").val(), $("#knowHow").val(), "Warte auf Teilnehmer", "0",
-          $("#web").val(), $("#git").val(), catValuesArr)).then(function(result)
+          $("#web").val(), $("#git").val(), catValuesArr, $("#picture").prop('files')[0])).then(function(result)
           {
             if(result == true) CONNECT.redirectPost("index.html", {});
             else alert("Projekt erstellen fehlgeschlagen");
@@ -146,6 +146,7 @@
 <header>
 
 </header>
+<form enctype="multipart/form-data">
 <label id="categorieLabel" for="categories">Projektkategorien:
   <div id="categories" name="categories">
    <select id="categorie0">
@@ -174,9 +175,10 @@
 <label id="webLabel" for="web">Web Link: <input id="web" name="web"></label>
 <br>
 <label id="pictureLabel" for="pictureLabel">Projektbild:
-    <input id="picture" name="picture" type="file" accept="image/*">
+    <input id="picture" name="picture" type="file" accept="image/png, image/jpeg">
   </label>
 <br>
 <input class="ui-button ui-widget ui-corner-all" id="SubmitBtn" type="submit" value="Projekt erstellen">
+</form>
 </body>
 </html>
