@@ -53,5 +53,10 @@ else if($_POST['route'] == 'create')
   $_POST['webLink'], $_POST['gitLink'], $_POST['categoryIDs']);
   echo json_encode($data);
 }
+else if($_POST['route'] == 'delete' && isset($_POST['id']))
+{
+   $data = deleteProject($database, $_POST['id']);
+   echo json_encode($data);
+}
 else return null;
 ?>

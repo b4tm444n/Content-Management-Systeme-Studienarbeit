@@ -20,7 +20,7 @@ function getColumnFromAllUsers($database, $column)
 
 function getUserName($database, $id)
 {
-   $sql = "SELECT Vorname, Nachname FROM nutzer WHERE Kategorie=$id";
+   $sql = "SELECT Vorname, Nachname FROM nutzer WHERE NutzerID=$id";
    $projectData = dbsSelect($database, $sql);
    $projects = array();
    while($dataRow = $projectData->fetch_assoc())

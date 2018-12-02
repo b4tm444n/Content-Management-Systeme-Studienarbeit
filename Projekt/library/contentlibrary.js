@@ -48,6 +48,21 @@ PROJECT = {
             }
         }).promise();
     },
+    deleteProject: function(projectID)
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/projectRouter.php",
+            data: { route: "delete", id: projectID },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
     getCategories: function(excludedCategories)
     {
       return $.ajax({
@@ -90,6 +105,21 @@ USER =
           dataType: "json",
           success: function (response) {
               return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  getUserName: function(userID)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/userRouter.php",
+          data: { route: "name", id: userID },
+          dataType: "json",
+          success: function (response) {
+            return response;
           },
           fail: function (output){
             return null;

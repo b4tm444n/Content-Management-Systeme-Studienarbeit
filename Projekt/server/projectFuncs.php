@@ -144,4 +144,19 @@ function createProject($database, $projectLeader, $picturePath, $pictureType, $p
   }
   return $result;
 }
+
+function deleteProject($database, $projectID)
+{
+  $delProjSql = "DELETE FROM projekt WHERE ProjektID=".$projectID;
+  if(!dbsBeginTransaction($database, $delProjSql)) return false;
+  $delProjCatSql = "DELETE FROM projekt_kategorie WHERE ProjektID=".$projectID;
+  if(!dbsAddTransaction($database, $delProjCatSql)) return false;
+  $delProjUserSql = "DELETE FROM projekt_nutzer WHERE ProjektID=".$projectID;
+  if(!dbsAddTransaction($database, $delProjUserSql)) return false;
+  $delChatSql = "DELETE FROM chatinhalt WHERE ProjektID=".$projectID;
+  if(!dbsAddTransaction($database, $delChatSql)) return false;
+  $delDesSql = "DELETE FROM beschreibung WHERE ProjektID=".$projectID;
+  if(!dbsEndTransaction($database, $delDesSql)) return false;
+  return true;
+}
 ?>
