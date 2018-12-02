@@ -111,6 +111,7 @@ function getUserProjects($database, $NutzerID)
 
 function createProject($database, $projectLeader, $picturePath, $pictureType, $projectName, $description, $desLanguage, $knowHow, $state, $rights, $webLink, $gitLink, $projCategoryIDs, $pictureFile)
 {
+  $projCategoryIDs = explode(",",$projCategoryIDs);
   $pictureType = pathinfo($pictureFile['name'], PATHINFO_EXTENSION);
   $result = false;
   $pictureSQL = "INSERT INTO titelbild (Pfad, Dateityp) VALUES ('".$picturePath."', '".$pictureType."')";
