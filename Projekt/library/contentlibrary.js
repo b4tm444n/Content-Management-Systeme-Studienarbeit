@@ -127,4 +127,52 @@ USER =
       }).promise();
   }
 };
+CATEGORIE =
+{
+  getAllCategories: function()
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/categorieRouter.php",
+          data: { route: "all" },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  deleteCategorie: function(categoryID)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/categorieRouter.php",
+          data: { route: "delete", id: categoryID },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  createCategorie: function(catName)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/categorieRouter.php",
+          data: { route: "create", categorieName: catName },
+          dataType: "json",
+          success: function (response) {
+            return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  }
+};
 });

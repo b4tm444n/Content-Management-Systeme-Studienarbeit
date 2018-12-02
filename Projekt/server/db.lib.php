@@ -26,6 +26,19 @@ function dbsEntryExists($database, $table, $clause)
   return false;
 }
 
+function dbsCheckIfSingleEntry($database, $table, $clause)
+{
+  $query = "SELECT * FROM $table WHERE $clause";
+  if($entrys = $database->query($query))
+  {
+    if($entrys->num_rows == 1)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
 /*Funktion zur Rückgabe eines bestimmten Feldwerts in der Tabelle
 * Input:  $database - Datenbankverbindung
 *         $table - Zu durchsuchende Tabelle
