@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="de-DE">
-<<head>
+<head>
   <link href="jquery-ui.css" rel="stylesheet" type="text/css" />
   <script src="jquery-latest.js"></script>
   <script src="jquery-ui.js"></script>
 
 
-  <script>
-    function getUrlVars() {
-      var vars = {};
-      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-          vars[key] = value;
-      });
-      return vars;
-    }
-    $(document).ready(function(){
-      $('#titel').text("test");
-
-      i = getUrlVars()["projektname"];
-      alert(i);
-    });
-  </script>
+  <script src="projektDetails.js"></script>
 </head>
 
 <body>
-  <h3 id="titel">Projekt Details</h3>
+  <header>
+      
+  </header>
+  <nav>
+    </nav>
+  
+  <div class="container">
+      <div class="section">
+          <div class="col span_2_of_3">
+          </div>
+        
+          <aside class="col span_1_of_3">
+              <div class="side-post" id="topbox">
+              </div>
 
+              <div class="side-post" id="kategorien"></div>
+        
+              <div class="side-post" id="language">
+                  <h3 class="side-content">Sprachauswahl</h3>
+                  <a onclick="load_language('ger')" class="button">Deutsch</a>
+                  <a onclick="load_language('eng')" class="button">English</a>
+                  <a onclick="load_language('lat')" class="button">Lateinus</a>
+              </div>
+           </aside>
+      </div>
+  </div>
 </body>
 
 </html>

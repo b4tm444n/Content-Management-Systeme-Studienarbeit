@@ -1,12 +1,5 @@
-/*Style für Kategorie Bar*/
-CategoriesEntries{
-  float: left;
-  margin-left: 2%;
-}
-
 
 /* Base Styles */
-
 body{
   margin: 0;
   padding: 0;
@@ -26,6 +19,7 @@ img{
 a{
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 
 /* Grid */
@@ -63,10 +57,10 @@ header{
 }
 
 nav{
-  width: 100%;
+  /*width: 100%;
   margin-bottom: 1em;
   background: #323232;
-  font-family: 'Poiret One', cursive;
+  font-family: 'Poiret One', cursive;*/
 }
 
 .logo{
@@ -154,7 +148,7 @@ ul{
 }
 
 .projekt-title{
-  font-size: 2.5em;
+  font-size: 2em;
   margin-top: 5px;
 }
 
@@ -185,6 +179,18 @@ ul{
 .button{
   display: block;
   padding: 15px 20px;
+  margin-top: .8em;
+  background: #009ACD;
+  text-align: center;
+  color: #fff;
+  font-size: 1.4em;
+  border-radius: 3px;
+  transition: all .4s ease-in;
+}
+
+.category-button{
+  display: initial;
+  padding: 0px 0px;
   margin-top: .8em;
   background: #009ACD;
   text-align: center;
@@ -247,6 +253,47 @@ ul{
   max-height: 30%;
   overflow: auto;
 }
+
+input{
+  float: right;
+}
+
+.menu {
+  font-family: 'Open Sans Condensed', sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.menu > a{
+  text-align: center;
+  font-weight:bold;
+  font-size:20px;
+  color: #5a5a5a;
+  cursor: pointer;
+  padding: 10px; 
+  background-color: #F1F0F7;
+  box-shadow: inset 0 0px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all .2s ease-in; 
+  border-top-style: solid;
+  border-top-width: 5px;
+}
+.menu > a:hover{
+  font-size: 25px;
+  border-top-style: solid;
+  border-top-width: 10px;
+}
+
+.category-button{
+  flex: 1;
+  margin: 0px 5px 20px 5px;
+}
+
+.category-button:hover{
+  color: #FFFFFF;
+}
+
+
 
 /*Media Queries*/
 

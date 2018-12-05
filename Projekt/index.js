@@ -7,8 +7,56 @@ function load_img(url){
 }
 
 function load_buttons(){
-	$('#topbox').append('<a class="button" id ="LoginButton" href="#popup1">login</a>')
-	$('#topbox').append('<a class="button" id ="CreateAccount" href="#popup2">Account erstellen</a>')
+	$('#topbox').append('<a class="button" id ="LoginButton" onclick="create_login_popup()">login</a>')
+	$('#topbox').append('<a class="button" id ="CreateAccount" onclick="create_creation_popup()">Account erstellen</a>')
+}
+
+function create_login_popup(){
+	$('body').append('<div id="popup1" class="overlay">'
+  +'<div class="popup">'
+  +  '<h2 id="loginWindow">Login</h2>'
+  +  '<a class="close" onclick="remove_login_popup()">&times;</a>'
+  +  '<div class="content">'
+  +		'<form name="loginBox" method="post">'
+  +  '  <p><label id="LoginUsername" for="username">Benutzername: <input id="username" name="username"> </label></p>'
+  +  '  <p><label id="LoginPassword" for="password">Passwort: <input type="password" id="password" name="password"> </label></p>'
+  +  '  <p>  <input id = "btnSubmit" type="submit" value="Login"/> </p>'
+  +  '</form>'
+  +  '</div>'
+  +'</div>'
++'</div>')
+
+	$('#popup1').css('visibility','visible')
+	$('#popup1').css('opacity',1)
+	$('#LoginUsername').focus()
+}
+
+function remove_login_popup(){
+	$('#popup1').remove()
+}
+
+function create_creation_popup(){
+	$('body').append('<div id="popup2" class="overlay">'
+  +'<div class="popup">'
+  +'  <h2 id="CreateAcWindow">Account erstellen</h2>'
+  +'  <a class="close" onclick="remove_creation_popup()">&times;</a>'
+  +'  <div class="content">'
+  +'    <p><label id="CreateAcFamilyname" for="familyname">Nachname: <input id="familynameNew" name="familyname"> </label></p>'
+  +'    <p><label id="CreateAcName" for="name">Vorname: <input id="nameNew" name="name"> </label></p>'
+  +'    <p><label id="CreateAcUsername" for="username">Benutzername: <input id="usernameNew" name="username"> </label></p>'
+  +'    <p><label id="CreateAcPassword" for="password">Passwort: <input type="password" id="passwordNew" name="password"> </label></p>'
+  +'    <p>  <input id = "btnCreateAC" type="submit" value="Create Account"/> </p>'
+  +'  </div>'
+  +'</div>'
++'</div>')
+
+	$('#popup2').css('visibility','visible')
+	$('#popup2').css('opacity',1)
+	$('#CreateAcFamilyname').focus()
+}
+
+function remove_creation_popup(){
+	$('#popup2').remove()
 }
 
 function load_language(language){
@@ -92,10 +140,10 @@ function db(){
 
 $( function categorie(){
 		//hinzufügen der Kategorie "Alle"
-	var helpString = "<CategoriesEntries id='CategoriesAll'>Alle</CategoriesEntries>";
-	$( 'Categories' ).append( helpString );
+	var helpString = '<a onclick="" class="button category-button">Alle</a>';
+	$( '.menu' ).append( helpString );
 
-	$( "CategoriesEntries:nth-of-type(1)" ).click(function(event){
+	$( ".category-button:nth-of-type(1)" ).click(function(event){
 		alert('');
 		//Projekt liste leeren
 		$('.col.span_2_of_3').empty();
@@ -112,12 +160,13 @@ $( function categorie(){
 		//hinzufügen der Kategorien aus Datenbank
 	$.post( "server/DisplayCategories.php").done(function( data ) {
 		data = JSON.parse(data);
+		console.log('test')
 		var i = 2;	//Varible für n-te Position von <ProjectCategories>
 		data.forEach(function x (item) {
-				var helpString = "<CategoriesEntries>" + item + "</CategoriesEntries>";
-				$( 'Categories' ).append( helpString );
+				var helpString = '<a onclick="" class="button category-button">' + item + '</a>';
+				$( '.menu' ).append( helpString );
 				//click Event
-				$( "CategoriesEntries:nth-of-type("+ i +")" ).on("click", function(){
+				$( ".category-button:nth-of-type("+ i +")" ).on("click", function(){
 					alert($(this).text());
 					//Code  um Projekte neu zu laden
 					//...
