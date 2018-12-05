@@ -29,6 +29,27 @@ function create_login_popup(){
 	$('#popup1').css('visibility','visible')
 	$('#popup1').css('opacity',1)
 	$('#LoginUsername').focus()
+
+	$('body').append('<script src="library/connectionlibrary.js"></script>')
+    $( "#btnSubmit" ).click( function( event ) {
+      event.preventDefault();
+        $.post( "server/token.php", { name: $("#username").val(), pw: $("#password").val()}, "json").done(function( data ) {
+          data = JSON.parse(data);
+          if(data['status'] == true)
+          {
+            if(data['type'] == "admin")
+            {
+              CONNECT.redirectPost("Adminsite.html", {});
+            }
+            if(data['type'] == "user")
+            {
+              CONNECT.redirectPost("Usersite.html", {});
+            }
+          }
+          else   alert('Falscher Nutzername oder Kennwort');
+					//$("#userMessage").text("Falscher Nutzername oder Passwort");
+        });
+      });
 }
 
 function remove_login_popup(){
@@ -53,6 +74,8 @@ function create_creation_popup(){
 	$('#popup2').css('visibility','visible')
 	$('#popup2').css('opacity',1)
 	$('#CreateAcFamilyname').focus()
+
+
 }
 
 function remove_creation_popup(){
@@ -193,36 +216,8 @@ $( function categorie(){
 
 
 
-
-
 $(document).ready(function(){
 	test()
-
-
-
-
-
-	$( function login() {
-    $( "#btnSubmit" ).click( function( event ) {
-      event.preventDefault();
-        $.post( "server/token.php", { name: $("#username").val(), pw: $("#password").val()}, "json").done(function( data ) {
-          data = JSON.parse(data);
-          if(data['status'] == true)
-          {
-            if(data['type'] == "admin")
-            {
-              CONNECT.redirectPost("Adminsite.html", {});
-            }
-            if(data['type'] == "user")
-            {
-              CONNECT.redirectPost("Usersite.html", {});
-            }
-          }
-          else   alert('Falscher Nutzername oder Kennwort');
-					//$("#userMessage").text("Falscher Nutzername oder Passwort");
-        });
-      });
-  } );
 
 
 	$( function createAC(){
@@ -232,8 +227,4 @@ $(document).ready(function(){
 			});
 		});
 	});
-
-
-
-
 });

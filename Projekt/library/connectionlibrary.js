@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  console.log('slkdjf')
 CONNECT = {
     redirectPost: function(location, args)
     {
