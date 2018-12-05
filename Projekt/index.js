@@ -11,6 +11,40 @@ function load_buttons(){
 	$('#topbox').append('<a class="button" id ="CreateAccount" onclick="create_creation_popup()">Account erstellen</a>')
 }
 
+function load_adminButtons(){
+	$('#topbox').append('<a class="button" id ="manage" onclick="load_manage()">Verwaltung</a>')
+	load_userButtons();
+	/*
+	$('#topbox').append('<a class="button" id ="ManageCategories" onclick="manage_Categories()">Kategorien verwalten</a>')
+	$('#topbox').append('<a class="button" id ="ChangePicture" onclick="myProjects()">Titelbild ändern</a>')
+	$('#topbox').append('<a class="button" id ="ManageUsers" onclick="addProject()">User verwalten</a>')
+	$('#topbox').append('<a class="button" id ="ManageProjects" onclick="loadProjects()">Projekte verwalten</a>')
+	$('#topbox').append('<a class="button" id ="StandardLanguage" onclick="myProjects()">Standard Sprache</a>')
+	$('#topbox').append('<a class="button" id ="ManageLayoutTheme" onclick="addProject()">Layout und Theme verwalten</a>')
+	$('#topbox').append('<a class="button" id ="logout" onclick="logout()">Logout</a>')
+	*/
+}
+function load_manage(){
+	CONNECT.redirectPost("Adminsite.html", {});
+}
+
+function load_userButtons(){
+	$('#topbox').append('<a class="button" id ="loadProject" onclick="loadProjects()">Projekte laden</a>')
+	$('#topbox').append('<a class="button" id ="myProjects" onclick="myProjects()">Meine Projekte</a>')
+	$('#topbox').append('<a class="button" id ="addProject" onclick="addProject()">Projekt hinzufügen</a>')
+	$('#topbox').append('<a class="button" id ="logout" onclick="logout()">Logout</a>')
+}
+function logout(){
+	$('#topbox').empty();
+	load_buttons();
+}
+function manage_Categories(){
+	$('.col.span_2_of_3').empty();
+	ADMINPAGE.refreshCategorieContent();
+
+
+}
+
 function create_login_popup(){
 	$('body').append('<div id="popup1" class="overlay">'
   +'<div class="popup">'
@@ -39,11 +73,23 @@ function create_login_popup(){
           {
             if(data['type'] == "admin")
             {
-              CONNECT.redirectPost("Adminsite.html", {});
+              //CONNECT.redirectPost("Adminsite.html", {});
+							//Div leeren + Buttons für User hinzufügen + Fenster Schließen
+							$('#topbox').empty();
+							$('#topbox').append("<h1>Redakteur</h1>");
+							load_adminButtons();
+							remove_login_popup();
+
             }
             if(data['type'] == "user")
             {
-              CONNECT.redirectPost("Usersite.html", {});
+              //CONNECT.redirectPost("Usersite.html", {});
+
+							//Div leeren + Buttons für User hinzufügen + Fenster Schließen
+							$('#topbox').empty();
+							$('#topbox').append("<h1>Nutzer</h1>");
+							load_userButtons();
+							remove_login_popup();
             }
           }
           else   alert('Falscher Nutzername oder Kennwort');
@@ -228,3 +274,100 @@ $(document).ready(function(){
 		});
 	});
 });
+
+
+
+
+
+
+
+ADMINPAGE =
+{
+	refreshUserContent: function()
+	{
+		$(".col.span_2_of_3").empty();
+		$.when(USER.getAllUsers()).then(function(result){
+			for(i = 0; i<result.length; i++)
+			{
+				var currentID = result[i]['NutzerID'];
+				$(".col.span_2_of_3").append("<p>"+currentID+" "+result[i]['Username']+"</p>");
+				$(".col.span_2_of_3").append("<button class='ui-button ui-widget ui-corner-all' id='userbtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
+				$("#userbtn"+i).attr('userID', currentID).click(function(event)
+				{
+					$.when(USER.deleteUser($(this).attr('userID'))).then(function(result){
+						if(result == true) ADMINPAGE.refreshUserContent();
+						else alert("Failed to delete user.");
+					});
+				});
+			}
+		});
+	},
+	refreshProjectContent: function()
+	{
+		$(".col.span_2_of_3").empty();
+		$.when(PROJECT.searchAllProjects()).then(function(result){
+			for(i = 0; i<result.length; i++)
+			{
+				var currentID = result[i]['ProjektID'];
+				$(".col.span_2_of_3").append("<p>Name: "+result[i]['Benennung']+"</p>");
+				$.when(USER.getUserName(result[i]['Projektleiter'])).then(function(userData){
+					$(".col.span_2_of_3").append("<p>Projektleiter: "+userData[0]['Vorname']+" "+userData[0]['Nachname']+"</p>");
+				});
+				$(".col.span_2_of_3").append("<button class='ui-button ui-widget ui-corner-all' id='projectbtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
+				$("#projectbtn"+i).attr('projID', currentID).click(function(event)
+				{
+					$.when(PROJECT.deleteProject($(this).attr('projID'))).then(function(result){
+						if(result == true) ADMINPAGE.refreshProjectContent();
+						else alert("Failed to delete project.");
+					});
+				});
+			}
+		});
+	},
+	refreshCategorieContent: function()
+	{
+		$(".col.span_2_of_3").empty();
+		var allCategories = new Array();
+		$.when(CATEGORIE.getAllCategories()).then(function(result){
+			for(i = 0; i<result.length; i++)
+			{
+				var currentID = result[i]['KategorieID'];
+				allCategories.push(result[i]['KategorieName']);
+				$(".col.span_2_of_3").append("<p>Kategorie: "+result[i]['KategorieName']+"</p>");
+				$(".col.span_2_of_3").append("<button class='ui-button ui-widget ui-corner-all' id='categoriebtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
+				$("#categoriebtn"+i).attr('catID', currentID).click(function(event)
+				{
+					$.when(CATEGORIE.deleteCategorie($(this).attr('catID'))).then(function(result){
+						if(result == true) ADMINPAGE.refreshCategorieContent();
+						else alert("Failed to delete project.");
+					});
+				});
+			}
+		});
+		$(".col.span_2_of_3").prepend("<button class='ui-button ui-widget ui-corner-all' id='categorieAddBtn'><span class='ui-icon ui-icon-plus'></span></button> </label></fieldset></form>");
+		$(".col.span_2_of_3").prepend('<form><fieldset style="float: left;"><label id="AddCategorie" for="addCategorieInput">Neue Kategorie: <input id="addCategorieInput" name="addCategorieInput">');
+		$("#categorieAddBtn").click(function(event)
+		{
+			if(!ADMINPAGE.checkCategorieExists(allCategories, $("#addCategorieInput").val()))
+			{
+				$.when(CATEGORIE.createCategorie($("#addCategorieInput").val())).then(function(result){
+					if(result == true) ADMINPAGE.refreshCategorieContent();
+					else alert("Failed to create categorie.");
+				});
+			}
+			else alert("Categorie already exists.");
+		});
+	},
+	checkCategorieExists: function(allCatArray, curCat)
+	{
+		curCat = curCat.replace(' ', '');
+		curCat = curCat.toLowerCase();
+		for(i = 0; i<allCatArray.length; i++)
+		{
+			allCatArray[i] = allCatArray[i].replace(' ', '');
+			allCatArray[i] = allCatArray[i].toLowerCase();
+			if(allCatArray[i] == curCat) return true;
+		}
+		return false;
+	}
+};
