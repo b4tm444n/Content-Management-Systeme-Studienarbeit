@@ -11,6 +11,9 @@ if(isset($_SESSION['token']))
       case "isAdmin":
           $type = "admin";
           break;
+      case "isAdmin2":
+          $type = "admin2";
+          break;
       case "isUser":
           $type = "user";
           break;
@@ -21,7 +24,7 @@ if(isset($_SESSION['token']))
     }
     else if($_POST['mode'] == "registered")
     {
-      if($type == "admin" || $type == "user")
+      if($type == "admin" || $type == "user" || $type == "admin2")
       {
         $data = array('status' => true, 'type' => $type);
       }
@@ -42,6 +45,16 @@ if(isset($_SESSION['token']))
     else if($_POST['mode'] == "user")
     {
       if($type == "user")
+      {
+        $data = array('status' => true, 'type' => $type);
+      }
+      else {
+        $data = array('status' => false);
+      }
+    }
+    else if($_POST['mode'] == "admin2")
+    {
+      if($type == "admin2")
       {
         $data = array('status' => true, 'type' => $type);
       }

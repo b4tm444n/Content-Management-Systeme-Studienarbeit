@@ -1,8 +1,15 @@
 $(document).ready(function(){
+  /*
+  console.log("test1");
   $("body").hide();
-  var tokenInfo = AUTHENTICATION.checkToken("admin", "index.html");
+  console.log("test2");
+  var tokenInfo;
+  console.log("test3");
+  //tokenInfo= AUTHENTICATION.checkToken("admin", "index.html");
+  tokenInfo  = AUTHENTICATION.checkToken("admin2", "index.html");
+  console.log("test4");
   if(tokenInfo['status']) $("body").show();
-
+*/
 
 $( function() {
   $( "#ChangePicture").click( function( event ) {

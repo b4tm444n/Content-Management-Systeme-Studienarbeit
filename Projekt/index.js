@@ -81,7 +81,7 @@ function create_login_popup(){
 							remove_login_popup();
 
             }
-            if(data['type'] == "user")
+            else if(data['type'] == "user")
             {
               //CONNECT.redirectPost("Usersite.html", {});
 
@@ -91,6 +91,13 @@ function create_login_popup(){
 							load_userButtons();
 							remove_login_popup();
             }
+						else if(data['type'] == "admin2"){
+							alert("1");
+							CONNECT.redirectPost("Adminsite.html", {});
+						}
+						else {
+							alert('Falsch');
+						}
           }
           else   alert('Falscher Nutzername oder Kennwort');
 					//$("#userMessage").text("Falscher Nutzername oder Passwort");
@@ -229,7 +236,7 @@ $( function categorie(){
 		//hinzufügen der Kategorien aus Datenbank
 	$.post( "server/DisplayCategories.php").done(function( data ) {
 		data = JSON.parse(data);
-		console.log('test')
+		//console.log('test')
 		var i = 2;	//Varible für n-te Position von <ProjectCategories>
 		data.forEach(function x (item) {
 				var helpString = '<a onclick="" class="button category-button">' + item + '</a>';
