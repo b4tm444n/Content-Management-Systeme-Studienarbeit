@@ -150,6 +150,57 @@ function createProject($database, $projectLeader, $picturePath, $pictureType, $p
   return $result;
 }
 
+function joinProject($database, $userid, $projectID)
+{
+  $insertUserProjectSql = "INSERT INTO projekt_nutzer (NutzerID, ProjektID)
+                          VALUES ($userid, $projectID) ";
+  return dbsExecuteSQL($database, $insertUserProjectSql);
+}
+
+function getProjectInformation($database, $projectID)
+{
+  $projectMemberIDs = dbsMultipleValues($database, "projekt_nutzer", "NutzerID", "ProjektID=".$projectID);
+  $result = false;
+  $memberNamesArray = array();
+  if(isset($projectMemberIDs))
+  {
+    foreach ($projectMemberIDs as $key => $memberID)
+    {
+      $memberNamesSql = "SELECT Username AS username FROM nutzer WHERE NutzerID=".$memberID;
+      array_push($memberNamesArray, dbsSelect($database, $memberNamesSql));
+    }
+  }
+  $projIDNameDesLeaderSql = "SELECT projekt.Benennung AS name, projekt.TitelbildID AS picID, projekt.Zustand AS state, projekt.Projektleiter AS projectLeaderID, beschreibung.Text AS description FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID WHERE projekt.ProjektID=".$projectID;
+  $projIDNameAndDesLeaderData = $database->query($projIDNameDesLeaderSql);
+  $projIDNameAndDesLeader = null;
+  $projLeader = null;
+  if(isset($projIDNameAndDesLeaderData) && $projIDNameAndDesLeaderData != false)
+  {
+    while($entryData = $projIDNameAndDesLeaderData->fetch_assoc())
+    {
+      $projIDNameAndDesLeader = $entryData;
+      $projLeader = dbsSingleValue($database, "nutzer", "Username", "NutzerID=".$entryData['projectLeaderID']);
+    }
+    if(isset($projIDNameAndDesLeader))
+    {
+      error_log($projIDNameAndDesLeader['picID']);
+      $projImagePathSql = "SELECT TitelbildID AS name, Pfad AS directory, Dateityp AS filetype FROM titelbild WHERE TitelbildID=".$projIDNameAndDesLeader['picID'];
+      $projImagePathData = $database->query($projImagePathSql);
+      if(isset($projImagePathData) && $projImagePathData != false)
+      {
+        while($entryData = $projImagePathData->fetch_assoc())
+        {
+          $projImagePath = $entryData['directory'] . $entryData['name'] . "." . $entryData['filetype'];
+        }
+        $result = array('projectID' => $projectID, 'projectName' => $projIDNameAndDesLeader['name'], 'projectDescription' => $projIDNameAndDesLeader['description'],
+                        'state' => $projIDNameAndDesLeader['state'], 'projectLeader' => $projLeader, 'projectMembers' => $memberNamesArray,
+                        'picturePath' => $projImagePath);
+      }
+    }
+  }
+  return $result;
+}
+
 function deleteProject($database, $projectID)
 {
   $delProjSql = "DELETE FROM projekt WHERE ProjektID=".$projectID;
