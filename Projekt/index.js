@@ -92,11 +92,7 @@ function create_login_popup(){
 							remove_login_popup();
             }
 						else if(data['type'] == "admin2"){
-							alert("1");
 							CONNECT.redirectPost("Adminsite.html", {});
-						}
-						else {
-							alert('Falsch');
 						}
           }
           else   alert('Falscher Nutzername oder Kennwort');
