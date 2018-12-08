@@ -157,6 +157,21 @@ USER =
           }
       }).promise();
   },
+  setUserType: function(userID, userTypeID)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/userRouter.php",
+          data: { route: "setType", id: userID, typeID: userTypeID },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
   deleteUser: function(userID)
   {
     return $.ajax({

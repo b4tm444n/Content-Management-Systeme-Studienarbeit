@@ -37,6 +37,13 @@ function createUser($database, $pw, $name, $lastname, $username)
   return $execute;
 }
 
+function setUserType($database, $id, $userTypeID)
+{
+  $sql = "UPDATE nutzer SET admin=".$userTypeID." WHERE NutzerID=".$id;
+  $execute = dbsExecuteSQL($database, $sql);
+  return $execute;
+}
+
 function deleteUser($database, $id)
 {
   $delUserSql = "DELETE FROM nutzer WHERE NutzerID=".$id;

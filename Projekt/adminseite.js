@@ -55,8 +55,49 @@ $( function() {
         for(i = 0; i<result.length; i++)
         {
           var currentID = result[i]['NutzerID'];
-          $("#Content").append("<p>"+currentID+" "+result[i]['Username']+"</p>");
+          $("#Content").append("<p style='float: left;'>"+i+" "+result[i]['Username']+"</p>");
+          $("#Content").append("<fieldset id='userTypeSet"+i+"'><legend>Nutzertyp: </legend>"+
+              "<label for='userRadio"+i+"'>Benutzer</label>"+
+              "<input type='radio' name='usertypeRadio"+i+"' id='userRadio"+i+"' value='0'>"+
+              "<label 'adminRadio"+i+"'>Redakteur</label>"+
+              "<input type='radio' name='usertypeRadio"+i+"' id='adminRadio"+i+"' value='1'>"+
+              "<label for='admin2Radio"+i+"'>Administrator</label>"+
+              "<input type='radio' name='usertypeRadio"+i+"' id='admin2Radio"+i+"' value='2'>"+
+          "</fieldset>");
           $("#Content").append("<button class='ui-button ui-widget ui-corner-all' id='userbtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
+          console.log(result[i]['admin']);
+          switch(result[i]['admin'])
+          {
+            case('0'):
+              $('#userRadio'+i).prop('checked', true);
+              break;
+            case('1'):
+              $('#adminRadio'+i).prop('checked', true);
+              break;
+            case('2'):
+              $('#admin2Radio'+i).prop('checked', true);
+              break;
+          }
+          $('input[type=radio][name=usertypeRadio'+i+']').attr('userID', currentID).change(function() {
+            if ($(this).val() == '0') {
+              $.when(USER.setUserType($(this).attr('userID'), 0)).then(function(result){
+                if(result == true) ADMINPAGE.refreshUserContent();
+                else alert("Failed to set type of user.");
+              });
+            }
+            else if ($(this).val() == '1') {
+              $.when(USER.setUserType($(this).attr('userID'), 1)).then(function(result){
+                if(result == true) ADMINPAGE.refreshUserContent();
+                else alert("Failed to set type of user.");
+              });
+            }
+            else if ($(this).val() == '2') {
+              $.when(USER.setUserType($(this).attr('userID'), 2)).then(function(result){
+                if(result == true) ADMINPAGE.refreshUserContent();
+                else alert("Failed to set type of user.");
+              });
+            }
+          });
           $("#userbtn"+i).attr('userID', currentID).click(function(event)
           {
             $.when(USER.deleteUser($(this).attr('userID'))).then(function(result){

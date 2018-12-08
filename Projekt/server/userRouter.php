@@ -43,6 +43,11 @@ else if($_POST['route'] == 'create')
   }
   else echo('Nicht alle nötigen Daten übergeben.');
 }
+else if($_POST['route'] == 'setType' && !empty($_POST['id']) && isset($_POST['typeID']))
+{
+  $data = setUserType($database, $_POST['id'], $_POST['typeID']);
+  echo json_encode($data);
+}
 else if($_POST['route'] == 'delete' && !empty($_POST['id']))
 {
   $data = deleteUser($database, $_POST['id']);
