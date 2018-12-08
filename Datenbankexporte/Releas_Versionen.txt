@@ -5,3 +5,6 @@ Release Versionen
 
 1.1) Tabellen_3.0.1 und Daten_3.0.2:
 	-3. Rechtegruppe: Nutzer, admin, admin2
+
+1.2) Tabellen_3.1 und Daten_3.1:
+	-Tabelle für Bild auf Index.html ergänzt
