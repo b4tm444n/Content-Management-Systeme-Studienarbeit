@@ -120,6 +120,11 @@ function create_creation_popup(){
   +'</div>'
 +'</div>')
 
+	$( "#btnCreateAC" ).click( function( event ) {
+		$.post( "server/userRouter.php", { route: 'create' ,Passwort: $("#passwordNew").val(), Vorname: $("#nameNew").val(), Nachname: $("#familynameNew").val(), Username: $("#usernameNew").val()}).done(function(data){
+			alert(data);
+		});
+	});
 	$('#popup2').css('visibility','visible')
 	$('#popup2').css('opacity',1)
 	$('#CreateAcFamilyname').focus()
@@ -280,15 +285,6 @@ $( function categorie(){
 
 $(document).ready(function(){
 	test()
-
-
-	$( function createAC(){
-		$( "#btnCreateAC" ).click( function( event ) {
-			$.post( "server/userRouter.php", { route: 'create' ,Passwort: $("#passwordNew").val(), Vorname: $("#nameNew").val(), Nachname: $("#familynameNew").val(), Username: $("#usernameNew").val()}).done(function(data){
-				alert(data);
-			});
-		});
-	});
 });
 
 
