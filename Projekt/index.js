@@ -167,7 +167,7 @@ function add_projekt(title, content, id){
 
 	//Weiterleitung auf Projekt Details mit Parameter Projektname
 	$('.post-link').click(function(){
-					projectname = "eins"; //testwert
+					projectname = id; //testwert
 					/*hier muss der entsprechende Titel in die variable geschrieben werden
 
 					*/

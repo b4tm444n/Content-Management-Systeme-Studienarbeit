@@ -10,6 +10,7 @@ function getUrlVars() {
 
       i = getUrlVars()["projektname"];
       alert(i);
+      return i;
     });
 
 function load_css(url){
@@ -30,7 +31,7 @@ function load_language(language){
 		value.textContent='test'
 	});
 }
-	
+
 function add_projekt(title, content, id){
 	$('.col.span_2_of_3').append('<div class="projekt-post" id="'+id+'">'+
         '<h1 class="projekt-title">'+title+'</h1>'+
@@ -46,8 +47,25 @@ function test(){
 	load_buttons()
 	//add_projekt('Title',content,'1')
 	//add_projekt('Title',content,'2')
-	add_projekt('Title',content,'3')
 
+
+	//add_projekt('Title',content,'3')
+  var project;
+  $.post( "server/projectRouter.php", { route: "details", projectID: getUrlVars() }).done(function( data ) {
+      project = data;
+      alert (data);
+      add_projekt(project['projectName']);
+  });
+  //var project = PROJECT.getProjectDetails(getUrlVars());
+  //add_projekt(project['projectName']);
+  /*
+  $.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
+		data = JSON.parse(data);
+		data.forEach(function x (item) {
+				add_projekt(item, content,'1');
+			});
+	});
+  */
 }
 
 function db(){
@@ -56,4 +74,4 @@ function db(){
 $(document).ready(function(){
 	test()
 
-}); 
+});
