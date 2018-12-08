@@ -44,7 +44,7 @@ function getNameDesProjects($database)
 
 function getCategorieProjects($database, $column, $categorie)
 {
-   $sql = "SELECT projekt.Benennung AS Benennung, beschreibung.Text AS beschreibung FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID INNER JOIN projekt_kategorie ON projekt.ProjektID = projekt_kategorie.ProjektID INNER JOIN kategorie ON projekt_kategorie.KategorieID = kategorie.KategorieID WHERE kategorie.KategorieName='$categorie'";
+   $sql = "SELECT projekt.Benennung AS Benennung, projekt.ProjektID AS id, beschreibung.Text AS beschreibung FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID INNER JOIN projekt_kategorie ON projekt.ProjektID = projekt_kategorie.ProjektID INNER JOIN kategorie ON projekt_kategorie.KategorieID = kategorie.KategorieID WHERE kategorie.KategorieName='$categorie'";
    if($projectData = dbsSelect($database, $sql))
    {
      $projects = array();
