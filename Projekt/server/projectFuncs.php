@@ -91,6 +91,7 @@ function getProjectDetails($database, $id)
       return $projectData;
    }
    return null;
+
 }
 
 function getUserProjects($database, $NutzerID)

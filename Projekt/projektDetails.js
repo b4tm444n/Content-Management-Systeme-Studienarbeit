@@ -50,14 +50,14 @@ function test(){
 
 
 	//add_projekt('Title',content,'3')
-  var project;
-  $.post( "server/projectRouter.php", { route: "details", projectID: getUrlVars() }).done(function( data ) {
-      project = data;
-      alert (data);
-      add_projekt(project['projectName']);
+  $.when(PROJECT.getProjectDetails(getUrlVars())).then(function(result){
+    alert("");
   });
-  //var project = PROJECT.getProjectDetails(getUrlVars());
-  //add_projekt(project['projectName']);
+  /*
+  var project = PROJECT.getProjectDetails(getUrlVars());
+  alert (project['bla']);
+  add_projekt(project['projectName']);
+  */
   /*
   $.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
 		data = JSON.parse(data);
@@ -74,4 +74,9 @@ function db(){
 $(document).ready(function(){
 	test()
 
+
+  $.when(PROJECT.getProjectDetails(16) ).then(function(project){
+    //alert(result['projectID']);
+    add_projekt(project['projectName'], project['projectDescription'],project['projecID']);
+  });
 });

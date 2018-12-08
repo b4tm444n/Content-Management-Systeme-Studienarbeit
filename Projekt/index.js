@@ -167,10 +167,9 @@ function add_projekt(title, content, id){
 
 	//Weiterleitung auf Projekt Details mit Parameter Projektname
 	$('.post-link').click(function(){
-					projectname = id; //testwert
-					/*hier muss der entsprechende Titel in die variable geschrieben werden
+					projectname = 16;//id;
 
-					*/
+
 					help = encodeURI("projektDetails.html?projektname="+ projectname);
 					window.open(help,"_self");
 	});
@@ -194,10 +193,13 @@ function test(){
 	load_buttons()
 
 	//algorithmus um für jedes projekt add projet aufzurufen
+
 	$.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
 		data = JSON.parse(data);
 		data.forEach(function x (item) {
-				add_projekt(item, content,'1');
+				alert(data['projectID']);
+
+				add_projekt(item, content,'1'); //@zuBearbeiten 1 muss auf ProjectId geändert werden
 			});
 	});
 
