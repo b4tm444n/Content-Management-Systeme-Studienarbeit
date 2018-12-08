@@ -5,13 +5,13 @@ function getUrlVars() {
       });
       return vars;
     }
+    /*
     $(document).ready(function(){
       $('#titel').text("test");
 
       i = getUrlVars()["projektname"];
       alert(i);
-      return i;
-    });
+    });*/
 
 function load_css(url){
 	$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', url) );
@@ -45,27 +45,7 @@ function test(){
 	load_css('start.css')
 	load_img('1400x200&text=img.png')
 	load_buttons()
-	//add_projekt('Title',content,'1')
-	//add_projekt('Title',content,'2')
 
-
-	//add_projekt('Title',content,'3')
-  $.when(PROJECT.getProjectDetails(getUrlVars())).then(function(result){
-    alert("");
-  });
-  /*
-  var project = PROJECT.getProjectDetails(getUrlVars());
-  alert (project['bla']);
-  add_projekt(project['projectName']);
-  */
-  /*
-  $.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
-		data = JSON.parse(data);
-		data.forEach(function x (item) {
-				add_projekt(item, content,'1');
-			});
-	});
-  */
 }
 
 function db(){
@@ -74,9 +54,9 @@ function db(){
 $(document).ready(function(){
 	test()
 
-
-  $.when(PROJECT.getProjectDetails(16) ).then(function(project){
-    //alert(result['projectID']);
-    add_projekt(project['projectName'], project['projectDescription'],project['projecID']);
+  id = (getUrlVars())['projektname'];
+  alert("id:" + id);
+  $.when(PROJECT.getProjectDetails(id) ).then(function(project){
+    add_projekt(project['projectName'], project['projectDescription'],project['projectID']);
   });
 });

@@ -167,10 +167,11 @@ function add_projekt(title, content, id){
 
 	//Weiterleitung auf Projekt Details mit Parameter Projektname
 	$('.post-link').click(function(){
-					projectname = 16;//id;
-
+					projectname = id;
+					alert(id + "   " + projectname);
 
 					help = encodeURI("projektDetails.html?projektname="+ projectname);
+					alert(help);
 					window.open(help,"_self");
 	});
 }
@@ -193,7 +194,16 @@ function test(){
 	load_buttons()
 
 	//algorithmus um für jedes projekt add projet aufzurufen
+	$.when(PROJECT.searchAllProjects() ).then(function(projects){
+		//data = JSON.parse(projects);
+		//data.forEach(function x (project) {
+		projects.forEach(function x (project) {
+				console.log(project);
+    	add_projekt(project['Benennung'], "bla", project['ProjektID']); //@zuBearbeiten  Austauschen von bla gegen Projektbeschreibung
+		});
+  });
 
+/*
 	$.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
 		data = JSON.parse(data);
 		data.forEach(function x (item) {
@@ -202,6 +212,7 @@ function test(){
 				add_projekt(item, content,'1'); //@zuBearbeiten 1 muss auf ProjectId geändert werden
 			});
 	});
+	*/
 
 	//Default Sprache initialisieren
 	loadLanguage();
