@@ -14,11 +14,36 @@ $(document).ready(function(){
 $( function() {
   $( "#ChangePicture").click( function( event ) {
       event.preventDefault();
+      $("#Content").empty();
+      /*
       $.post( "server/token.php", { pfad: "test", dateityp: "eintest"}).done(function(data){
 				alert(data);
 			});
-      //$("#password").val()
-      //alert();
+      */
+    //  help = "<select id='pictures'>bla</select> " +
+      //        "<button class='ui-button ui-widget ui-corner-all' id='pictureSubmit'>Ändern</button>";
+      //$("#Content").append(help);
+
+
+      //Dropdown aus Datenbank initialisieren
+      $.post( "server/adminFunctions.php", { }).done(function( data ) {
+        help = "<select id='pictures'>";
+
+
+        //Object.keys(data).forEach(function  x (picture) {
+        data1 = JSON.parse(data);
+        console.log(data1);
+        console.log(data1['BildDateiPfad']);
+        data1.forEach(function  x (picture) {
+          help += "<option value=" + data1['IndexTitelbildID'] + ">" + data1['Name']+"</option>";
+        });
+        help += "</select> ";
+        $("#Content").append(help);
+      });
+
+      $('#pictureSubmit').click(function(){
+          //wert in Datenbank schreiben
+      });
     } );
 
 
