@@ -47,6 +47,7 @@ a{
   width: 32.2%;
 }
 
+
 /* Header & Navigation */
 
 header{
@@ -293,7 +294,30 @@ input{
   color: #FFFFFF;
 }
 
+.admin-button{
+  flex: 1;
+  margin: 0px 5px 20px 5px;
+}
 
+.admin-button:hover{
+  color: #FFFFFF;
+}
+
+.admin-content{
+  background: #fff;
+  margin: 0 auto 2em auto;
+  padding: 35px 30px;
+  box-shadow: 5px 5px 15px -1px rgba(0,0,0,0.3);
+}
+
+
+.createProject-post{
+  line-height: 2.4em;
+    background: #fff;
+  margin: 0 auto 2em auto;
+  padding: 35px 30px;
+  box-shadow: 5px 5px 15px -1px rgba(0,0,0,0.3);
+}
 
 /*Media Queries*/
 

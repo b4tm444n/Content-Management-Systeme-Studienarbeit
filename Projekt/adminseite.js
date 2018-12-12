@@ -80,8 +80,9 @@ $( function() {
         for(i = 0; i<result.length; i++)
         {
           var currentID = result[i]['NutzerID'];
-          $("#Content").append("<p style='float: left;'>"+i+" "+result[i]['Username']+"</p>");
-          $("#Content").append("<fieldset id='userTypeSet"+i+"'><legend>Nutzertyp: </legend>"+
+          $("#Content").append('<div class="admin-content" id="'+currentID+'"></div')
+          $("#"+currentID).append("<h3 style='float: left;'>"+i+" "+result[i]['Username']+"</h3>");
+          $("#"+currentID).append("<fieldset id='userTypeSet"+i+"'><legend>Nutzertyp: </legend>"+
               "<label for='userRadio"+i+"'>Benutzer</label>"+
               "<input type='radio' name='usertypeRadio"+i+"' id='userRadio"+i+"' value='0'>"+
               "<label 'adminRadio"+i+"'>Redakteur</label>"+
@@ -89,7 +90,7 @@ $( function() {
               "<label for='admin2Radio"+i+"'>Administrator</label>"+
               "<input type='radio' name='usertypeRadio"+i+"' id='admin2Radio"+i+"' value='2'>"+
           "</fieldset>");
-          $("#Content").append("<button class='ui-button ui-widget ui-corner-all' id='userbtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
+          $("#"+currentID).append("<button class='ui-button ui-widget ui-corner-all' id='userbtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
           console.log(result[i]['admin']);
           switch(result[i]['admin'])
           {
@@ -140,11 +141,12 @@ $( function() {
         for(i = 0; i<result.length; i++)
         {
           var currentID = result[i]['ProjektID'];
-          $("#Content").append("<p>Name: "+result[i]['Benennung']+"</p>");
+          $("#Content").append('<div class="admin-content" id="'+currentID+'"></div')
+          $("#"+currentID).append("<h3>"+result[i]['Benennung']+"</h3>");
           $.when(USER.getUserName(result[i]['Projektleiter'])).then(function(userData){
-            $("#Content").append("<p>Projektleiter: "+userData[0]['Vorname']+" "+userData[0]['Nachname']+"</p>");
+            $("#"+currentID).append("<p class=project-content>Projektleiter: "+userData[0]['Vorname']+" "+userData[0]['Nachname']+"</p>");
           });
-          $("#Content").append("<button class='ui-button ui-widget ui-corner-all' id='projectbtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
+          $("#"+currentID).append("<button class='ui-button ui-widget result[i]['Benennung']ui-corner-all' id='projectbtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
           $("#projectbtn"+i).attr('projID', currentID).click(function(event)
           {
             $.when(PROJECT.deleteProject($(this).attr('projID'))).then(function(result){
@@ -201,5 +203,34 @@ $( function() {
       }
       return false;
     }
+
+
   };
+
+  /*var me = $("input");
+    
+    for(var i=0; i<me[0].attributes.length; i++) {
+    	var newMe = $("<a>");
+        var myAttr = me[0].attributes[i].nodeName;
+        var myAttrVal = me[0].attributes[i].nodeValue;
+        newMe.attr(myAttr, myAttrVal);
+        console.log(me[i].value)
+        newMe.text(me[i].value)
+        newMe.html(me.html());
+    	me[i].replaceWith(newMe);
+    }
+    
+  $('a').attr('class','button category-button')
+  $('a').text($(''))
+
+  var me = $("form");
+    var newMe = $("<nav>");
+    for(var i=0; i<me[0].attributes.length; i++) {
+        var myAttr = me[0].attributes[i].nodeName;
+        var myAttrVal = me[0].attributes[i].nodeValue;
+        newMe.attr(myAttr, myAttrVal);
+    }
+    newMe.html(me.html());
+    me.replaceWith(newMe);*/
+  $('nav').attr('class','menu')
 });

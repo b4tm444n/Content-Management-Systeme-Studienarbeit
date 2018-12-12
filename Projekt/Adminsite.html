@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
   <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="/resources/demos/style.css">
+  <link rel="stylesheet" href="start.css">
   <script src="https://code.jquery.com/jquery-latest.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <title>Adminbereich</title>
@@ -16,17 +16,24 @@
 
  <body>   <!-- erklären -->
   <h3>Adminsite</h3>
-    <form>
-      <!--<input class="ui-button ui-widget ui-corner-all" id="Btn1" type="submit" value="Projekte laden">-->
-      <input class="ui-button ui-widget ui-corner-all" id="ManageCategories" type="submit" value="Kategorien Verwalten">
-      <input class="ui-button ui-widget ui-corner-all" id="ChangePicture" type="submit" value="Titelbild anpassen">
-      <input class="ui-button ui-widget ui-corner-all" id="ManageUsers" type="submit" value="Nutzer Verwalten">
-      <input class="ui-button ui-widget ui-corner-all" id="ManageProjects" type="submit" value="Projekte Verwalten">
-      <input class="ui-button ui-widget ui-corner-all" id="StandardLanguage" type="submit" value="Standard Sprache einstellen">
-      <input class="ui-button ui-widget ui-corner-all" id="ManageLayoutTheme" type="submit" value="Layout und Theme verwalten">
+    <nav class="menu">
+      <!--<a class="button admin-button" id="Btn1" type="submit" value="Projekte laden">-->
+      <a class="button admin-button" id="ManageCategories" type="submit" value="Kategorien Verwalten">Kategorien Verwalten</a>
+      <a class="button admin-button" id="ChangePicture" type="submit" value="Titelbild anpassen">Titelbild anpassen</a>
+      <a class="button admin-button" id="ManageUsers" type="submit" value="Nutzer Verwalten">Nutzer Verwalten</a>
+      <a class="button admin-button" id="ManageProjects" type="submit" value="Projekte Verwalten">Projekte Verwalten</a>
+      <a class="button admin-button" id="StandardLanguage" type="submit" value="Standard Sprache einstellen">Standard Sprache einstellen</a>
+      <a class="button admin-button" id="ManageLayoutTheme" type="submit" value="Layout und Theme verwalten">Layout und Theme verwalten</a>
 
 
-    </form>
-    <div id="Content"></div>
+    </nav>
+     <div class="container">
+      <div class="section">
+          <div class="col span_3_of_3">
+          	<div  id="Content"></div>
+          </div>
+      </div>
+  </div>
+    
   </body>
  </html>
