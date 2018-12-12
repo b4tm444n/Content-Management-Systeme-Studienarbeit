@@ -10,3 +10,7 @@ Release Versionen
 	-Tabelle für Bild auf Index.html ergänzt
 
 1.2.1) Tabellen_3.1.1 und Daten_3.1.1:
+
+1.2.2) Tabellen_3.1.2 und Daten_3.1.1:
+	- Namen für Layout und Theme hinzugefügt
+	- Nutzerart in PROJET_NUTZER entfernt
