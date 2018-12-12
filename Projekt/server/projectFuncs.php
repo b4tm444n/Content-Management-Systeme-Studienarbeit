@@ -195,7 +195,7 @@ function getProjectInformation($database, $projectID)
         }
         $result = array('projectID' => $projectID, 'projectName' => $projIDNameAndDesLeader['name'], 'projectDescription' => $projIDNameAndDesLeader['description'],
                         'state' => $projIDNameAndDesLeader['state'], 'projectLeader' => $projLeader, 'projectMembers' => $memberNamesArray,
-                        'knowHow' = > $projIDNameAndDesLeader['knowHow'], 'gitLink' => $projIDNameAndDesLeader['git'], 'webLink' => $projIDNameAndDesLeader['web'],
+                        'knowHow' => $projIDNameAndDesLeader['knowHow'], 'gitLink' => $projIDNameAndDesLeader['git'], 'webLink' => $projIDNameAndDesLeader['web'],
                         'picturePath' => $projImagePath);
       }
     }
