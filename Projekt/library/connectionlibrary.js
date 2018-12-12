@@ -35,6 +35,16 @@ AUTHENTICATION = {
         CONNECT.redirectPost(redirectionSite, {});
       });
       return success;
+    },
+    checkTokenWithoutRedirection: function(authmode)
+    {
+      var success = false;
+      $.ajaxSetup({async: false});
+      $.post( "server/middleware.php", { mode: authmode}, "json").done(function( data ) {
+        data = JSON.parse(data);
+        success = data;
+      });
+      return success;
     }
 };
 });
