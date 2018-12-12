@@ -171,7 +171,7 @@ function getProjectInformation($database, $projectID)
       array_push($memberNamesArray, dbsSelect($database, $memberNamesSql));
     }
   }
-  $projIDNameDesLeaderSql = "SELECT projekt.Benennung AS name, projekt.TitelbildID AS picID, projekt.Zustand AS state, projekt.Projektleiter AS projectLeaderID, beschreibung.Text AS description FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID WHERE projekt.ProjektID=".$projectID;
+  $projIDNameDesLeaderSql = "SELECT projekt.Benennung AS name, projekt.TitelbildID AS picID, projekt.Zustand AS state, projekt.Projektleiter AS projectLeaderID, projekt.GesuchtesKnowHow AS knowHow, projekt.GitHubLink AS git, projekt.WebpageLink AS web, beschreibung.Text AS description FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID WHERE projekt.ProjektID=".$projectID;
   $projIDNameAndDesLeaderData = $database->query($projIDNameDesLeaderSql);
   $projIDNameAndDesLeader = null;
   $projLeader = null;
@@ -195,6 +195,7 @@ function getProjectInformation($database, $projectID)
         }
         $result = array('projectID' => $projectID, 'projectName' => $projIDNameAndDesLeader['name'], 'projectDescription' => $projIDNameAndDesLeader['description'],
                         'state' => $projIDNameAndDesLeader['state'], 'projectLeader' => $projLeader, 'projectMembers' => $memberNamesArray,
+                        'knowHow' = > $projIDNameAndDesLeader['knowHow'], 'gitLink' => $projIDNameAndDesLeader['git'], 'webLink' => $projIDNameAndDesLeader['web'],
                         'picturePath' => $projImagePath);
       }
     }
