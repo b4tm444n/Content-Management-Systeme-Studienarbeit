@@ -36,7 +36,7 @@ function load_userButtons(){
 }
 function logout(){
 	$('#topbox').empty();
-	$.post( "server/clearToken.php", {}, "json").done(function( data ) {location.reload();});
+	$.post( "server/logout.php", {}, "json").done(function( data ) {location.reload();});
 	load_buttons();
 }
 function manage_Categories(){
