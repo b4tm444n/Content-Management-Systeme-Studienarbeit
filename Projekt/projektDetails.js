@@ -32,10 +32,14 @@ function load_language(language){
 	});
 }
 
-function add_projekt(title, content, id){
+function add_projekt(title, content, state, leader, members, image, id){
 	$('.col.span_2_of_3').append('<div class="projekt-post" id="'+id+'">'+
         '<h1 class="projekt-title">'+title+'</h1>'+
         '<p class="projekt-content">'+content+'</p>'+
+        '<p class="projekt-state">'+"Status: " +state+'</p>'+
+        '<p class="projekt-leader">'+"Projektleiter: "+leader+'</p>'+
+        '<p class="projekt-members">'+"Teilnehmer: "+members+'</p>'+
+        '<img src='+ image +' alt='+ image +'>' +
         '      </div>');
 }
 
@@ -57,6 +61,6 @@ $(document).ready(function(){
   id = (getUrlVars())['projektname'];
   alert("id:" + id);
   $.when(PROJECT.getProjectDetails(id) ).then(function(project){
-    add_projekt(project['projectName'], project['projectDescription'],project['projectID']);
+    add_projekt(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
   });
 });
