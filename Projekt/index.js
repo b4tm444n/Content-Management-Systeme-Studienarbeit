@@ -36,6 +36,7 @@ function load_userButtons(){
 }
 function logout(){
 	$('#topbox').empty();
+	$.post( "server/clearToken.php", {}, "json").done(function( data ) {location.reload();});
 	load_buttons();
 }
 function manage_Categories(){
@@ -77,7 +78,7 @@ function create_login_popup(){
 							//Div leeren + Buttons für User hinzufügen + Fenster Schließen
 							$('#topbox').empty();
 							$('#topbox').append("<h1>Redakteur</h1>");
-							load_adminButtons();
+							location.reload();
 							remove_login_popup();
 
             }
@@ -88,7 +89,7 @@ function create_login_popup(){
 							//Div leeren + Buttons für User hinzufügen + Fenster Schließen
 							$('#topbox').empty();
 							$('#topbox').append("<h1>Nutzer</h1>");
-							load_userButtons();
+							location.reload();
 							remove_login_popup();
             }
 						else if(data['type'] == "admin2"){
@@ -196,9 +197,19 @@ function test(){
 	var content= 'Ut noster tractavissent, summis hic eiusmod te quem. Doctrina velit litteris eu eu fore ingeniis philosophari ne quid o ingeniis ne anim, illum ea iudicem. Pariatur duis dolor hic dolor ad vidisse amet elit ita summis, quo duis te  malis, velit nostrud ingeniis. Appellat elit tamen iudicem multos, mentitum quae sed appellat illustriora. Velit commodo cernantur se si anim do labore, probant ab aliqua aut non laborum fidelissimae. Ex quae se fugiat, et malis officia in et enim cillum ita incididunt, a irure amet an ingeniis.'
 	load_css('start.css')
 	load_img('1400x200&text=img.png')
-	load_buttons()
-
 	//algorithmus um für jedes projekt add projet aufzurufen
+	if(AUTHENTICATION.checkTokenWithoutRedirection("admin2")['status'] || AUTHENTICATION.checkTokenWithoutRedirection("admin")['status'])
+	{
+		load_adminButtons();
+	}
+	else if(AUTHENTICATION.checkTokenWithoutRedirection("user")['status'])
+	{
+		load_userButtons();
+	}
+	else
+	{
+		load_buttons();
+	}
 	$.when(PROJECT.searchAllProjects() ).then(function(projects){
 		//data = JSON.parse(projects);
 		//data.forEach(function x (project) {
@@ -284,7 +295,7 @@ $( function categorie(){
 
 
 $(document).ready(function(){
-	test()
+	test();
 });
 
 
