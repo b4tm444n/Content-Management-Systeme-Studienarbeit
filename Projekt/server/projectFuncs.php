@@ -153,9 +153,16 @@ function createProject($database, $projectLeader, $picturePath, $pictureType, $p
 
 function joinProject($database, $userid, $projectID)
 {
-  $insertUserProjectSql = "INSERT INTO projekt_nutzer (NutzerID, ProjektID)
-                          VALUES ($userid, $projectID) ";
-  return dbsExecuteSQL($database, $insertUserProjectSql);
+  if(dbsEntryExists($database, "projekt_nutzer", "NutzerID='".$userid."' AND ProjektID='".$projectID."'"))
+  {
+    return false;
+  }
+  else
+  {
+    $insertUserProjectSql = "INSERT INTO projekt_nutzer (NutzerID, ProjektID)
+                            VALUES ($userid, $projectID) ";
+    return dbsExecuteSQL($database, $insertUserProjectSql);
+  }
 }
 
 function getProjectInformation($database, $projectID)
