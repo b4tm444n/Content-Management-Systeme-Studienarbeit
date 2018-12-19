@@ -166,8 +166,9 @@ $( function() {
         {
           var currentID = result[i]['KategorieID'];
           allCategories.push(result[i]['KategorieName']);
-          $("#Content").append("<p>Kategorie: "+result[i]['KategorieName']+"</p>");
-          $("#Content").append("<button class='ui-button ui-widget ui-corner-all' id='categoriebtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
+          $("#Content").append('<div class="admin-content" id="'+currentID+'"></div')
+          $("#"+currentID).append("<h3>Kategorie: "+result[i]['KategorieName']+"</h3>");
+          $("#"+currentID).append("<button class='ui-button ui-widget ui-corner-all' id='categoriebtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
           $("#categoriebtn"+i).attr('catID', currentID).click(function(event)
           {
             $.when(CATEGORIE.deleteCategorie($(this).attr('catID'))).then(function(result){
@@ -177,8 +178,11 @@ $( function() {
           });
         }
       });
-      $("#Content").prepend("<button class='ui-button ui-widget ui-corner-all' id='categorieAddBtn'><span class='ui-icon ui-icon-plus'></span></button> </label></fieldset></form>");
-      $("#Content").prepend('<form><fieldset style="float: left;"><label id="AddCategorie" for="addCategorieInput">Neue Kategorie: <input id="addCategorieInput" name="addCategorieInput">');
+      $("#Content").prepend('<div class="admin-content" id="categorieAdd"></div')
+      
+      $("#categorieAdd").append('<h3 id="AddCategorie" for="addCategorieInput">Neue Kategorie: ');
+      $("#categorieAdd").append('<input id="addCategorieInput" name="addCategorieInput">')
+      $("#categorieAdd").append("<button class='ui-button ui-widget ui-corner-all' id='categorieAddBtn'><span class='ui-icon ui-icon-plus'></span></button> </label></fieldset></form>");
       $("#categorieAddBtn").click(function(event)
       {
         if(!ADMINPAGE.checkCategorieExists(allCategories, $("#addCategorieInput").val()))
@@ -207,30 +211,4 @@ $( function() {
 
   };
 
-  /*var me = $("input");
-    
-    for(var i=0; i<me[0].attributes.length; i++) {
-    	var newMe = $("<a>");
-        var myAttr = me[0].attributes[i].nodeName;
-        var myAttrVal = me[0].attributes[i].nodeValue;
-        newMe.attr(myAttr, myAttrVal);
-        console.log(me[i].value)
-        newMe.text(me[i].value)
-        newMe.html(me.html());
-    	me[i].replaceWith(newMe);
-    }
-    
-  $('a').attr('class','button category-button')
-  $('a').text($(''))
-
-  var me = $("form");
-    var newMe = $("<nav>");
-    for(var i=0; i<me[0].attributes.length; i++) {
-        var myAttr = me[0].attributes[i].nodeName;
-        var myAttrVal = me[0].attributes[i].nodeValue;
-        newMe.attr(myAttr, myAttrVal);
-    }
-    newMe.html(me.html());
-    me.replaceWith(newMe);*/
-  $('nav').attr('class','menu')
 });
