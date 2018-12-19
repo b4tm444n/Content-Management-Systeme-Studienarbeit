@@ -25,7 +25,12 @@ function load_adminButtons(){
 	*/
 }
 function load_manage(){
-	CONNECT.redirectPost("Adminsite.html", {});
+	CONNECT.toPage("Adminsite.html");
+}
+
+function addProject()
+{
+	CONNECT.toPage("createProject.html");
 }
 
 function load_userButtons(){

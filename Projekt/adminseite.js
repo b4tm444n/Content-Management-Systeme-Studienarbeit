@@ -5,8 +5,7 @@ $(document).ready(function(){
   //console.log("test2");
   var tokenInfo;
   //console.log("test3");
-  //tokenInfo= AUTHENTICATION.checkToken("admin", "index.html");
-  tokenInfo  = AUTHENTICATION.checkToken("admin2", "index.html");
+  tokenInfo= AUTHENTICATION.checkToken("admin", "index.html");
   //console.log("test4");
   if(tokenInfo['status']) $("body").show();
 
@@ -179,7 +178,7 @@ $( function() {
         }
       });
       $("#Content").prepend('<div class="admin-content" id="categorieAdd"></div')
-      
+
       $("#categorieAdd").append('<h3 id="AddCategorie" for="addCategorieInput">Neue Kategorie: ');
       $("#categorieAdd").append('<input id="addCategorieInput" name="addCategorieInput">')
       $("#categorieAdd").append("<button class='ui-button ui-widget ui-corner-all' id='categorieAddBtn'><span class='ui-icon ui-icon-plus'></span></button> </label></fieldset></form>");
