@@ -34,7 +34,7 @@ if(isset($_SESSION['token']))
     }
     else if($_POST['mode'] == "admin")
     {
-      if($type == "admin")
+      if($type == "admin" || $type == "admin2")
       {
         $data = array('status' => true, 'type' => $type);
       }
