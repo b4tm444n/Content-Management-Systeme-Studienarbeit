@@ -168,13 +168,13 @@ function add_projekt(title, content, id){
 	$('.col.span_2_of_3').append('<div class="projekt-post" id="'+id+'">'+
         '<h1 class="projekt-title">'+title+'</h1>'+
         '<p class="projekt-content">'+content+'</p>'+
-        '<a  class="post-link" >Read More...</a>'+
+        '<a class="post-link" id="post-link'+id+'" >Read More...</a>'+
         '      </div>');
 
 
 
 	//Projektdetails anzeigen @Bug:
-	$('.post-link').click(function(){
+	$('#post-link'+id).click(function(){
 					projectname = id;
 					alert("Id der Auswahl: " + id);
 
