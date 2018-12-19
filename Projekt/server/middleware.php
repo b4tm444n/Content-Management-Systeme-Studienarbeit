@@ -62,9 +62,20 @@ if(isset($_SESSION['token']))
         $data = array('status' => false);
       }
     }
+    else if($_POST['mode'] == "notAdmin2")
+    {
+      if(!($type == "admin2"))
+      {
+        $data = array('status' => true, 'type' => $type);
+      }
+      else {
+        $data = array('status' => false);
+      }
+    }
   }
   else $data = array('status' => false);
   }
+else if($_POST['mode'] == "notAdmin2") $data = array('status' => true);
 else $data = array('status' => false);
 
 echo json_encode($data);
