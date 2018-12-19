@@ -320,5 +320,9 @@ $( function categorie(){
 
 
 $(document).ready(function(){
+	$("body").hide();
+  var tokenInfo;
+  tokenInfo= AUTHENTICATION.checkToken("notAdmin2", "Adminsite.html");
+  if(tokenInfo['status']) $("body").show();
 	test();
 });
