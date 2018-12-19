@@ -17,6 +17,14 @@ CONNECT = {
             form.append(field);
         });
         $(form).appendTo('body').submit();
+    },
+    toPage: function(location)
+    {
+      var form = $('<form></form>');
+    	form.attr("action", location);
+    	var field = $('<input></input>');
+    	form.append(field);
+    	$(form).appendTo('body').submit();
     }
 };
 AUTHENTICATION = {
