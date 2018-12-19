@@ -70,6 +70,29 @@ $( function() {
     } );
   });
 
+  $(function (){
+    $('#ManageLayoutTheme').click(function (){
+      //alert('fsdf');
+      $("#Content").empty();
+
+      menu = '<div id="menuLayoutTheme">' +
+              '<h2>Theme und Layout</h2>'+
+              '<h3>Theme</h3>'+
+              '<select id="selectTheme"></select>'+
+              '<h3>Layout</h3>'+
+              '<select id="selectLayout"></select>'+
+              '<a class="button" id ="SubmitThemeLayout" onclick="create_creation_popup()">Submit</a>'+
+              '<a class="button" id ="CancelThemeLayout" onclick="create_creation_popup()">Cancel</a>'+
+              '</div>';
+      $('#Content').append(menu);
+
+
+      help = '<iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/index.html"></iframe>';
+      $('#Content').append(help);
+
+    });
+});
+
   ADMINPAGE =
   {
     refreshUserContent: function()
