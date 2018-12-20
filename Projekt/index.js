@@ -73,7 +73,12 @@ function create_login_popup(){
 	$('body').append('<script src="library/connectionlibrary.js"></script>')
     $( "#btnSubmit" ).click( function( event ) {
       event.preventDefault();
-        $.post( "server/token.php", { name: $("#username").val(), pw: $("#password").val()}, "json").done(function( data ) {
+			var password;
+			nacl_factory.instantiate(function (nacl) {
+						//hash passwort
+					password = nacl.to_hex(nacl.crypto_hash_string($("#password").val()));
+						//überprüfen ob Nutzer vorhanden + Behandlung
+        $.post( "server/token.php", { name: $("#username").val(), pw: password}, "json").done(function( data ) {
           data = JSON.parse(data);
           if(data['status'] == true)
           {
@@ -104,6 +109,7 @@ function create_login_popup(){
           else   alert('Falscher Nutzername oder Kennwort');
 					//$("#userMessage").text("Falscher Nutzername oder Passwort");
         });
+				});
       });
 }
 
@@ -127,9 +133,16 @@ function create_creation_popup(){
 +'</div>')
 
 	$( "#btnCreateAC" ).click( function( event ) {
-		$.post( "server/userRouter.php", { route: 'create' ,Passwort: $("#passwordNew").val(), Vorname: $("#nameNew").val(), Nachname: $("#familynameNew").val(), Username: $("#usernameNew").val()}).done(function(data){
+		var password;
+			//hash password and create account
+		nacl_factory.instantiate(function (nacl) {
+				password = nacl.to_hex(nacl.crypto_hash_string($("#passwordNew").val()));
+
+		//alert (password +"; "+ $("#nameNew").val() +"; "+ $("#familynameNew").val() +"; "+ $("#usernameNew").val());
+		$.post( "server/userRouter.php", { route: 'create' ,Passwort: password, Vorname: $("#nameNew").val(), Nachname: $("#familynameNew").val(), Username: $("#usernameNew").val()}).done(function(data){
 			alert(data);
 		});
+			});
 	});
 	$('#popup2').css('visibility','visible')
 	$('#popup2').css('opacity',1)
