@@ -10,6 +10,14 @@ $(document).ready(function(){
   if(tokenInfo['status']) $("body").show();
 
 
+  var userType = "admin2";    //Variable muss mit Typ aus Token admin,admin2 initialisiert werden
+
+  if (userType == "admin2"){
+    //$("#ChangePicture").hide();
+    $("#ManageUsers").hide();
+    $("#StandardLanguage").hide();
+  }
+
 $( function() {
   $( "#ChangePicture").click( function( event ) {
       event.preventDefault();
