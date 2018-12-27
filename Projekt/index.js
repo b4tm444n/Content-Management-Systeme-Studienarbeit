@@ -182,16 +182,17 @@ function loadLanguage(language = deutsch){
 	}
 }
 
-function add_projekt(title, content, id){
+function add_projekt(title, content, state, id){
 	$('.col.span_2_of_3').append('<div class="projekt-post" id="'+id+'">'+
         '<h1 class="projekt-title">'+title+'</h1>'+
         '<p class="projekt-content">'+content+'</p>'+
+				'<p class="projekt-state">'+"Status: " +state+'</p>' +
         '<a class="post-link" id="post-link'+id+'" >Read More...</a>'+
         '      </div>');
 
 
 
-	//Projektdetails anzeigen @Bug:
+	//Projektdetails anzeigen
 	$('#post-link'+id).click(function(){
 					projectname = id;
 					alert("Id der Auswahl: " + id);
@@ -233,7 +234,21 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 
 function test(){
 	var content= 'Ut noster tractavissent, summis hic eiusmod te quem. Doctrina velit litteris eu eu fore ingeniis philosophari ne quid o ingeniis ne anim, illum ea iudicem. Pariatur duis dolor hic dolor ad vidisse amet elit ita summis, quo duis te  malis, velit nostrud ingeniis. Appellat elit tamen iudicem multos, mentitum quae sed appellat illustriora. Velit commodo cernantur se si anim do labore, probant ab aliqua aut non laborum fidelissimae. Ex quae se fugiat, et malis officia in et enim cillum ita incididunt, a irure amet an ingeniis.'
-	load_css('start.css')
+
+	//$.post( "server/Theme.php", { route: "allNamesDes" }).done(function( data ) {
+	$.post( "server/Theme.php").done(function( data ) {
+		data = JSON.parse(data);
+		alert(data['css']);
+		var help;
+		/*
+		data.forEach(function x (item) {
+				help = item['css'];
+			});
+			load_css(help);*/
+		load_css("start.css");
+	});
+
+	//load_css('start.css')
 	load_img('1400x200&text=img.png')
 	//algorithmus um für jedes projekt add projet aufzurufen
 	if(AUTHENTICATION.checkTokenWithoutRedirection("admin2")['status'] || AUTHENTICATION.checkTokenWithoutRedirection("admin")['status'])
@@ -253,7 +268,9 @@ function test(){
 		//data.forEach(function x (project) {
 		projects.forEach(function x (project) {
 				console.log(project);
-    	add_projekt(project['Benennung'], "bla", project['ProjektID']); //@zuBearbeiten  Austauschen von bla gegen Projektbeschreibung
+    	//add_projekt(project['Benennung'], "bla", project['ProjektID']); //@zuBearbeiten  Austauschen von bla gegen Projektbeschreibung
+			//add_projekt(project['projectName'], project['projectDescription'], project['state'], project['projectID']);
+			add_projekt(project['Benennung'], project['text'], project['Zustand'], project['ProjektID']);
 		});
   });
 
@@ -337,5 +354,9 @@ $(document).ready(function(){
   var tokenInfo;
   tokenInfo= AUTHENTICATION.checkToken("notAdmin2", "Adminsite.html");
   if(tokenInfo['status']) $("body").show();
+
+	//$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'your stylesheet url') );
+
+
 	test();
 });

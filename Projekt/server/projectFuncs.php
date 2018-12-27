@@ -1,9 +1,24 @@
 <?php
 require_once "db.lib.php";
 
-function getAllProjects($database)
+/*function getAllProjects($database)
 {
    $sql = "SELECT * FROM projekt";
+   $projectData = dbsSelect($database, $sql);
+   $projects = array();
+   if(isset($projectData))
+   {
+     while($dataRow = $projectData->fetch_assoc())
+     {
+        array_push($projects, $dataRow);
+     }
+   }
+   return $projects;
+}*/
+
+function getAllProjects($database)
+{
+   $sql = "SELECT projekt.*, beschreibung.text FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID";
    $projectData = dbsSelect($database, $sql);
    $projects = array();
    if(isset($projectData))
