@@ -80,23 +80,33 @@ $( function() {
 
   $(function (){
     $('#ManageLayoutTheme').click(function (){
-      //alert('fsdf');
       $("#Content").empty();
 
-      var help;
+      //aktuelle Werte holen
+      var currentTheme;
+      $.when(THEME.getCurrentThemePath()).then(function(result){
+          currentTheme = result;
+    	});
 
+      var optionsThemes;
       $.when(THEME.getAllThemeNamesIDs() ).then(function(themes){
         themes.forEach(function (theme){
-          alert(theme["ThemeID"] + "    " + theme["Name"]);
-          help += " <option value=" + theme["ThemeID"] +">"+ theme["Name"] +"</option>";
+          if (theme["ThemeDateiPfad"] != currentTheme){
+            optionsThemes += " <option value=" + theme["ThemeID"] +">"+ theme["Name"] +"</option>";
+          }
+          //Setzen von Selected Option für Eintrag in Datenbank mit "Verwendet = 1"
+          else {
+            optionsThemes +=  " <option selected value=" + theme["ThemeID"] +">"+ theme["Name"] +"</option>";
+          }
         });
       });
 
+      //Theme und Layout Menü zusammensetzen
       menu = '<div id="menuLayoutTheme">' +
               '<h2>Theme und Layout</h2>'+
               '<h3>Theme</h3>'+
               '<select id="selectTheme">' +
-              help +
+              optionsThemes +
               '</select>'+
               '<h3>Layout</h3>'+
               '<select id="selectLayout"></select>'+
@@ -104,14 +114,12 @@ $( function() {
               '<a class="button" id ="CancelThemeLayout" onclick="create_creation_popup()">Cancel</a>'+
               '</div>';
       $('#Content').append(menu);
-      //@Bug aktuelles Theme wird nicht deaktiviert!
       $('#selectTheme').change(function(){
         var themeID = $("#selectTheme :selected").val();
         $.when(THEME.activateTheme(themeID) ).then(function(){
           alert("true");
         });
-
-        //@implement Inhalt von IFrame neu laden
+        document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
       });
 
 

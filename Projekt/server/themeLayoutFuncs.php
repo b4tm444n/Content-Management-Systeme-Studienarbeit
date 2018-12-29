@@ -9,7 +9,7 @@ function getCurrentThemePath($database)
 
 function getAllThemeNamesIDs($database)
 {
-  $selectionSQL = "SELECT Name, ThemeID FROM theme";
+  $selectionSQL = "SELECT Name, ThemeDateiPfad,  ThemeID FROM theme";
   $entrys = dbsSelect($database, $selectionSQL);
   $themeArray = array();
   while($row = $entrys->fetch_assoc())
@@ -27,7 +27,7 @@ function getThemePathByID($database, $themeID)
 
 function activateTheme($database, $themeID)
 {
-  $deactivateSQL = "UPDATE theme SET Verwendet='0' WHERE Verwendet='1'";
+  $deactivateSQL = "UPDATE theme SET Verwendet=0 WHERE Verwendet='1'";
   if(dbsBeginTransaction($database, $deactivateSQL))
   {
     $activateSQL = "UPDATE theme SET Verwendet='1' WHERE ThemeID=".$themeID;
