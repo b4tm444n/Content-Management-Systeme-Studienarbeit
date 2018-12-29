@@ -20,7 +20,14 @@ if(isset($_SESSION['token']))
       }
     if(((time()-$token[1]) / 60) > 5)
     {
-      $data = array('status' => false);
+      if($_POST['mode'] == "notAdmin2")
+      {
+        $data = array('status' => true);
+      }
+      else
+      {
+        $data = array('status' => false);
+      }
     }
     else if($_POST['mode'] == "registered")
     {

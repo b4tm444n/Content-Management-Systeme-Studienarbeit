@@ -1,4 +1,67 @@
 $(document).ready(function(){
+THEME =
+{
+  getCurrentThemePath: function()
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "currentThemePath" },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  getAllThemeNamesIDs: function()
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "allThemeNamesIDs" },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  getThemePathByID: function(themID)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "themePath", themeID: themID },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  activateTheme: function(themID)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "activateTheme", themeID: themID },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  }
+};
 PROJECT = {
     searchAllProjects: function()
     {

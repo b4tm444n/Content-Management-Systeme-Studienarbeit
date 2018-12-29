@@ -234,11 +234,12 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 
 function test(){
 	var content= 'Ut noster tractavissent, summis hic eiusmod te quem. Doctrina velit litteris eu eu fore ingeniis philosophari ne quid o ingeniis ne anim, illum ea iudicem. Pariatur duis dolor hic dolor ad vidisse amet elit ita summis, quo duis te  malis, velit nostrud ingeniis. Appellat elit tamen iudicem multos, mentitum quae sed appellat illustriora. Velit commodo cernantur se si anim do labore, probant ab aliqua aut non laborum fidelissimae. Ex quae se fugiat, et malis officia in et enim cillum ita incididunt, a irure amet an ingeniis.'
-
 	//$.post( "server/Theme.php", { route: "allNamesDes" }).done(function( data ) {
-	$.post( "server/Theme.php").done(function( data ) {
-		data = JSON.parse(data);
-		alert(data['css']);
+	$.when(THEME.getCurrentThemePath()).then(function(result){
+		if(result != null)
+		{
+			console.log(result);
+		}
 		var help;
 		/*
 		data.forEach(function x (item) {
@@ -247,7 +248,6 @@ function test(){
 			load_css(help);*/
 		load_css("start.css");
 	});
-
 	//load_css('start.css')
 	load_img('1400x200&text=img.png')
 	//algorithmus um für jedes projekt add projet aufzurufen
@@ -263,6 +263,7 @@ function test(){
 	{
 		load_buttons();
 	}
+	$("body").show();
 	$.when(PROJECT.searchAllProjects() ).then(function(projects){
 		//data = JSON.parse(projects);
 		//data.forEach(function x (project) {
@@ -287,7 +288,6 @@ function test(){
 
 	//Default Sprache initialisieren
 	loadLanguage();
-
 }
 
 function db(){
@@ -353,10 +353,10 @@ $(document).ready(function(){
 	$("body").hide();
   var tokenInfo;
   tokenInfo= AUTHENTICATION.checkToken("notAdmin2", "Adminsite.html");
-  if(tokenInfo['status']) $("body").show();
 
 	//$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'your stylesheet url') );
 
 
 	test();
+	//if(tokenInfo['status']) $("body").show();
 });
