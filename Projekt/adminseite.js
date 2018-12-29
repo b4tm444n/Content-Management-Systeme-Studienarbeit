@@ -123,7 +123,7 @@ $( function() {
       });
 
 
-      help = '<iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/index.html"></iframe>';
+      help = '<iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/indexPreview.html"></iframe>';
       $('#Content').append(help);
 
     });

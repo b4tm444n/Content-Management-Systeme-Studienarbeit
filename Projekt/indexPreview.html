@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+
+  <link href="jquery-ui.css" rel="stylesheet" type="text/css" />
+  <script src="jquery-latest.js"></script>
+  <script src="jquery-ui.js"></script>
+  <!--Crypto-Bibliothek-->
+<script src="nacl_factory.js"></script>
+
+  <script src="library/connectionlibrary.js"></script>
+  <script src="library/contentlibrary.js"></script>
+  <script src="indexPreview.js"></script>
+  <script src="sprache.js"></script>
+
+<!-- nötig für token? -->
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+
+  <title></title>
+</head>
+<body>
+<header>
+
+  </header>
+
+  <nav class="menu">
+    </nav>
+  <div class="container">
+      <div class="section">
+          <div class="col span_2_of_3">
+          </div>
+
+          <aside class="col span_1_of_3">
+              <div class="side-post" id="topbox">
+              </div>
+
+              <div class="side-post" id="language">
+                  <h3 class="side-content">Sprachauswahl</h3>
+                  <a onclick="loadLanguage(deutsch)" class="button">Deutsch</a>
+                  <a onclick="loadLanguage(englisch)" class="button">English</a>
+                  <a onclick="load_language('lat')" class="button">Lateinus</a>
+              </div>
+           </aside>
+      </div>
+  </div>
+
+</body>
+</html>
