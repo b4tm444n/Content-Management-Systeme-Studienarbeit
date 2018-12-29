@@ -83,16 +83,36 @@ $( function() {
       //alert('fsdf');
       $("#Content").empty();
 
+      var help;
+
+      $.when(THEME.getAllThemeNamesIDs() ).then(function(themes){
+        themes.forEach(function (theme){
+          alert(theme["ThemeID"] + "    " + theme["Name"]);
+          help += " <option value=" + theme["ThemeID"] +">"+ theme["Name"] +"</option>";
+        });
+      });
+
       menu = '<div id="menuLayoutTheme">' +
               '<h2>Theme und Layout</h2>'+
               '<h3>Theme</h3>'+
-              '<select id="selectTheme"></select>'+
+              '<select id="selectTheme">' +
+              help +
+              '</select>'+
               '<h3>Layout</h3>'+
               '<select id="selectLayout"></select>'+
               '<a class="button" id ="SubmitThemeLayout" onclick="create_creation_popup()">Submit</a>'+
               '<a class="button" id ="CancelThemeLayout" onclick="create_creation_popup()">Cancel</a>'+
               '</div>';
       $('#Content').append(menu);
+      //@Bug aktuelles Theme wird nicht deaktiviert!
+      $('#selectTheme').change(function(){
+        var themeID = $("#selectTheme :selected").val();
+        $.when(THEME.activateTheme(themeID) ).then(function(){
+          alert("true");
+        });
+
+        //@implement Inhalt von IFrame neu laden
+      });
 
 
       help = '<iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/index.html"></iframe>';

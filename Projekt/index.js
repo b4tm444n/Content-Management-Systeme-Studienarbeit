@@ -240,13 +240,7 @@ function test(){
 		{
 			console.log(result);
 		}
-		var help;
-		/*
-		data.forEach(function x (item) {
-				help = item['css'];
-			});
-			load_css(help);*/
-		load_css("start.css");
+		load_css(result);
 	});
 	//load_css('start.css')
 	load_img('1400x200&text=img.png')
