@@ -17,3 +17,5 @@ Release Versionen
 
 1.3)   Tabellen_3.2 und Daten_3.2:
 	- Nutzer Passwörter sind nun verschlüsselt mit 512Bit
+1.3.1) Tabellen_3.2.1 und Daten_3.2.1:
+	- Layout und Theme verbessert

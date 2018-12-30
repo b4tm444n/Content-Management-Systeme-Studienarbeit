@@ -62,6 +62,71 @@ THEME =
       }).promise();
   }
 };
+
+LAYOUT =
+{
+  getCurrentLayoutPath: function()
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "currentLayoutPath" },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  getAllLayoutNamesIDs: function()
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "allLayoutNamesIDs" },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  getLayoutPathByID: function(layout_ID)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "LayoutPath", layoutID: layout_ID },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  activateLayout: function(layout_ID)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "activateLayout", layoutID: layout_ID },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  }
+};
+
 PROJECT = {
     searchAllProjects: function()
     {

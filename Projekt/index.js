@@ -235,14 +235,15 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 function test(){
 	var content= 'Ut noster tractavissent, summis hic eiusmod te quem. Doctrina velit litteris eu eu fore ingeniis philosophari ne quid o ingeniis ne anim, illum ea iudicem. Pariatur duis dolor hic dolor ad vidisse amet elit ita summis, quo duis te  malis, velit nostrud ingeniis. Appellat elit tamen iudicem multos, mentitum quae sed appellat illustriora. Velit commodo cernantur se si anim do labore, probant ab aliqua aut non laborum fidelissimae. Ex quae se fugiat, et malis officia in et enim cillum ita incididunt, a irure amet an ingeniis.'
 	//$.post( "server/Theme.php", { route: "allNamesDes" }).done(function( data ) {
-	$.when(THEME.getCurrentThemePath()).then(function(result){
-		if(result != null)
-		{
-			console.log(result);
-		}
-		load_css(result);
+	$.when(LAYOUT.getCurrentLayoutPath()).then(function(layout){
+		load_css(layout);
+
+		$.when(THEME.getCurrentThemePath()).then(function(theme){
+			load_css(theme);
+		});
+
 	});
-	//load_css('start.css')
+	
 	load_img('1400x200&text=img.png')
 	//algorithmus um für jedes projekt add projet aufzurufen
 	if(AUTHENTICATION.checkTokenWithoutRedirection("admin2")['status'] || AUTHENTICATION.checkTokenWithoutRedirection("admin")['status'])

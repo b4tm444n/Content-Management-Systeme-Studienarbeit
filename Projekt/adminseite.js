@@ -22,15 +22,6 @@ $( function() {
   $( "#ChangePicture").click( function( event ) {
       event.preventDefault();
       $("#Content").empty();
-      /*
-      $.post( "server/token.php", { pfad: "test", dateityp: "eintest"}).done(function(data){
-				alert(data);
-			});
-      */
-    //  help = "<select id='pictures'>bla</select> " +
-      //        "<button class='ui-button ui-widget ui-corner-all' id='pictureSubmit'>Ändern</button>";
-      //$("#Content").append(help);
-
 
       //Dropdown aus Datenbank initialisieren
       $.post( "server/adminFunctions.php", { }).done(function( data ) {
@@ -55,6 +46,13 @@ $( function() {
 
 
 });
+
+  $( function(){
+    $( "#logout" ).click( function( event ) {
+        //@implement: Logout
+    });
+  });
+
 
   $( function()
   {
@@ -87,8 +85,13 @@ $( function() {
       $.when(THEME.getCurrentThemePath()).then(function(result){
           currentTheme = result;
     	});
+      var currentLayout;
+      $.when(LAYOUT.getCurrentLayoutPath()).then(function(result){
+          currentLayout = result;
+      });
 
       var optionsThemes;
+      var optionsLayouts;
       $.when(THEME.getAllThemeNamesIDs() ).then(function(themes){
         themes.forEach(function (theme){
           if (theme["ThemeDateiPfad"] != currentTheme){
@@ -101,6 +104,19 @@ $( function() {
         });
       });
 
+      $.when(LAYOUT.getAllLayoutNamesIDs() ).then(function(layouts){
+        alert("bla");
+        layouts.forEach( function(layout){
+          //alert(layout["LayoutID"]);
+          if(layout["LayoutDateiPfad"] != currentLayout){
+            optionsLayouts += " <option value=" + layout["LayoutID"] +">"+ layout["Name"] +"</option>";
+          }
+          else{
+            optionsLayouts +=  " <option selected value=" + layout["LayoutID"] +">"+ layout["Name"] +"</option>";
+          }
+        });
+      });
+
       //Theme und Layout Menü zusammensetzen
       menu = '<div id="menuLayoutTheme">' +
               '<h2>Theme und Layout</h2>'+
@@ -109,7 +125,9 @@ $( function() {
               optionsThemes +
               '</select>'+
               '<h3>Layout</h3>'+
-              '<select id="selectLayout"></select>'+
+              '<select id="selectLayout">' +
+              optionsLayouts
+              '</select>'+
               '<a class="button" id ="SubmitThemeLayout" onclick="create_creation_popup()">Submit</a>'+
               '<a class="button" id ="CancelThemeLayout" onclick="create_creation_popup()">Cancel</a>'+
               '</div>';
@@ -117,6 +135,14 @@ $( function() {
       $('#selectTheme').change(function(){
         var themeID = $("#selectTheme :selected").val();
         $.when(THEME.activateTheme(themeID) ).then(function(){
+          alert("true");
+        });
+        document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
+      });
+      $('#selectLayout').change(function(){
+        var layout_ID = $("#selectLayout :selected").val();
+        alert(layout_ID);
+        $.when(LAYOUT.activateLayout(layout_ID) ).then(function(){
           alert("true");
         });
         document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
