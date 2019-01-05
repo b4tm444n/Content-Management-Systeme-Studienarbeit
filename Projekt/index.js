@@ -30,7 +30,180 @@ function load_manage(){
 
 function addProject()
 {
-	CONNECT.toPage("createProject.html");
+	//CONNECT.toPage("createProject.html");
+
+	//projekt hinzufügen Maske
+	var help = '<div class="container" id="createProject">' +
+	      '<div class="section">' +
+	         ' <div class="col span_3_of_3">' +
+	          '	<div class="createProject-post">' +
+		          '	<form enctype="multipart/form-data">' +
+						'<label id="categorieLabel" for="categories">Projektkategorien:'+
+						 ' <div id="categories" name="categories">' +
+						 '  <select id="categorie0">' +
+						    ' <option>-</option>' +
+						  ' </select>' +
+						  ' <button class="ui-button ui-widget ui-corner-all" id="addCategorieBtn">Kategorie hinzufügen</button>'+
+						  '</div>' +
+						 '</label>'+
+						' <br>'+
+						' <div class="group" for="name"><input class="createProjectInput" id="name" name="name" type="text" required>'+
+						      ' <span class="highlight"></span>'+
+	      					'	<span class="bar"></span>'+
+	      					'	<label class="createProjectLabel">Name</label>'+
+	      					'</div>'+
+						' <br>'+
+						' <div class="group" for="description"><input class="createProjectInput" id="description" name="description" type="text" required>' +
+						' <span class="highlight"></span>'+
+	      					'	<span class="bar"></span>'+
+	      						'<label class="createProjectLabel">Beschreibung</label>'+
+	      					'</div>'+
+						 '<br>'+
+						 '<label id="knowHowLabel" for="knowHow">Gesuchtes KnowHow: <input id="knowHow" name="knowHow"></label>'+
+						 '<br>'+
+						 '<label id="languageLabel" for="language">Sprache:'+
+						   '<select name="language" id="language">'+
+						    ' <option value="de">Deutsch</option>'+
+						    ' <option value="en">English</option>'+
+						    ' <option value="lt">Latin</option>'+
+						   '</select>'+
+						'</label>'+
+						'<br>'+
+						'<label id="gitLabel" for="git">Github Link: <input id="git" name="git"></label>'+
+						'<br>'+
+						'<label id="webLabel" for="web">Web Link: <input id="web" name="web"></label>'+
+						'<br>'+
+						'<label id="pictureLabel" for="pictureLabel">Projektbild:'+
+						   ' <input id="picture" name="picture" type="file" accept="image/png, image/jpeg">'+
+						  '</label>'+
+						'<br>'+
+						'<input class="ui-button ui-widget ui-corner-all" id="SubmitBtn" type="submit" value="Projekt erstellen">'+
+					'	</form>'+
+					'</div>'+
+	          '</div>'+
+	      '</div>'+
+	  '</div>';
+	//$('body').append('<a class="button" id ="loadProject" onclick="loadProjects()">Projekte laden</a>');
+	$('body').append(help);
+	$('createProject').css("position", "fixed");
+	$('createProject').css("top","0");
+	alert(help);
+
+	var categoryNumber = 1;
+	var categoryArr = [0];
+	var lastSelectValue;
+	var lastSelectText;
+
+	//Formular Projekterstellen initialisieren
+	$.when(PROJECT.getCategories()).then(function(result)
+	{
+		if(result.length != 0)
+		{
+			for(i = 0; i<result.length; i++)
+			{
+				$("#categorie0").append('<option value="'+result[i]['CatID']+'" id="0'+result[i]['CatID']+'">'+result[i]['CatName']+'</option>');
+			}
+			$("#categorie0").data('lastSelectVal', $("#categorie0").val());
+			$("#categorie0").data('lastText', $("#categorie0").find('option:selected').text());
+			$("#categorie0").on('change', function() {
+				var curSelectValue = $("#categorie0").val();
+				$.each( categoryArr, function( key, value ) {
+					if(value != 0)
+					{
+						if(curSelectValue != "nothing" && curSelectValue != "remove") $("#"+value+curSelectValue).remove();
+						if($("#categorie0").data('lastSelectVal') != "nothing")
+						{
+							$('#categorie'+value).append('<option value="'+$('#categorie0').data('lastSelectVal')+'" id="'+value+$('#categorie0').data('lastSelectVal')+'">'+$('#categorie0').data('lastText')+'</option>');
+						}
+					}
+				});
+				$("#categorie0").data('lastSelectVal', $("#categorie0").val());
+				$("#categorie0").data('lastText', $("#categorie0").find('option:selected').text());
+			});
+		}
+		else alert("Keine Projektkategorien verfügbar.");
+	});
+	$( "#SubmitBtn" ).click( function( event )
+	{
+			event.preventDefault();
+			var catValuesArr = [];
+			$.each( categoryArr, function( key, value ) {
+				if($("#categorie"+value).val() != "nothing")
+				{
+					catValuesArr.push($("#categorie"+value).val());
+				}
+			});
+			$.when(PROJECT.createProject("testpic/path", "undefined", $("#name").val(), $("#description").val(),
+				$("#language").val(), $("#knowHow").val(), "Warte auf Teilnehmer", "0",
+				$("#web").val(), $("#git").val(), catValuesArr, $("#picture").prop('files')[0])).then(function(result)
+				{
+					if(result == true) CONNECT.redirectPost("index.html", {});
+					else alert("Projekt erstellen fehlgeschlagen");
+				});
+	});
+	$( "#addCategorieBtn" ).click( function( event )
+	{
+			event.preventDefault();
+			var allValued = true;
+			var selectedCatArr = [];
+			$.each( categoryArr, function( key, value ) {
+				if($("#categorie"+value).val() == "nothing")
+				{
+					allValued = false;
+				}
+				else selectedCatArr.push($("#categorie"+value).val());
+			});
+			if(allValued)
+			{
+				var buttonObject;
+				buttonObject = $(this).detach();
+				$.when(PROJECT.getCategories(selectedCatArr)).then(function(result)
+				{
+					if(result.length != 0)
+					{
+						categoryArr.push(categoryNumber);
+						$("#categories").append('<select id="categorie'+categoryNumber+'"></select>');
+						$("#categorie"+categoryNumber).append('<option value="remove" id="remove'+categoryNumber+'">Entfernen</option>');
+						$("#categorie"+categoryNumber).append('<option value="nothing" selected="selected">-</option>');
+						for(i = 0; i<result.length; i++)
+						{
+							$("#categorie"+categoryNumber).append('<option value="'+result[i]['CatID']+'" id="'+categoryNumber+result[i]['CatID']+'">'+result[i]['CatName']+'</option>');
+						}
+						var currentNumber = categoryNumber;
+						$('#categorie'+categoryNumber).data('lastSelectVal', $('#categorie'+categoryNumber).val());
+						$('#categorie'+categoryNumber).data('lastText', $('#categorie'+categoryNumber).find('option:selected').text());
+						$('#categorie'+categoryNumber).on('change', function() {
+							var curSelectValue = $('#categorie'+currentNumber).val();
+							$.each( categoryArr, function( key, value ) {
+								if(value != currentNumber)
+								{
+									if(curSelectValue != "nothing" && curSelectValue != "remove") $("#"+value+curSelectValue).remove();
+									if($('#categorie'+currentNumber).data('lastSelectVal') != "nothing")
+									{
+										$('#categorie'+value).append('<option value="'+$('#categorie'+currentNumber).data('lastSelectVal')+'" id="'+value+$('#categorie'+currentNumber).data('lastSelectVal')+'">'+$('#categorie'+currentNumber).data('lastText')+'</option>');
+									}
+								}
+							});
+							$('#categorie'+currentNumber).data('lastSelectVal', $('#categorie'+currentNumber).val());
+							$('#categorie'+currentNumber).data('lastText', $('#categorie'+currentNumber).find('option:selected').text());
+							if(this.value == "remove")
+							{
+								$(this).remove();
+								categoryArr = $.grep(categoryArr, function(value) {
+									return value != currentNumber;
+								});
+							}
+						});
+						categoryNumber++;
+					}
+					else alert("Keine anderen Projektkategorien verfügbar.");
+					buttonObject.appendTo("#categories");
+				});
+			}
+			else alert("Bitte zuerst alle Projektkategorien ausfüllen.");
+	});
+
+
 }
 
 function load_userButtons(){
@@ -243,7 +416,7 @@ function test(){
 		});
 
 	});
-	
+
 	load_img('1400x200&text=img.png')
 	//algorithmus um für jedes projekt add projet aufzurufen
 	if(AUTHENTICATION.checkTokenWithoutRedirection("admin2")['status'] || AUTHENTICATION.checkTokenWithoutRedirection("admin")['status'])
