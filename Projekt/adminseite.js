@@ -60,9 +60,40 @@ $( function() {
       alert("language klick");
       $("#Content").empty();
 
-      $.when(LANGUAGE.getCurrentLanguageLabels() ).then(function(themes){
+      /*$.when(LANGUAGE.getCurrentLanguageLabels() ).then(function(themes){
           alert(themes);
-          alert("sdfsdf");
+          //alert("sdfsdf");
+      });*/
+
+
+
+      var languages;
+      $.when(LANGUAGE.getAllLanguages()).then(function(languageArray){
+                    //currentTheme = result;
+        languageArray.forEach(function (language){
+          languages +=  " <option value=" + language["SpracheID"] +">"+ language["Name"] +"</option>";
+        });
+      });
+      var help ='<div>' +
+                  '<h3>Select Default Language</h3>' +
+                  '<select id="defaultLanguageSelect">' +
+                  languages +
+                  '</select>' +
+                  '<a class="button" id ="SubmitLanguage">Submit</a>' +
+                  '<a class="button" id ="CancelLanguage">Cancel</a>' +
+                '</div>';
+      $("#Content").append(help);
+
+      $("#SubmitLanguage").click(function(){
+        langID = $("#defaultLanguageSelect :selected").val();
+        alert(langID);
+        $.when(LANGUAGE.activateLanguage(langID)).then(function(){
+            alert("Standardsprache wurde übernommen");
+            $("#Content").empty();
+        });
+      });
+      $("#CancelLanguage").click(function(){
+        $("#Content").empty();
       });
 
     });

@@ -427,6 +427,36 @@ LANGUAGE =
               return null;
             }
         }).promise();
+    },
+    getAllLanguages: function()
+    {
+        return $.ajax({
+              method: "POST",
+              url: "server/languageRouter.php",
+              data: { route: "getAllLanguages" },
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
+    },
+    activateLanguage: function(langID)
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/languageRouter.php",
+            data: { route: "activateLanguage", languageID: langID },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
     }
 };
 

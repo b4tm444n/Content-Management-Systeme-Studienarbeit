@@ -21,6 +21,27 @@ function getCurrentLaguageLabels($database)
   return($themeArray);
 }
 
+function getAllLanguages($database)
+{
+  $selectionSQL = "SELECT DISTINCT Name, SpracheID FROM sprache";
+  $entrys = dbsSelect($database, $selectionSQL);
+  $themeArray = array();
+  while($row = $entrys->fetch_assoc())
+  {
+    array_push($themeArray, $row);
+  }
+  return($themeArray);
+}
 
+function activateLanguage($database, $languageID)
+{
+  $deactivateSQL = "UPDATE sprache SET Standard=0 WHERE Standard='1'";
+  if(dbsBeginTransaction($database, $deactivateSQL))
+  {
+    $activateSQL = "UPDATE sprache SET Standard='1' WHERE SpracheID=".$languageID;
+    if(dbsEndTransaction($database, $activateSQL)) return true;
+  }
+  return false;
+}
 
 ?>
