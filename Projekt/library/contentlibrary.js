@@ -16,6 +16,21 @@ THEME =
           }
       }).promise();
   },
+  getCurrentThemeID: function()
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/themeLayoutRouter.php",
+            data: { route: "currentThemeID" },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
   getAllThemeNamesIDs: function()
   {
     return $.ajax({
@@ -71,6 +86,21 @@ LAYOUT =
           method: "POST",
           url: "server/themeLayoutRouter.php",
           data: { route: "currentLayoutPath" },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+  },
+  getCurrentLayoutID: function()
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "currentLayoutID" },
           dataType: "json",
           success: function (response) {
               return response;

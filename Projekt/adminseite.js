@@ -80,6 +80,16 @@ $( function() {
     $('#ManageLayoutTheme').click(function (){
       $("#Content").empty();
 
+      var currentThemeID;
+      $.when(THEME.getCurrentThemeID()).then(function(result){
+          currentThemeID = result;
+          //alert (currentThemeID);
+    	});
+      var currentLayoutID;
+      $.when(LAYOUT.getCurrentLayoutID()).then(function(result){
+          currentLayoutID = result;
+          //alert (currentLayoutID);
+      });
       //aktuelle Werte holen
       var currentTheme;
       $.when(THEME.getCurrentThemePath()).then(function(result){
@@ -118,7 +128,7 @@ $( function() {
       });
 
       //Theme und Layout Menü zusammensetzen
-      menu = '<div id="menuLayoutTheme">' +
+      menuLayoutTheme = '<div id="menuLayoutTheme">' +
               '<h2>Theme und Layout</h2>'+
               '<h3>Theme</h3>'+
               '<select id="selectTheme">' +
@@ -128,10 +138,14 @@ $( function() {
               '<select id="selectLayout">' +
               optionsLayouts
               '</select>'+
-              '<a class="button" id ="SubmitThemeLayout" onclick="create_creation_popup()">Submit</a>'+
-              '<a class="button" id ="CancelThemeLayout" onclick="create_creation_popup()">Cancel</a>'+
               '</div>';
-      $('#Content').append(menu);
+      $('#Content').append(menuLayoutTheme);
+      buttonsLayoutTheme = '<div>' +
+                  '<a class="button" id ="SubmitThemeLayout">Submit</a>' +
+                  '<a class="button" id ="CancelThemeLayout">Cancel</a>' +
+                '</div>';
+      $('#menuLayoutTheme').append(buttonsLayoutTheme);
+
       $('#selectTheme').change(function(){
         var themeID = $("#selectTheme :selected").val();
         $.when(THEME.activateTheme(themeID) ).then(function(){
@@ -151,6 +165,27 @@ $( function() {
 
       help = '<iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/indexPreview.html"></iframe>';
       $('#Content').append(help);
+
+      $("#SubmitThemeLayout").click( function(){
+        //Daten bereits in der Datenbank
+        //Nutzer Informieren, das Änderungen übernommen wurden
+        alert("Theme/Layout has been Changed");
+        //Layout und Theme verwalten schließen
+        $("#Content").empty();
+      });
+      $("#CancelThemeLayout").click(function(){
+        //Zustand vor Änderungen wiederherstellen
+        $.when(THEME.activateTheme(currentThemeID) ).then(function(){
+          $.when(LAYOUT.activateLayout(currentLayoutID) ).then(function(){
+            //Live-Ansicht aktualisieren
+            document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
+            //Dropdowns zurücksetzen
+            $('#selectTheme').val(currentThemeID);
+            $('#selectLayout').val(currentLayoutID);
+            alert("Werte wiederhergestellt");
+          });
+        });
+      });
 
     });
 });

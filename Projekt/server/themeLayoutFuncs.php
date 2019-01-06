@@ -8,6 +8,13 @@ function getCurrentThemePath($database)
   return($data);
 }
 
+  //ID des verwendeten themes
+function getCurrentThemeID($database)
+{
+  $data = dbsSingleValue($database, "Theme", "ThemeID", "Verwendet='1'");
+  return($data);
+}
+
 function getAllThemeNamesIDs($database)
 {
   $selectionSQL = "SELECT Name, ThemeDateiPfad,  ThemeID FROM theme";
@@ -42,6 +49,12 @@ function activateTheme($database, $themeID)
 function getCurrentLayoutPath($database)
 {
   $data = dbsSingleValue($database, "layout", "LayoutDateiPfad", "Verwendet='1'");
+  return($data);
+}
+
+function getCurrentLayoutID($database)
+{
+  $data = dbsSingleValue($database, "layout", "LayoutID", "Verwendet='1'");
   return($data);
 }
 

@@ -10,6 +10,11 @@ if($_POST['route'] == 'currentThemePath')
    $data = getCurrentThemePath($database);
    echo json_encode($data);
 }
+if($_POST['route'] == 'currentThemeID')
+{
+   $data = getCurrentThemeID($database);
+   echo json_encode($data);
+}
 else if($_POST['route'] == 'allThemeNamesIDs')
 {
   $data = getAllThemeNamesIDs($database);
@@ -29,6 +34,11 @@ else if($_POST['route'] == 'activateTheme'  && isset($_POST['themeID']))
 if($_POST['route'] == 'currentLayoutPath')
 {
    $data = getCurrentLayoutPath($database);
+   echo json_encode($data);
+}
+if($_POST['route'] == 'currentLayoutID')
+{
+   $data = getCurrentLayoutID($database);
    echo json_encode($data);
 }
 else if($_POST['route'] == 'allLayoutNamesIDs')
