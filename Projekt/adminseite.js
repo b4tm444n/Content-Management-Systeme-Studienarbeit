@@ -12,7 +12,7 @@ $(document).ready(function(){
 
   var userType = "admin2";    //Variable muss mit Typ aus Token admin,admin2 initialisiert werden
 
-  if (userType == "admin2"){
+  if (userType == "admin"){
     //$("#ChangePicture").hide();
     $("#ManageUsers").hide();
     $("#StandardLanguage").hide();
@@ -53,6 +53,20 @@ $( function() {
     });
   });
 
+  $( function(){
+    $( "#StandardLanguage" ).click( function( event ) {
+        //@implement:
+      //event.preventDefault();
+      alert("language klick");
+      $("#Content").empty();
+
+      $.when(LANGUAGE.getCurrentLanguageLabels() ).then(function(themes){
+          alert(themes);
+          alert("sdfsdf");
+      });
+
+    });
+  });
 
   $( function()
   {

@@ -409,4 +409,25 @@ CATEGORIE =
       }).promise();
   }
 };
+
+LANGUAGE =
+{
+  //Gibt den Text + html_id aller Objekte zurück für die auf Standard gesetzte Sprache
+  getCurrentLanguageLabels: function()
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/languageRouter.php",
+            data: { route: "currentLaguageLabels" },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    }
+};
+
 });
