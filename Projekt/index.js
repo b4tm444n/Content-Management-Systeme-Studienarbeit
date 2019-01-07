@@ -33,10 +33,9 @@ function addProject()
 	//CONNECT.toPage("createProject.html");
 
 	//projekt hinzufügen Maske
-	var help = '<div class="container" id="createProject">' +
-	      '<div class="section">' +
-	         ' <div class="col span_3_of_3">' +
-	          '	<div class="createProject-post">' +
+	var help = '<div id="popup3" class="overlay">' +
+	'<div id="createProject">' +
+	          '	<div class="createProject-post popup">' +
 		          '	<form enctype="multipart/form-data">' +
 						'<label id="categorieLabel" for="categories">Projektkategorien:'+
 						 ' <div id="categories" name="categories">' +
@@ -81,12 +80,13 @@ function addProject()
 					'	</form>'+
 					'</div>'+
 	          '</div>'+
-	      '</div>'+
 	  '</div>';
 	//$('body').append('<a class="button" id ="loadProject" onclick="loadProjects()">Projekte laden</a>');
 	$('body').append(help);
-	$('createProject').css("position", "fixed");
-	$('createProject').css("top","0");
+	$('#popup3').css('visibility','visible')
+	$('#popup3').css('opacity',1)
+	//$('createProject').css("position", "fixed");
+	//$('createProject').css("top","0");
 	alert(help);
 
 	var categoryNumber = 1;
@@ -131,6 +131,7 @@ function addProject()
 				if($("#categorie"+value).val() != "nothing")
 				{
 					catValuesArr.push($("#categorie"+value).val());
+
 				}
 			});
 			$.when(PROJECT.createProject("testpic/path", "undefined", $("#name").val(), $("#description").val(),
@@ -140,6 +141,7 @@ function addProject()
 					if(result == true) CONNECT.redirectPost("index.html", {});
 					else alert("Projekt erstellen fehlgeschlagen");
 				});
+			remove_create_project_popup()
 	});
 	$( "#addCategorieBtn" ).click( function( event )
 	{
@@ -204,6 +206,10 @@ function addProject()
 	});
 
 
+}
+
+function remove_create_project_popup(){
+	$('#popup3').remove()
 }
 
 function load_userButtons(){
