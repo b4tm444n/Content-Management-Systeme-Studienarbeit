@@ -412,7 +412,21 @@ CATEGORIE =
 
 LANGUAGE =
 {
-  //Gibt den Text + html_id aller Objekte zurück für die auf Standard gesetzte Sprache
+  getCurrentLanguage: function()
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/languageRouter.php",
+            data: { route: "currentLaguage"},
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
   getCurrentLanguageLabels: function(site)
     {
       return $.ajax({
@@ -472,7 +486,22 @@ LANGUAGE =
               return null;
             }
         }).promise();
+    },
+    insertLanguage: function(langData)
+    {
+        return $.ajax({
+              method: "POST",
+              url: "server/languageRouter.php",
+              data: { route: "insertLanguage", languageData: langData},
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
     }
-};
+  };
 
 });

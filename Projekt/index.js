@@ -77,6 +77,8 @@ function addProject()
 						  '</label>'+
 						'<br>'+
 						'<input class="ui-button ui-widget ui-corner-all" id="SubmitBtn" type="submit" value="Projekt erstellen">'+
+						'<input class="ui-button ui-widget ui-corner-all" id="CancelBtn" type="cancel" value="Cancel">'+
+
 					'	</form>'+
 					'</div>'+
 	          '</div>'+
@@ -142,6 +144,9 @@ function addProject()
 					else alert("Projekt erstellen fehlgeschlagen");
 				});
 			remove_create_project_popup()
+	});
+	$( "#CancelBtn" ).click( function( event ){
+		$("#popup3").remove();
 	});
 	$( "#addCategorieBtn" ).click( function( event )
 	{

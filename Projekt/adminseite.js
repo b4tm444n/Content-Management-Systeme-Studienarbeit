@@ -55,23 +55,22 @@ $( function() {
 
   $( function(){
     $( "#StandardLanguage" ).click( function( event ) {
-        //@implement:
-      //event.preventDefault();
-      alert("language klick");
       $("#Content").empty();
 
-      /*$.when(LANGUAGE.getCurrentLanguageLabels() ).then(function(themes){
-          alert(themes);
-          //alert("sdfsdf");
-      });*/
-
-
+      var standardLanguage;
+      $.when(LANGUAGE.getCurrentLanguage()).then(function(stdLanguage) {
+        standardLanguage = stdLanguage;
+      });
 
       var languages;
       $.when(LANGUAGE.getAllLanguages()).then(function(languageArray){
-                    //currentTheme = result;
         languageArray.forEach(function (language){
-          languages +=  " <option value=" + language["SpracheID"] +">"+ language["Name"] +"</option>";
+          if(language["Name"] != standardLanguage){
+            languages +=  " <option value=" + language["SpracheID"] +">"+ language["Name"] +"</option>";
+          }
+          else{
+            languages +=  " <option selected value=" + language["SpracheID"] +">"+ language["Name"] +"</option>";
+          }
         });
       });
       var help ='<div>' +
@@ -97,6 +96,45 @@ $( function() {
       });
 
     });
+  });
+
+  $(function(){
+    $("#AddLanguage").click(function(event){
+      $("#Content").empty();
+      alert("bla");
+
+      var help ='<div>' +
+                 '<br>'+
+                  '<label id="pictureLabel" for="pictureLabel">Sprachdatei:'+
+                    ' <input id="newLanguage" name="picture" type="file" accept="txt">'+
+                  '</label>'+
+                 '<br>' +
+                '</div>';
+      function updateImageDisplay(){
+        alert("etwas");
+      }
+      $("#Content").append(help);
+      $("#newLanguage").change(function(pfad){
+        alert("etwas");
+        alert($("#newLanguage").prop('files')[0].name);
+        //alert($("#newLanguage").prop('files')[0].path);
+        var fileReader = new FileReader();
+            fileReader.onload = function () {
+              var langData = fileReader.result;  // data <-- in this var you have the file data in Base64 format
+              alert(langData);
+
+              //übergebe Dateiinhalt an php
+              $.when(LANGUAGE.insertLanguage(langData)).then(function(success){
+                //alert(success);
+                alert("sdf");
+              });
+            };
+        fileReader.readAsText($('#newLanguage').prop('files')[0]);
+
+
+
+      });
+    })
   });
 
   $( function()

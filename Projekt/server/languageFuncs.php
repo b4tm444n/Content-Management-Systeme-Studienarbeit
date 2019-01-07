@@ -1,6 +1,12 @@
 <?php
 require_once "db.lib.php";
 
+function getCurrentLanguage($database)
+{
+  $data = dbsSingleValue($database, "Sprache", "Name", "Standard='1'");
+  return($data);
+}
+
 function getCurrentLaguageLabels($database, $website)
 {
   $selectionSQL = //"SELECT * FROM projekt";
@@ -62,6 +68,14 @@ function activateLanguage($database, $languageID)
     if(dbsEndTransaction($database, $activateSQL)) return true;
   }
   return false;
+}
+
+function insertLanguage($database, $languageData)
+{
+  $SQL = "INSERT INTO Sprache VALUES (".$languageData.")";
+  $result = dbsExecuteSQL($database, $SQL);
+  if($result) echo json_encode(true);
+  else echo json_encode(false);
 }
 
 ?>
