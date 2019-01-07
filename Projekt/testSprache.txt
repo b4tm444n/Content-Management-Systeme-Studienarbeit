@@ -1,1 +1,3 @@
-3, "Testsprache",0
+Testsprache
+0
+1:testText,2:test2,3:Anmelden

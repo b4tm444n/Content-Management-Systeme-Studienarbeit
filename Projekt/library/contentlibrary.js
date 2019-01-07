@@ -487,12 +487,12 @@ LANGUAGE =
             }
         }).promise();
     },
-    insertLanguage: function(langData)
+    insertLanguage: function(langData, standard)
     {
         return $.ajax({
               method: "POST",
               url: "server/languageRouter.php",
-              data: { route: "insertLanguage", languageData: langData},
+              data: { route: "insertLanguage", languageData: langData, standardLanguage: standard},
               dataType: "json",
               success: function (response) {
                   return response;

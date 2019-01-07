@@ -33,10 +33,14 @@ else if($_POST['route'] == 'activateLanguage'  && isset($_POST['languageID']))
   $data = activateLanguage($database, $_POST['languageID']);
   echo json_encode($data);
 }
-else if ($_POST['route'] == 'insertLanguage'  && isset($_POST['languageData']))
+else if ($_POST['route'] == 'insertLanguage')
 {
-  $data = insertLanguage($database, $_POST['languageData']);
-  echo json_encode($data);
+  if(!empty($_POST['languageData']) && !empty($_POST['standardLanguage']))
+  {
+    $data = insertLanguage($database, $_POST['languageData'], $_POST['standardLanguage']);
+    echo json_encode($data);
+  }
+  else echo('Nicht alle nötigen Daten übergeben.');
 }
 
 else return null;

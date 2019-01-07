@@ -101,7 +101,6 @@ $( function() {
   $(function(){
     $("#AddLanguage").click(function(event){
       $("#Content").empty();
-      alert("bla");
 
       var help ='<div>' +
                  '<br>'+
@@ -109,30 +108,43 @@ $( function() {
                     ' <input id="newLanguage" name="picture" type="file" accept="txt">'+
                   '</label>'+
                  '<br>' +
+                 '<a class="button" id ="cancelNewLanguage">Cancel</a>' +
+                 '<a class="button" id ="submitNewLanguage">Submit</a>' +
                 '</div>';
-      function updateImageDisplay(){
-        alert("etwas");
-      }
+
       $("#Content").append(help);
-      $("#newLanguage").change(function(pfad){
-        alert("etwas");
-        alert($("#newLanguage").prop('files')[0].name);
-        //alert($("#newLanguage").prop('files')[0].path);
+      $("#cancelNewLanguage").click(function (){
+        $("#Content").empty();
+      });
+      $("#submitNewLanguage").click(function (){
         var fileReader = new FileReader();
             fileReader.onload = function () {
-              var langData = fileReader.result;  // data <-- in this var you have the file data in Base64 format
-              alert(langData);
+              var langData = fileReader.result;
 
-              //übergebe Dateiinhalt an php
-              $.when(LANGUAGE.insertLanguage(langData)).then(function(success){
-                //alert(success);
-                alert("sdf");
+              var languageName = langData.split('\n')[0];   //Name der Sprache [Zeile eins der Datei]
+              var standard = 0;                             //Sprache wird auf Standard= false gesetzt [Zeile zwei der Datei]
+              //Sprache in Datenbak schreiben
+              //@bug: funktioniert nicht; keine Fehlermeldung
+              $.when(LANGUAGE.insertLanguage(languageName, standard)).then(function(success){
+                alert("Sprache erfolgreich hinzugefügt");
               });
+
+              var help = langData.split('\n')[2];
+              var objekte = help.split(',');              // beinhaltet Text für Elemente mit zugehöriger ElementID [Zeile drei der Datei]
+              objekte.forEach(function(objekt){
+                var elementID = objekt.split(':')[0];
+                var text = objekt.split(':')[1];
+                alert("Element mit der ID:" + elementID);
+                alert("Text zu Element:" + text);
+                //Texte für Elemente in Datenbank schreiben
+                //@implement
+                //...
+              });
+
             };
         fileReader.readAsText($('#newLanguage').prop('files')[0]);
 
-
-
+        $("#Content").empty();
       });
     })
   });

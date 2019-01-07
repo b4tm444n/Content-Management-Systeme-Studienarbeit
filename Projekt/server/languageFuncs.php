@@ -70,10 +70,11 @@ function activateLanguage($database, $languageID)
   return false;
 }
 
-function insertLanguage($database, $languageData)
+function insertLanguage($database, $languageData, $standardLanguage)
 {
-  $SQL = "INSERT INTO Sprache VALUES (".$languageData.")";
+  $SQL = "INSERT INTO Sprache (Name, Standard) VALUES ('".$languageData."','".$standardLanguage."')";
   $result = dbsExecuteSQL($database, $SQL);
+
   if($result) echo json_encode(true);
   else echo json_encode(false);
 }
