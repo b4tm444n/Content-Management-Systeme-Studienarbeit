@@ -75,8 +75,29 @@ function insertLanguage($database, $languageData, $standardLanguage)
   $SQL = "INSERT INTO Sprache (Name, Standard) VALUES ('".$languageData."','".$standardLanguage."')";
   $result = dbsExecuteSQL($database, $SQL);
 
-  if($result) echo json_encode(true);
-  else echo json_encode(false);
+  if($result){
+    $lastID = $database->insert_id;
+    return $lastID;
+  }
+  else
+  {
+    return null;
+  }
+}
+
+function insertLanguageElements($database, $allElements)
+{
+  $database->begin_transaction();
+  $database->autocommit(FALSE);
+  foreach ($allElements as $key => $element) {
+    $insertElementSQL = "INSERT INTO element_sprache (SpracheID, ElementID, Text) VALUES ('".$element['lanID']."', '".$element['eleID']."', '".$element['eleText']."')";
+    if(!dbsAddTransaction($database, $insertElementSQL))
+    {
+      return false;
+    }
+  }
+  $database->commit();
+  return true;
 }
 
 ?>

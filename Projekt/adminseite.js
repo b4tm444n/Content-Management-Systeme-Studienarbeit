@@ -122,23 +122,29 @@ $( function() {
               var langData = fileReader.result;
 
               var languageName = langData.split('\n')[0];   //Name der Sprache [Zeile eins der Datei]
-              var standard = 0;                             //Sprache wird auf Standard= false gesetzt [Zeile zwei der Datei]
+              var standard = '0';                             //Sprache wird auf Standard= false gesetzt [Zeile zwei der Datei]
               //Sprache in Datenbak schreiben
               //@bug: funktioniert nicht; keine Fehlermeldung
-              $.when(LANGUAGE.insertLanguage(languageName, standard)).then(function(success){
-                alert("Sprache erfolgreich hinzugefügt");
-              });
-
-              var help = langData.split('\n')[2];
-              var objekte = help.split(',');              // beinhaltet Text für Elemente mit zugehöriger ElementID [Zeile drei der Datei]
-              objekte.forEach(function(objekt){
-                var elementID = objekt.split(':')[0];
-                var text = objekt.split(':')[1];
-                alert("Element mit der ID:" + elementID);
-                alert("Text zu Element:" + text);
-                //Texte für Elemente in Datenbank schreiben
-                //@implement
-                //...
+              $.when(LANGUAGE.insertLanguage(languageName, standard)).then(function(currentID){
+                var allElements = [];
+                if(currentID != null)
+                {
+                  var help = langData.split('\n')[2];
+                  var objekte = help.split(',');              // beinhaltet Text für Elemente mit zugehöriger ElementID [Zeile drei der Datei]
+                  objekte.forEach(function(objekt){
+                    var elementID = objekt.split(':')[0];
+                    var text = objekt.split(':')[1];
+                    var currentElement = {lanID: currentID, eleID: elementID, eleText: text};
+                    allElements.push(currentElement);
+                  });
+                  $.when(LANGUAGE.insertLanguageElements(allElements)).then(function(result){
+                    if(result)
+                    {
+                      console.log("Sprache hochgeladen");
+                    }
+                    else console.log("Fehlgeschlagen");
+                  });
+                }
               });
 
             };

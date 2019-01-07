@@ -223,7 +223,6 @@ function dbsAddTransaction($database, $SQL)
 */
 function dbsEndTransaction($database, $SQL)
 {
-  $database->begin_transaction();
   if ($database->query($SQL) === TRUE)
   {
     $database->commit();

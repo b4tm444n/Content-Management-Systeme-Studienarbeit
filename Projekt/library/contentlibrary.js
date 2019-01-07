@@ -531,6 +531,21 @@ LANGUAGE =
                 return null;
               }
           }).promise();
+    },
+    insertLanguageElements: function(allElements)
+    {
+        return $.ajax({
+              method: "POST",
+              url: "server/languageRouter.php",
+              data: { route: "insertLanguageElements", allElementsArray: allElements },
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
     }
   };
 
