@@ -51,6 +51,17 @@ else if($_POST['route'] == 'user')
   }
   else echo json_encode(null);
 }
+else if($_POST['route'] == 'member')
+{
+  $token = explode(",", $_SESSION['token']);
+  $userid = $token[2];
+  if(isset($userid))
+  {
+   $data = getMemberProjects($database, $userid);
+   echo json_encode($data);
+  }
+  else echo json_encode(null);
+}
 else if($_POST['route'] == 'create')
 {
   $token = explode(",", $_SESSION['token']);
@@ -70,6 +81,17 @@ else if($_POST['route'] == 'join' && isset($_POST['projectID']))
   if(isset($userid))
   {
    $data = joinProject($database, $userid, $_POST['projectID']);
+   echo json_encode($data);
+  }
+  else echo json_encode(null);
+}
+else if($_POST['route'] == 'checkMembership' && isset($_POST['projectID']))
+{
+  $token = explode(",", $_SESSION['token']);
+  $userid = $token[2];
+  if(isset($userid))
+  {
+   $data = checkForProjectMembership($database, $_POST['projectID'], $userid);
    echo json_encode($data);
   }
   else echo json_encode(null);

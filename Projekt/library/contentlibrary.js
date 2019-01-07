@@ -173,6 +173,21 @@ PROJECT = {
             }
         }).promise();
     },
+    searchMemberProjects: function()
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/projectRouter.php",
+            data: { route: "member"},
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
     searchUserProjects: function()
     {
       return $.ajax({
@@ -194,6 +209,21 @@ PROJECT = {
             method: "POST",
             url: "server/projectRouter.php",
             data: { route: "details", projectID: projID },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
+    checkProjectMembership: function(projID)
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/projectRouter.php",
+            data: { route: "checkMembership", projectID: projID },
             dataType: "json",
             success: function (response) {
                 return response;

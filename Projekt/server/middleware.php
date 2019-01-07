@@ -22,10 +22,14 @@ if(isset($_SESSION['token']))
     {
       if($_POST['mode'] == "notAdmin2")
       {
+        $_SESSION['token'] = null;
+        session_destroy();
         $data = array('status' => true);
       }
       else
       {
+        $_SESSION['token'] = null;
+        session_destroy();
         $data = array('status' => false);
       }
     }

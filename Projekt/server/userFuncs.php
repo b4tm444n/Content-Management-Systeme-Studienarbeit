@@ -21,13 +21,16 @@ function getColumnFromAllUsers($database, $column)
 function getUserName($database, $id)
 {
    $sql = "SELECT Vorname, Nachname FROM nutzer WHERE NutzerID=$id";
-   $projectData = dbsSelect($database, $sql);
-   $projects = array();
-   while($dataRow = $projectData->fetch_assoc())
+   $userData = dbsSelect($database, $sql);
+   $names = array();
+   if($userData != null)
    {
-      array_push($projects, $dataRow);
+     while($dataRow = $userData->fetch_assoc())
+     {
+        array_push($names, $dataRow);
+     }
    }
-   return $projects;
+   return $names;
 }
 
 function createUser($database, $pw, $name, $lastname, $username)

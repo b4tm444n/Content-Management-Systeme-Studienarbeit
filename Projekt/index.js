@@ -217,6 +217,26 @@ function remove_create_project_popup(){
 	$('#popup3').remove()
 }
 
+function loadProjects() {
+	$.when(PROJECT.searchMemberProjects() ).then(function(projects){
+		$('.col.span_2_of_3').empty();
+		projects.forEach(function x (project) {
+				console.log(project);
+			add_projekt(project['Benennung'], project['beschreibung'], project['state'], project['id']);
+		});
+	});
+}
+
+function myProjects() {
+	$.when(PROJECT.searchUserProjects() ).then(function(projects){
+		$('.col.span_2_of_3').empty();
+		projects.forEach(function x (project) {
+				console.log(project);
+			add_projekt(project['Benennung'], project['beschreibung'], project['state'], project['id']);
+		});
+	});
+}
+
 function load_userButtons(){
 	$('#topbox').append('<a class="button" id ="loadProject" onclick="loadProjects()">Projekte laden</a>')
 	$('#topbox').append('<a class="button" id ="myProjects" onclick="myProjects()">Meine Projekte</a>')
@@ -402,14 +422,36 @@ function add_projekt(title, content, state, id){
 
 //add_project für Projektdetails
 function add_projektDetails(title, content, state, leader, members, image, id){
-	$('.col.span_2_of_3').append('<div class="projekt-post" id="'+id+'">'+
-        '<h1 class="projekt-title">'+title+'</h1>'+
-        '<p class="projekt-content">'+content+'</p>'+
-        '<p class="projekt-state">'+"Status: " +state+'</p>'+
-        '<p class="projekt-leader">'+"Projektleiter: "+leader+'</p>'+
-        '<p class="projekt-members">'+"Teilnehmer: "+members+'</p>'+
-        '<img src='+ image +' alt='+ image +'>' +
-        '      </div>');
+	var newElements = '<div class="projekt-post" id="'+id+'">'+
+				'<h1 class="projekt-title">'+title+'</h1>'+
+				'<p class="projekt-content">'+content+'</p>'+
+				'<p class="projekt-state">'+"Status: " +state+'</p>'+
+				'<p class="projekt-leader">'+"Projektleiter: "+leader+'</p>'+
+				'<p class="projekt-members">'+"Teilnehmer: "+members+'</p>'+
+				'<img src='+ image +' alt='+ image +'>';
+	$.when(PROJECT.checkProjectMembership(id) ).then(function(result){
+		if(result == false)
+		{
+			newElements += '<a class="button" id="joinProjectBtn"">Teilnehmen</a>';
+		}
+		newElements += '</div>';
+		$('.col.span_2_of_3').append(newElements);
+		if(result == false)
+		{
+			$( "#joinProjectBtn" ).click( function(event)
+			{
+				$('.col.span_2_of_3').empty();
+				$.when(PROJECT.joinProject(id)).then(function(result){
+					$.when(PROJECT.getProjectDetails(id) ).then(function(project){
+						add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
+					});
+				});
+			});
+		}
+	}).fail(function(error){
+		newElements += '</div>';
+		$('.col.span_2_of_3').append(newElements);
+	});
 }
 
 //test
@@ -524,7 +566,7 @@ $( function categorie(){
 						alert(data);
 						data = JSON.parse(data);
 						data.forEach(function x (item) {
-								add_projekt(item['Benennung'], item['beschreibung'], item['id']);
+								add_projekt(item['Benennung'], item['beschreibung'], item['state'], item['id']);
 							});
 					});
 				}, 1000);

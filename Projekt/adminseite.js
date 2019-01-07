@@ -49,7 +49,7 @@ $( function() {
 
   $( function(){
     $( "#logout" ).click( function( event ) {
-        //@implement: Logout
+        $.post( "server/logout.php", {}, "json").done(function( data ) {CONNECT.toPage("index.html");;});
     });
   });
 

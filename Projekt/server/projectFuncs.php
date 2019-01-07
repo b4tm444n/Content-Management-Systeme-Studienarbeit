@@ -59,7 +59,7 @@ function getNameDesProjects($database)
 
 function getCategorieProjects($database, $column, $categorie)
 {
-   $sql = "SELECT projekt.Benennung AS Benennung, projekt.ProjektID AS id, beschreibung.Text AS beschreibung FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID INNER JOIN projekt_kategorie ON projekt.ProjektID = projekt_kategorie.ProjektID INNER JOIN kategorie ON projekt_kategorie.KategorieID = kategorie.KategorieID WHERE kategorie.KategorieName='$categorie'";
+   $sql = "SELECT projekt.Benennung AS Benennung, projekt.ProjektID AS id, projekt.Zustand AS state, beschreibung.Text AS beschreibung FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID INNER JOIN projekt_kategorie ON projekt.ProjektID = projekt_kategorie.ProjektID INNER JOIN kategorie ON projekt_kategorie.KategorieID = kategorie.KategorieID WHERE kategorie.KategorieName='$categorie'";
    if($projectData = dbsSelect($database, $sql))
    {
      $projects = array();
@@ -113,12 +113,65 @@ function getUserProjects($database, $NutzerID)
 {
    if(is_numeric($NutzerID))
    {
-     $sql = "SELECT * FROM projekt WHERE Projektleiter=$NutzerID";
+     $sql = "SELECT projekt.Benennung AS Benennung, projekt.ProjektID AS id, projekt.Zustand AS state, beschreibung.Text AS beschreibung FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID WHERE projekt.Projektleiter=$NutzerID";
      $projectData = dbsSelect($database, $sql);
      $projects = array();
-     while($dataRow = $projectData->fetch_assoc())
+     if($projectData != null)
      {
-        array_push($projects, $dataRow);
+       while($dataRow = $projectData->fetch_assoc())
+       {
+          array_push($projects, $dataRow);
+       }
+     }
+     return $projects;
+   }
+   return null;
+}
+
+function checkForProjectMembership($database, $projectID, $nutzerID)
+{
+  if(is_numeric($projectID) && is_numeric($nutzerID))
+  {
+    $checkLeaderSQL = "SELECT * FROM projekt WHERE Projektleiter=$nutzerID AND ProjektID=$projectID";
+    $checkMemberSQL = "SELECT * FROM projekt_nutzer WHERE NutzerID=$nutzerID AND ProjektID=$projectID";
+    $leaderEntry = dbsSelect($database, $checkLeaderSQL);
+    $memberEntry = dbsSelect($database, $checkMemberSQL);
+    if($leaderEntry != null || $memberEntry != null)
+    {
+      return true;
+    }
+    return false;
+  }
+}
+
+function getMemberProjects($database, $NutzerID)
+{
+   if(is_numeric($NutzerID))
+   {
+     $memberSQL = "SELECT ProjektID AS id FROM projekt_nutzer WHERE NutzerID=$NutzerID";
+     $memberData = dbsSelect($database, $memberSQL);
+     $projectIDs = array();
+     if($memberData != null)
+     {
+       while($row = $memberData->fetch_assoc())
+       {
+         array_push($projectIDs, $row['id']);
+       }
+     }
+     $sqlProjectIDs = join("','", $projectIDs);
+     $sql = "SELECT projekt.Benennung AS Benennung, projekt.ProjektID AS id, projekt.Zustand AS state, beschreibung.Text AS beschreibung FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID WHERE projekt.ProjektID IN ('$sqlProjectIDs')";
+     $projectData = dbsSelect($database, $sql);
+     $projects = array();
+     if($projectData != null)
+     {
+       while($dataRow = $projectData->fetch_assoc())
+       {
+          array_push($projects, $dataRow);
+       }
+     }
+     $userProjects = getUserProjects($database, $NutzerID);
+     foreach ($userProjects as $key => $userProject) {
+       array_push($projects, $userProject);
      }
      return $projects;
    }
@@ -183,7 +236,11 @@ function getProjectInformation($database, $projectID)
     foreach ($projectMemberIDs as $key => $memberID)
     {
       $memberNamesSql = "SELECT Username AS username FROM nutzer WHERE NutzerID=".$memberID;
-      array_push($memberNamesArray, dbsSelect($database, $memberNamesSql));
+      $memberData = dbsSelect($database, $memberNamesSql);
+      while($row = $memberData->fetch_assoc())
+      {
+        array_push($memberNamesArray, $row['username']);
+      }
     }
   }
   $projIDNameDesLeaderSql = "SELECT projekt.Benennung AS name, projekt.TitelbildID AS picID, projekt.Zustand AS state, projekt.Projektleiter AS projectLeaderID, projekt.GesuchtesKnowHow AS knowHow, projekt.GitHubLink AS git, projekt.WebpageLink AS web, beschreibung.Text AS description FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID WHERE projekt.ProjektID=".$projectID;
