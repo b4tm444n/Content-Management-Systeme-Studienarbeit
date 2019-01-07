@@ -413,12 +413,12 @@ CATEGORIE =
 LANGUAGE =
 {
   //Gibt den Text + html_id aller Objekte zurück für die auf Standard gesetzte Sprache
-  getCurrentLanguageLabels: function()
+  getCurrentLanguageLabels: function(site)
     {
       return $.ajax({
             method: "POST",
             url: "server/languageRouter.php",
-            data: { route: "currentLaguageLabels" },
+            data: { route: "currentLaguageLabels", website: site },
             dataType: "json",
             success: function (response) {
                 return response;
@@ -428,12 +428,27 @@ LANGUAGE =
             }
         }).promise();
     },
+    getLanguageLabels: function(lang, site)
+      {
+        return $.ajax({
+              method: "POST",
+              url: "server/languageRouter.php",
+              data: { route: "languageLabels", language: lang, website: site },
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
+      },
     getAllLanguages: function()
     {
         return $.ajax({
               method: "POST",
               url: "server/languageRouter.php",
-              data: { route: "getAllLanguages" },
+              data: { route: "getAllLanguages"},
               dataType: "json",
               success: function (response) {
                   return response;

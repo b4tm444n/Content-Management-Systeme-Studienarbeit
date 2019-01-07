@@ -4,10 +4,19 @@ require_once "languageFuncs.php";
 session_start();
 $database = dbsConnect();
 
-if($_POST['route'] == 'currentLaguageLabels')
+if($_POST['route'] == 'currentLaguageLabels' && isset($_POST['website']))
 {
-   $data = getCurrentLaguageLabels($database);
+   $data = getCurrentLaguageLabels($database, $_POST['website']);
    echo json_encode($data);
+}
+else if($_POST['route'] == 'languageLabels')
+{
+  if(!empty($_POST['language']) && !empty($_POST['website']))
+  {
+   $data = getLaguageLabels($database, $_POST['language'], $_POST['website']);
+   echo json_encode($data);
+  }
+  else echo('Nicht alle nötigen Daten übergeben.');
 }
 else if($_POST['route'] == 'getAllLanguages')
 {

@@ -1,7 +1,7 @@
 <?php
 require_once "db.lib.php";
 
-function getCurrentLaguageLabels($database)
+function getCurrentLaguageLabels($database, $website)
 {
   $selectionSQL = //"SELECT * FROM projekt";
   "SELECT Text, Element.Html_ID
@@ -10,7 +10,27 @@ function getCurrentLaguageLabels($database)
                     ON ELEMENT_SPRACHE.SpracheID = Sprache.SpracheID
                    INNER JOIN Element
                     ON ELEMENT_SPRACHE.ElementID = Element.ElementID
-                   WHERE Sprache.Standard = 1";
+                   WHERE Sprache.Standard = 1 AND Element.HtmlSeite='".$website."'";
+
+  $entrys = dbsSelect($database, $selectionSQL);
+  $themeArray = array();
+  while($row = $entrys->fetch_assoc())
+  {
+    array_push($themeArray, $row);
+  }
+  return($themeArray);
+}
+
+function getLaguageLabels($database, $language, $website)
+{
+  $selectionSQL = //"SELECT * FROM projekt";
+  "SELECT Text, Element.Html_ID
+                   FROM ELEMENT_SPRACHE
+                   INNER JOIN Sprache
+                    ON ELEMENT_SPRACHE.SpracheID = Sprache.SpracheID
+                   INNER JOIN Element
+                    ON ELEMENT_SPRACHE.ElementID = Element.ElementID
+                   WHERE Sprache.Name ='".$language."' AND Element.HtmlSeite='".$website."'";
 
   $entrys = dbsSelect($database, $selectionSQL);
   $themeArray = array();

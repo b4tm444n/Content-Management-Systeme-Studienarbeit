@@ -333,26 +333,33 @@ function load_language(language){
 		value.textContent='test'
 	});
 
+
+
 }
 
-function loadLanguage(language = deutsch){
-	var text = JSON.parse(language);
-	for(var i in text){
-	/*Text ersetzen ohne subelemente zu löschen (Quellcode von Ursprung angepasst)
-	*Quelle: https://stackoverflow.com/questions/4106809/how-can-i-change-an-elements-text-without-changing-its-child-elements
-	*abgerufen am 19.11.2018
-	*/
-	if (i== "btnSubmit" || i=="btnCreateAC"){$("#" + i).val(text[i])}
+//fügt einen Button pro Sprache aus Datenbank hinzu
+function loadLanguageButtons(){
+	var languageButtons;
+	$.when(LANGUAGE.getAllLanguages()).then(function(languages){
+		languages.forEach(function(language){
+			languageButtons += '<a id="button'+language["Name"]+'" onclick="loadLanguage('+unescape("%27")+language["Name"]+unescape("%27")+')" class="button">'+language["Name"]+'</a>';
+		});
+	});
+	$("#language").append(languageButtons);
+}
 
-	else{
-	$("#" + i).contents().filter(function(){
-			return this.nodeType == 3;
-		})[0].nodeValue = text[i]; ;
-	}
-	/*
-	* Quellcode aus Quelle zu ende
-	*/
-	}
+function loadLanguage(language = "Deutsch"){
+	alert(language);
+	site = "index";
+
+	$.when(LANGUAGE.getLanguageLabels(language, site)).then(function(elements){
+		//alert(elements);
+		elements.forEach(function(element){
+			//alert (element["Html_ID"] + "   " + element["Text"]);
+			$('#' + element["Html_ID"]).text(element["Text"]);
+		});
+	});
+
 }
 
 function add_projekt(title, content, state, id){
@@ -454,8 +461,11 @@ function test(){
 	});
 	*/
 
+	//Sprache Buttons hinzufügen
+	loadLanguageButtons();
 	//Default Sprache initialisieren
 	loadLanguage();
+
 }
 
 function db(){
