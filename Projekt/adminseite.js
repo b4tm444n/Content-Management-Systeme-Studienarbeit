@@ -122,7 +122,7 @@ $( function() {
               var langData = fileReader.result;
 
               var languageName = langData.split('\n')[0];   //Name der Sprache [Zeile eins der Datei]
-              var standard = '0';                             //Sprache wird auf Standard= false gesetzt [Zeile zwei der Datei]
+              var standard = 0;                             //Sprache wird auf Standard= false gesetzt [Zeile zwei der Datei]
               //Sprache in Datenbak schreiben
               //@bug: funktioniert nicht; keine Fehlermeldung
               $.when(LANGUAGE.insertLanguage(languageName, standard)).then(function(currentID){
