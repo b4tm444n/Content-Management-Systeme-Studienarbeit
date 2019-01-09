@@ -539,7 +539,7 @@ $( function categorie(){
 		$.post( "server/projectRouter.php", { route: "allNamesDes" }).done(function( data ) {
 			data = JSON.parse(data);
 			data.forEach(function x (item) {
-					add_projekt(item['name'], item['description'], item['id']);
+					add_projekt(item['name'], item['description'], item['state'], item['id']);
 				});
 		});
 	});
