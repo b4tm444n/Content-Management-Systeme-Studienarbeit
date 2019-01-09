@@ -593,5 +593,37 @@ LANGUAGE =
           }).promise();
     }
   };
-
+  ADMIN =
+  {
+    getIndexPicture: function()
+      {
+        return $.ajax({
+              method: "POST",
+              url: "server/adminRouter.php",
+              data: { route: "getIndexPicture"},
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
+      },
+    setTitlePic: function(index)
+      {
+        return $.ajax({
+              method: "POST",
+              url: "server/adminRouter.php",
+              data: { route: "setTitlePic", picID: index },
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
+      }
+    };
 });

@@ -210,13 +210,11 @@ $(function (){
     {
       $("#Content").empty();
       //Dropdown aus Datenbank initialisieren
-      $.post( "server/adminFunctions.php", { }).done(function( data ) {
+      $.when(ADMIN.getIndexPicture()).then(function(data) {
         help = "<h3>Titelbild anpassen</h3><label id='picturesLabel' for='pictures'>Titelbild auswählen:<select id='pictures' name='pictures'>";
         //Object.keys(data).forEach(function  x (picture) {
-        data1 = JSON.parse(data);
-        console.log(data1);
-        console.log(data1['BildDateiPfad']);
-        data1.forEach(function  x (picture) {
+        console.log(data);
+        data.forEach(function  x (picture) {
           help += "<option value=" + picture['IndexTitelbildID'] + ">" + picture['Name']+"</option>";
         });
         help += "</select></label><br><br>";
@@ -226,9 +224,16 @@ $(function (){
           '</label>'+
           '<a class="button" id ="SubmitNewThemeLayout">Submit</a>'+
           '<a class="button" id ="CancelNewThemeLayout">Cancel</a>');
-      });
-      $('#pictureSubmit').click(function(){
-          //wert in Datenbank schreiben
+          $('#pictures').change(function(){
+            $.when(ADMIN.setTitlePic($('#pictures').val())).then(function(data){
+              if(data)
+              {
+                console.log("Bild geändert");
+              }
+              else console.log("Fehlgeschlagen");
+            });
+              //wert in Datenbank schreiben
+          });
       });
     },
     refreshStandartLanguageContent: function()
