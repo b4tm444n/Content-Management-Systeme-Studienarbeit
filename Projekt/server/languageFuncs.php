@@ -72,7 +72,8 @@ function activateLanguage($database, $languageID)
 
 function insertLanguage($database, $languageData, $standardLanguage)
 {
-  $SQL = "INSERT INTO Sprache (Name, Standard) VALUES ('".$languageData."','".$standardLanguage."')";
+  error_log($standardLanguage);
+  $SQL = "INSERT INTO Sprache (Name, Standard) VALUES ('".$languageData."', $standardLanguage)";
   $result = dbsExecuteSQL($database, $SQL);
 
   if($result){

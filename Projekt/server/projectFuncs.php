@@ -187,7 +187,7 @@ function createProject($database, $projectLeader, $picturePath, $pictureType, $p
   if(dbsBeginTransaction($database, $pictureSQL))
   {
     $pictureID = $database->insert_id;
-    if(dbsUploadFile($pictureFile, $pictureID.".jpg", $picturePath))
+    if(dbsUploadFile($pictureFile, $pictureID.".".$pictureType, $picturePath))
     {
       $projectSQL = "INSERT INTO projekt (Projektleiter, Zustand, TitelbildID, Benennung, Rechte, GesuchtesKnowHow, TrelloTasks, WebpageLink, GitHubLink) VALUES ($projectLeader, '".$state."', $pictureID, '".$projectName."', $rights, '".$knowHow."', 0, '".$webLink."', '".$gitLink."')";
       if(dbsAddTransaction($database, $projectSQL))
