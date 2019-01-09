@@ -418,33 +418,59 @@ function add_projekt(title, content, state, id){
 function add_projektDetails(title, content, state, leader, members, image, id){
 	var newElements = '<div class="projekt-post" id="'+id+'">'+
 				'<h1 class="projekt-title">'+title+'</h1>'+
-				'<p class="projekt-content">'+content+'</p>'+
-				'<p class="projekt-state">'+"Status: " +state+'</p>'+
-				'<p class="projekt-leader">'+"Projektleiter: "+leader+'</p>'+
-				'<p class="projekt-members">'+"Teilnehmer: "+members+'</p>'+
-				'<img src='+ image +' alt='+ image +'>';
-	$.when(PROJECT.checkProjectMembership(id) ).then(function(result){
-		if(result == false)
+				'<p class="projekt-content">'+content+'</p>';
+	var joinButtonCreated = false;
+	var stateInputCreated = false;
+	$.when(PROJECT.checkProjectLeadership(id)).then(function(result){
+		if(result)
 		{
-			newElements += '<a class="button" id="joinProjectBtn"">Teilnehmen</a>';
+			newElements += "<input class='projekt-state' type='text' id='projStateInput' value='"+state+"'><label for='projStateInput'>Status:</label>";
+			newElements += "<button class='ui-button ui-widget ui-corner-all' id='projStateSetBtn' style='float: right;'><span class='ui-icon ui-icon-check'></span></button>";
+			stateInputCreated = true;
 		}
-		newElements += '</div>';
-		$('.col.span_2_of_3').append(newElements);
-		if(result == false)
+		else
 		{
-			$( "#joinProjectBtn" ).click( function(event)
+			newElements += '<p class="projekt-state">'+"Status: " +state+'</p>';
+		}
+		newElements += '<p class="projekt-leader">'+"Projektleiter: "+leader+'</p>'+
+									 '<p class="projekt-members">'+"Teilnehmer: "+members+'</p>'+
+									 '<img src='+ image +' alt='+ image +'>';
+	}).always(function(){
+		$.when(PROJECT.checkProjectMembership(id) ).then(function(result){
+			if(result == false)
 			{
-				$('.col.span_2_of_3').empty();
-				$.when(PROJECT.joinProject(id)).then(function(result){
-					$.when(PROJECT.getProjectDetails(id) ).then(function(project){
-						add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
+				newElements += '<a class="button" id="joinProjectBtn"">Teilnehmen</a>';
+				joinButtonCreated = true;
+			}
+		}).always(function(){
+			newElements += '</div>';
+			$('.col.span_2_of_3').append(newElements);
+			if(joinButtonCreated)
+			{
+				$( "#joinProjectBtn" ).click( function(event)
+				{
+					$('.col.span_2_of_3').empty();
+					$.when(PROJECT.joinProject(id)).then(function(result){
+						$.when(PROJECT.getProjectDetails(id) ).then(function(project){
+							add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
+						});
 					});
 				});
-			});
-		}
-	}).fail(function(error){
-		newElements += '</div>';
-		$('.col.span_2_of_3').append(newElements);
+			}
+			if(stateInputCreated)
+			{
+				$("#projStateSetBtn").click(function(event)
+				{
+					console.log($('#projStateInput').val());
+					$.when(PROJECT.setProjectState(id, $("#projStateInput").val())).then(function(result){
+						$('.col.span_2_of_3').empty();
+						$.when(PROJECT.getProjectDetails(id) ).then(function(project){
+							add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
+						});
+					});
+				});
+			}
+		});
 	});
 }
 

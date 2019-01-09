@@ -233,12 +233,42 @@ PROJECT = {
             }
         }).promise();
     },
+    setProjectState: function(projID, projState)
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/projectRouter.php",
+            data: { route: "setState", projectID: projID, state: projState },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
     checkProjectMembership: function(projID)
     {
       return $.ajax({
             method: "POST",
             url: "server/projectRouter.php",
             data: { route: "checkMembership", projectID: projID },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
+    checkProjectLeadership: function(projID)
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/projectRouter.php",
+            data: { route: "checkLeadership", projectID: projID },
             dataType: "json",
             success: function (response) {
                 return response;

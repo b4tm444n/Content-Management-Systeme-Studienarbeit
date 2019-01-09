@@ -87,12 +87,31 @@ else if($_POST['route'] == 'join' && isset($_POST['projectID']))
 }
 else if($_POST['route'] == 'checkMembership' && isset($_POST['projectID']))
 {
-  $token = explode(",", $_SESSION['token']);
-  $userid = $token[2];
-  if(isset($userid))
+  if(isset($_SESSION['token']))
   {
-   $data = checkForProjectMembership($database, $_POST['projectID'], $userid);
-   echo json_encode($data);
+    $token = explode(",", $_SESSION['token']);
+    $userid = $token[2];
+    if(isset($userid))
+    {
+     $data = checkForProjectMembership($database, $_POST['projectID'], $userid);
+     echo json_encode($data);
+    }
+    else echo json_encode(null);
+  }
+  else echo json_encode(null);
+}
+else if($_POST['route'] == 'checkLeadership' && isset($_POST['projectID']))
+{
+  if(isset($_SESSION['token']))
+  {
+    $token = explode(",", $_SESSION['token']);
+    $userid = $token[2];
+    if(isset($userid))
+    {
+     $data = checkForProjectLeadership($database, $_POST['projectID'], $userid);
+     echo json_encode($data);
+    }
+    else echo json_encode(null);
   }
   else echo json_encode(null);
 }
@@ -105,6 +124,12 @@ else if($_POST['route'] == 'delete' && isset($_POST['id']))
 {
    $data = deleteProject($database, $_POST['id']);
    echo json_encode($data);
+}
+else if($_POST['route'] == 'setState' && isset($_POST['projectID']) && !empty($_POST['state']))
+{
+  error_log($_POST['state']);
+  $data = setProjectState($database, $_POST['projectID'], $_POST['state']);
+  echo json_encode($data);
 }
 else return null;
 ?>
