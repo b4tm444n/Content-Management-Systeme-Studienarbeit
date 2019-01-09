@@ -57,5 +57,11 @@ else if($_POST['route'] == 'activateLayout'  && isset($_POST['layoutID']))
   echo json_encode($data);
 }
 
+else if ($_POST['route'] == 'createLayout')
+{
+    $data = createLayout($database, $_POST['layoutName'], $_POST['layoutFile'] );
+    echo json_encode($data);
+}
+
 else return null;
 ?>

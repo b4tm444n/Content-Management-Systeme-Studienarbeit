@@ -288,21 +288,15 @@ function create_login_popup(){
           {
             if(data['type'] == "admin")
             {
-              //CONNECT.redirectPost("Adminsite.html", {});
 							//Div leeren + Buttons für User hinzufügen + Fenster Schließen
 							$('#topbox').empty();
-							$('#topbox').append("<h1>Redakteur</h1>");
 							location.reload();
 							remove_login_popup();
-
             }
             else if(data['type'] == "user")
             {
-              //CONNECT.redirectPost("Usersite.html", {});
-
-							//Div leeren + Buttons für User hinzufügen + Fenster Schließen
+  						//Div leeren + Buttons für User hinzufügen + Fenster Schließen
 							$('#topbox').empty();
-							$('#topbox').append("<h1>Nutzer</h1>");
 							location.reload();
 							remove_login_popup();
             }
@@ -311,7 +305,6 @@ function create_login_popup(){
 						}
           }
           else   alert('Falscher Nutzername oder Kennwort');
-					//$("#userMessage").text("Falscher Nutzername oder Passwort");
         });
 				});
       });

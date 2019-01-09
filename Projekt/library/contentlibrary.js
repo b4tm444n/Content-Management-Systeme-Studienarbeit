@@ -154,7 +154,22 @@ LAYOUT =
             return null;
           }
       }).promise();
-  }
+  },
+  addLayout: function(layoutname, layoutfile)
+  {
+    return $.ajax({
+          method: "POST",
+          url: "server/themeLayoutRouter.php",
+          data: { route: "createLayout", layoutName: layoutname, layoutFile: layoutfile },
+          dataType: "json",
+          success: function (response) {
+              return response;
+          },
+          fail: function (output){
+            return null;
+          }
+      }).promise();
+    }
 };
 
 PROJECT = {

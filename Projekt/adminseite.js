@@ -291,6 +291,41 @@ $( function() {
     });
 });
 
+$(function (){
+  $("#AddLayoutTheme").click(function(){
+    alert("bla");
+    help = "<h3>Layout oder Theme hinzufügen</h3>"+
+            '<label id="pictureLabel" for="pictureLabel">Projektbild:'+
+              ' <input id="themeOrLayoutFile" name="picture" type="file" accept="txt">'+
+            '</label>'+
+            '<select id="themeOrLayout">'+
+              '<option value="layout">Layout</option>'+
+              '<option value="theme">Theme</option>'+
+            '</select>' +
+            '<a class="button" id ="SubmitNewThemeLayout">Submit</a>' +
+            '<a class="button" id ="CancelNewThemeLayout">Cancel</a>' ;
+    $("#Content").append(help);
+    $("#SubmitNewThemeLayout").click(function(){
+      var themeOrLayout = $("#themeOrLayout :selected").val();
+      alert(themeOrLayout);
+      var layoutfile = $("#themeOrLayoutFile").prop('files')[0]["name"];
+      //var fileName = cssFile["name"][0];
+      layoutname ="test";
+      alert(layoutfile);
+      if(themeOrLayout == "layout"){
+          alert("bla");
+          $.when(LAYOUT.addLayout(layoutname,  layoutfile)).then(function(){
+            alert("bsdsfds");
+          });
+      }
+      else if(themeOrLayout == "theme"){
+
+      }
+      else alert ("Es ist ein Fehler aufgetreten");
+    });
+  });
+});
+
   ADMINPAGE =
   {
     refreshUserContent: function()

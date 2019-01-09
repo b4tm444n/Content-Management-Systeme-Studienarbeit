@@ -87,4 +87,11 @@ function activateLayout($database, $themeID)
   return false;
 }
 
+function createLayout($database, $layoutName, $layoutFile)
+{
+  $SQL = "INSERT INTO LAYOUT (LayoutDateiPfad, Verwendet, Name) VALUES ($layoutFile,0,$layoutName)";
+  dbsExecuteSQL($database, $SQL);
+  return true;
+}
+
 ?>
