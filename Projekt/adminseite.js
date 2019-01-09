@@ -10,319 +10,75 @@ $(document).ready(function(){
   if(tokenInfo['status']) $("body").show();
 
 
-  var userType = "admin2";    //Variable muss mit Typ aus Token admin,admin2 initialisiert werden
+  var userType = tokenInfo['type'];    //Variable muss mit Typ aus Token admin,admin2 initialisiert werden
 
   if (userType == "admin"){
     //$("#ChangePicture").hide();
     $("#ManageUsers").hide();
     $("#StandardLanguage").hide();
+    $("#AddLanguage").hide();
   }
 
 $( function() {
-  $( "#ChangePicture").click( function( event ) {
+  $( "#ChangePicture").click( function(event) {
       event.preventDefault();
-      $("#Content").empty();
-
-      //Dropdown aus Datenbank initialisieren
-      $.post( "server/adminFunctions.php", { }).done(function( data ) {
-        help = "<select id='pictures'>";
-
-
-        //Object.keys(data).forEach(function  x (picture) {
-        data1 = JSON.parse(data);
-        console.log(data1);
-        console.log(data1['BildDateiPfad']);
-        data1.forEach(function  x (picture) {
-          help += "<option value=" + data1['IndexTitelbildID'] + ">" + data1['Name']+"</option>";
-        });
-        help += "</select> ";
-        $("#Content").append(help);
-      });
-
-      $('#pictureSubmit').click(function(){
-          //wert in Datenbank schreiben
-      });
-    } );
-
-
+      ADMINPAGE.refreshPictureContent();
+    });
 });
 
   $( function(){
-    $( "#logout" ).click( function( event ) {
+    $( "#logout" ).click( function(event) {
         $.post( "server/logout.php", {}, "json").done(function( data ) {CONNECT.toPage("index.html");;});
     });
   });
 
   $( function(){
-    $( "#StandardLanguage" ).click( function( event ) {
-      $("#Content").empty();
-
-      var standardLanguage;
-      $.when(LANGUAGE.getCurrentLanguage()).then(function(stdLanguage) {
-        standardLanguage = stdLanguage;
-      });
-
-      var languages;
-      $.when(LANGUAGE.getAllLanguages()).then(function(languageArray){
-        languageArray.forEach(function (language){
-          if(language["Name"] != standardLanguage){
-            languages +=  " <option value=" + language["SpracheID"] +">"+ language["Name"] +"</option>";
-          }
-          else{
-            languages +=  " <option selected value=" + language["SpracheID"] +">"+ language["Name"] +"</option>";
-          }
-        });
-      });
-      var help ='<div>' +
-                  '<h3>Select Default Language</h3>' +
-                  '<select id="defaultLanguageSelect">' +
-                  languages +
-                  '</select>' +
-                  '<a class="button" id ="SubmitLanguage">Submit</a>' +
-                  '<a class="button" id ="CancelLanguage">Cancel</a>' +
-                '</div>';
-      $("#Content").append(help);
-
-      $("#SubmitLanguage").click(function(){
-        langID = $("#defaultLanguageSelect :selected").val();
-        alert(langID);
-        $.when(LANGUAGE.activateLanguage(langID)).then(function(){
-            alert("Standardsprache wurde übernommen");
-            $("#Content").empty();
-        });
-      });
-      $("#CancelLanguage").click(function(){
-        $("#Content").empty();
-      });
-
+    $( "#StandardLanguage" ).click( function(event) {
+      event.preventDefault();
+      ADMINPAGE.refreshStandartLanguageContent();
     });
   });
 
   $(function(){
     $("#AddLanguage").click(function(event){
-      $("#Content").empty();
-
-      var help ='<div>' +
-                 '<br>'+
-                  '<label id="pictureLabel" for="pictureLabel">Sprachdatei:'+
-                    ' <input id="newLanguage" name="picture" type="file" accept="txt">'+
-                  '</label>'+
-                 '<br>' +
-                 '<a class="button" id ="cancelNewLanguage">Cancel</a>' +
-                 '<a class="button" id ="submitNewLanguage">Submit</a>' +
-                '</div>';
-
-      $("#Content").append(help);
-      $("#cancelNewLanguage").click(function (){
-        $("#Content").empty();
-      });
-      $("#submitNewLanguage").click(function (){
-        var fileReader = new FileReader();
-            fileReader.onload = function () {
-              var langData = fileReader.result;
-
-              var languageName = langData.split('\n')[0];   //Name der Sprache [Zeile eins der Datei]
-              var standard = 0;                             //Sprache wird auf Standard= false gesetzt [Zeile zwei der Datei]
-              //Sprache in Datenbak schreiben
-              //@bug: funktioniert nicht; keine Fehlermeldung
-              $.when(LANGUAGE.insertLanguage(languageName, standard)).then(function(currentID){
-                var allElements = [];
-                if(currentID != null)
-                {
-                  var help = langData.split('\n')[2];
-                  var objekte = help.split(',');              // beinhaltet Text für Elemente mit zugehöriger ElementID [Zeile drei der Datei]
-                  objekte.forEach(function(objekt){
-                    var elementID = objekt.split(':')[0];
-                    var text = objekt.split(':')[1];
-                    var currentElement = {lanID: currentID, eleID: elementID, eleText: text};
-                    allElements.push(currentElement);
-                  });
-                  $.when(LANGUAGE.insertLanguageElements(allElements)).then(function(result){
-                    if(result)
-                    {
-                      console.log("Sprache hochgeladen");
-                    }
-                    else console.log("Fehlgeschlagen");
-                  });
-                }
-              });
-
-            };
-        fileReader.readAsText($('#newLanguage').prop('files')[0]);
-
-        $("#Content").empty();
-      });
-    })
+      event.preventDefault();
+      ADMINPAGE.refreshAddLanguageContent();
+    });
   });
 
   $( function()
   {
-    $( "#ManageUsers" ).click( function( event ) {
+    $( "#ManageUsers" ).click( function(event) {
       event.preventDefault();
       ADMINPAGE.refreshUserContent();
     } );
   });
   $( function()
   {
-    $( "#ManageProjects" ).click( function( event ) {
+    $( "#ManageProjects" ).click( function(event) {
       event.preventDefault();
       ADMINPAGE.refreshProjectContent();
     } );
   });
   $( function()
   {
-    $( "#ManageCategories" ).click( function( event ) {
+    $( "#ManageCategories" ).click( function(event) {
       event.preventDefault();
       ADMINPAGE.refreshCategorieContent();
     } );
   });
 
   $(function (){
-    $('#ManageLayoutTheme').click(function (){
-      $("#Content").empty();
-
-      var currentThemeID;
-      $.when(THEME.getCurrentThemeID()).then(function(result){
-          currentThemeID = result;
-          //alert (currentThemeID);
-    	});
-      var currentLayoutID;
-      $.when(LAYOUT.getCurrentLayoutID()).then(function(result){
-          currentLayoutID = result;
-          //alert (currentLayoutID);
-      });
-      //aktuelle Werte holen
-      var currentTheme;
-      $.when(THEME.getCurrentThemePath()).then(function(result){
-          currentTheme = result;
-    	});
-      var currentLayout;
-      $.when(LAYOUT.getCurrentLayoutPath()).then(function(result){
-          currentLayout = result;
-      });
-
-      var optionsThemes;
-      var optionsLayouts;
-      $.when(THEME.getAllThemeNamesIDs() ).then(function(themes){
-        themes.forEach(function (theme){
-          if (theme["ThemeDateiPfad"] != currentTheme){
-            optionsThemes += " <option value=" + theme["ThemeID"] +">"+ theme["Name"] +"</option>";
-          }
-          //Setzen von Selected Option für Eintrag in Datenbank mit "Verwendet = 1"
-          else {
-            optionsThemes +=  " <option selected value=" + theme["ThemeID"] +">"+ theme["Name"] +"</option>";
-          }
-        });
-      });
-
-      $.when(LAYOUT.getAllLayoutNamesIDs() ).then(function(layouts){
-        alert("bla");
-        layouts.forEach( function(layout){
-          //alert(layout["LayoutID"]);
-          if(layout["LayoutDateiPfad"] != currentLayout){
-            optionsLayouts += " <option value=" + layout["LayoutID"] +">"+ layout["Name"] +"</option>";
-          }
-          else{
-            optionsLayouts +=  " <option selected value=" + layout["LayoutID"] +">"+ layout["Name"] +"</option>";
-          }
-        });
-      });
-
-      //Theme und Layout Menü zusammensetzen
-      menuLayoutTheme = '<div id="menuLayoutTheme">' +
-              '<h2>Theme und Layout</h2>'+
-              '<h3>Theme</h3>'+
-              '<select id="selectTheme">' +
-              optionsThemes +
-              '</select>'+
-              '<h3>Layout</h3>'+
-              '<select id="selectLayout">' +
-              optionsLayouts
-              '</select>'+
-              '</div>';
-      $('#Content').append(menuLayoutTheme);
-      buttonsLayoutTheme = '<div>' +
-                  '<a class="button" id ="SubmitThemeLayout">Submit</a>' +
-                  '<a class="button" id ="CancelThemeLayout">Cancel</a>' +
-                '</div>';
-      $('#menuLayoutTheme').append(buttonsLayoutTheme);
-
-      $('#selectTheme').change(function(){
-        var themeID = $("#selectTheme :selected").val();
-        $.when(THEME.activateTheme(themeID) ).then(function(){
-          alert("true");
-        });
-        document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
-      });
-      $('#selectLayout').change(function(){
-        var layout_ID = $("#selectLayout :selected").val();
-        alert(layout_ID);
-        $.when(LAYOUT.activateLayout(layout_ID) ).then(function(){
-          alert("true");
-        });
-        document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
-      });
-
-
-      help = '<iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/indexPreview.html"></iframe>';
-      $('#Content').append(help);
-
-      $("#SubmitThemeLayout").click( function(){
-        //Daten bereits in der Datenbank
-        //Nutzer Informieren, das Änderungen übernommen wurden
-        alert("Theme/Layout has been Changed");
-        //Layout und Theme verwalten schließen
-        $("#Content").empty();
-      });
-      $("#CancelThemeLayout").click(function(){
-        //Zustand vor Änderungen wiederherstellen
-        $.when(THEME.activateTheme(currentThemeID) ).then(function(){
-          $.when(LAYOUT.activateLayout(currentLayoutID) ).then(function(){
-            //Live-Ansicht aktualisieren
-            document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
-            //Dropdowns zurücksetzen
-            $('#selectTheme').val(currentThemeID);
-            $('#selectLayout').val(currentLayoutID);
-            alert("Werte wiederhergestellt");
-          });
-        });
-      });
-
+    $('#ManageLayoutTheme').click(function (event){
+      event.preventDefault();
+      ADMINPAGE.refreshLayoutThemeContent();
     });
 });
 
 $(function (){
-  $("#AddLayoutTheme").click(function(){
-    alert("bla");
-    help = "<h3>Layout oder Theme hinzufügen</h3>"+
-            '<label id="pictureLabel" for="pictureLabel">Projektbild:'+
-              ' <input id="themeOrLayoutFile" name="picture" type="file" accept="txt">'+
-            '</label>'+
-            '<select id="themeOrLayout">'+
-              '<option value="layout">Layout</option>'+
-              '<option value="theme">Theme</option>'+
-            '</select>' +
-            '<a class="button" id ="SubmitNewThemeLayout">Submit</a>' +
-            '<a class="button" id ="CancelNewThemeLayout">Cancel</a>' ;
-    $("#Content").append(help);
-    $("#SubmitNewThemeLayout").click(function(){
-      var themeOrLayout = $("#themeOrLayout :selected").val();
-      alert(themeOrLayout);
-      var layoutfile = $("#themeOrLayoutFile").prop('files')[0]["name"];
-      //var fileName = cssFile["name"][0];
-      layoutname ="test";
-      alert(layoutfile);
-      if(themeOrLayout == "layout"){
-          alert("bla");
-          $.when(LAYOUT.addLayout(layoutname,  layoutfile)).then(function(){
-            alert("bsdsfds");
-          });
-      }
-      else if(themeOrLayout == "theme"){
-
-      }
-      else alert ("Es ist ein Fehler aufgetreten");
-    });
+  $("#AddLayoutTheme").click(function(event){
+    event.preventDefault();
+    ADMINPAGE.refreshAddLayoutThemeContent();
   });
 });
 
@@ -448,6 +204,265 @@ $(function (){
           });
         }
         else alert("Categorie already exists.");
+      });
+    },
+    refreshPictureContent: function()
+    {
+      $("#Content").empty();
+      //Dropdown aus Datenbank initialisieren
+      $.post( "server/adminFunctions.php", { }).done(function( data ) {
+        help = "<h3>Titelbild anpassen</h3><label id='picturesLabel' for='pictures'>Titelbild auswählen:<select id='pictures' name='pictures'>";
+        //Object.keys(data).forEach(function  x (picture) {
+        data1 = JSON.parse(data);
+        console.log(data1);
+        console.log(data1['BildDateiPfad']);
+        data1.forEach(function  x (picture) {
+          help += "<option value=" + picture['IndexTitelbildID'] + ">" + picture['Name']+"</option>";
+        });
+        help += "</select></label><br><br>";
+        $("#Content").append(help);
+        $("#Content").append('<label id="titlePicLabel" for="titlePicUpload">Titelbild hochladen:'+
+           ' <input id="titlePicUpload" name="titlePicUpload" type="file" accept="image/png, image/jpeg">'+
+          '</label>'+
+          '<a class="button" id ="SubmitNewThemeLayout">Submit</a>'+
+          '<a class="button" id ="CancelNewThemeLayout">Cancel</a>');
+      });
+      $('#pictureSubmit').click(function(){
+          //wert in Datenbank schreiben
+      });
+    },
+    refreshStandartLanguageContent: function()
+    {
+      $("#Content").empty();
+      var standardLanguage;
+      $.when(LANGUAGE.getCurrentLanguage()).then(function(stdLanguage) {
+        standardLanguage = stdLanguage;
+      });
+      var languages;
+      $.when(LANGUAGE.getAllLanguages()).then(function(languageArray){
+        languageArray.forEach(function (language){
+          if(language["Name"] != standardLanguage){
+            languages +=  " <option value=" + language["SpracheID"] +">"+ language["Name"] +"</option>";
+          }
+          else{
+            languages +=  " <option selected value=" + language["SpracheID"] +">"+ language["Name"] +"</option>";
+          }
+        });
+      });
+      var help ='<div>' +
+                  '<h3>Select Default Language</h3>' +
+                  '<select id="defaultLanguageSelect">' +
+                  languages +
+                  '</select>' +
+                  '<a class="button" id ="SubmitLanguage">Submit</a>' +
+                  '<a class="button" id ="CancelLanguage">Cancel</a>' +
+                '</div>';
+      $("#Content").append(help);
+      $("#SubmitLanguage").click(function(){
+        langID = $("#defaultLanguageSelect :selected").val();
+        alert(langID);
+        $.when(LANGUAGE.activateLanguage(langID)).then(function(){
+            alert("Standardsprache wurde übernommen");
+            $("#Content").empty();
+        });
+      });
+      $("#CancelLanguage").click(function(){
+        $("#Content").empty();
+      });
+    },
+    refreshAddLanguageContent: function()
+    {
+      $("#Content").empty();
+      var help ='<div>' +
+                 '<br>'+
+                  '<label id="pictureLabel" for="pictureLabel">Sprachdatei:'+
+                    ' <input id="newLanguage" name="picture" type="file" accept="txt">'+
+                  '</label>'+
+                 '<br>' +
+                 '<a class="button" id ="cancelNewLanguage">Cancel</a>' +
+                 '<a class="button" id ="submitNewLanguage">Submit</a>' +
+                '</div>';
+      $("#Content").append(help);
+      $("#cancelNewLanguage").click(function (){
+        $("#Content").empty();
+      });
+      $("#submitNewLanguage").click(function (){
+        var fileReader = new FileReader();
+            fileReader.onload = function () {
+              var langData = fileReader.result;
+
+              var languageName = langData.split('\n')[0];   //Name der Sprache [Zeile eins der Datei]
+              var standard = 0;                             //Sprache wird auf Standard= false gesetzt [Zeile zwei der Datei]
+              //Sprache in Datenbak schreiben
+              //@bug: funktioniert nicht; keine Fehlermeldung
+              $.when(LANGUAGE.insertLanguage(languageName, standard)).then(function(currentID){
+                var allElements = [];
+                if(currentID != null)
+                {
+                  var help = langData.split('\n')[2];
+                  var objekte = help.split(',');              // beinhaltet Text für Elemente mit zugehöriger ElementID [Zeile drei der Datei]
+                  objekte.forEach(function(objekt){
+                    var elementID = objekt.split(':')[0];
+                    var text = objekt.split(':')[1];
+                    var currentElement = {lanID: currentID, eleID: elementID, eleText: text};
+                    allElements.push(currentElement);
+                  });
+                  $.when(LANGUAGE.insertLanguageElements(allElements)).then(function(result){
+                    if(result)
+                    {
+                      console.log("Sprache hochgeladen");
+                    }
+                    else console.log("Fehlgeschlagen");
+                  });
+                }
+              });
+
+            };
+        fileReader.readAsText($('#newLanguage').prop('files')[0]);
+        $("#Content").empty();
+      });
+    },
+    refreshLayoutThemeContent: function()
+    {
+      $("#Content").empty();
+
+      var currentThemeID;
+      $.when(THEME.getCurrentThemeID()).then(function(result){
+          currentThemeID = result;
+          //alert (currentThemeID);
+    	});
+      var currentLayoutID;
+      $.when(LAYOUT.getCurrentLayoutID()).then(function(result){
+          currentLayoutID = result;
+          //alert (currentLayoutID);
+      });
+      //aktuelle Werte holen
+      var currentTheme;
+      $.when(THEME.getCurrentThemePath()).then(function(result){
+          currentTheme = result;
+    	});
+      var currentLayout;
+      $.when(LAYOUT.getCurrentLayoutPath()).then(function(result){
+          currentLayout = result;
+      });
+
+      var optionsThemes;
+      var optionsLayouts;
+      $.when(THEME.getAllThemeNamesIDs() ).then(function(themes){
+        themes.forEach(function (theme){
+          if (theme["ThemeDateiPfad"] != currentTheme){
+            optionsThemes += " <option value=" + theme["ThemeID"] +">"+ theme["Name"] +"</option>";
+          }
+          //Setzen von Selected Option für Eintrag in Datenbank mit "Verwendet = 1"
+          else {
+            optionsThemes +=  " <option selected value=" + theme["ThemeID"] +">"+ theme["Name"] +"</option>";
+          }
+        });
+      });
+
+      $.when(LAYOUT.getAllLayoutNamesIDs() ).then(function(layouts){
+        layouts.forEach( function(layout){
+          //alert(layout["LayoutID"]);
+          if(layout["LayoutDateiPfad"] != currentLayout){
+            optionsLayouts += " <option value=" + layout["LayoutID"] +">"+ layout["Name"] +"</option>";
+          }
+          else{
+            optionsLayouts +=  " <option selected value=" + layout["LayoutID"] +">"+ layout["Name"] +"</option>";
+          }
+        });
+      });
+
+      //Theme und Layout Menü zusammensetzen
+      menuLayoutTheme = '<div id="menuLayoutTheme">' +
+              '<h2>Theme und Layout</h2>'+
+              '<h3>Theme</h3>'+
+              '<select id="selectTheme">' +
+              optionsThemes +
+              '</select>'+
+              '<h3>Layout</h3>'+
+              '<select id="selectLayout">' +
+              optionsLayouts
+              '</select>'+
+              '</div>';
+      $('#Content').append(menuLayoutTheme);
+      buttonsLayoutTheme = '<div>' +
+                  '<a class="button" id ="SubmitThemeLayout">Submit</a>' +
+                  '<a class="button" id ="CancelThemeLayout">Cancel</a>' +
+                '</div>';
+      $('#menuLayoutTheme').append(buttonsLayoutTheme);
+
+      $('#selectTheme').change(function(){
+        var themeID = $("#selectTheme :selected").val();
+        $.when(THEME.activateTheme(themeID) ).then(function(){
+          alert("true");
+        });
+        document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
+      });
+      $('#selectLayout').change(function(){
+        var layout_ID = $("#selectLayout :selected").val();
+        alert(layout_ID);
+        $.when(LAYOUT.activateLayout(layout_ID) ).then(function(){
+          alert("true");
+        });
+        document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
+      });
+
+
+      help = '<iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/indexPreview.html"></iframe>';
+      $('#Content').append(help);
+
+      $("#SubmitThemeLayout").click( function(){
+        //Daten bereits in der Datenbank
+        //Nutzer Informieren, das Änderungen übernommen wurden
+        alert("Theme/Layout has been Changed");
+        //Layout und Theme verwalten schließen
+        $("#Content").empty();
+      });
+      $("#CancelThemeLayout").click(function(){
+        //Zustand vor Änderungen wiederherstellen
+        $.when(THEME.activateTheme(currentThemeID) ).then(function(){
+          $.when(LAYOUT.activateLayout(currentLayoutID) ).then(function(){
+            //Live-Ansicht aktualisieren
+            document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
+            //Dropdowns zurücksetzen
+            $('#selectTheme').val(currentThemeID);
+            $('#selectLayout').val(currentLayoutID);
+            alert("Werte wiederhergestellt");
+          });
+        });
+      });
+    },
+    refreshAddLayoutThemeContent: function()
+    {
+      $("#Content").empty();
+      help = "<h3>Layout oder Theme hinzufügen</h3>"+
+              '<label id="pictureLabel" for="pictureLabel">Projektbild:'+
+                ' <input id="themeOrLayoutFile" name="picture" type="file" accept="txt">'+
+              '</label>'+
+              '<select id="themeOrLayout">'+
+                '<option value="layout">Layout</option>'+
+                '<option value="theme">Theme</option>'+
+              '</select>' +
+              '<a class="button" id ="SubmitNewThemeLayout">Submit</a>' +
+              '<a class="button" id ="CancelNewThemeLayout">Cancel</a>' ;
+      $("#Content").append(help);
+      $("#SubmitNewThemeLayout").click(function(){
+        var themeOrLayout = $("#themeOrLayout :selected").val();
+        alert(themeOrLayout);
+        var layoutfile = $("#themeOrLayoutFile").prop('files')[0]["name"];
+        //var fileName = cssFile["name"][0];
+        layoutname ="test";
+        alert(layoutfile);
+        if(themeOrLayout == "layout"){
+            alert("bla");
+            $.when(LAYOUT.addLayout(layoutname,  layoutfile)).then(function(){
+              alert("bsdsfds");
+            });
+        }
+        else if(themeOrLayout == "theme"){
+
+        }
+        else alert ("Es ist ein Fehler aufgetreten");
       });
     },
     checkCategorieExists: function(allCatArray, curCat)
