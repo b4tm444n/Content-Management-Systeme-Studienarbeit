@@ -370,10 +370,11 @@ function load_language(language){
 
 //fügt einen Button pro Sprache aus Datenbank hinzu
 function loadLanguageButtons(){
-	var languageButtons;
+	var languageButtons = "";
 	$.when(LANGUAGE.getAllLanguages()).then(function(languages){
 		languages.forEach(function(language){
 			languageButtons += '<a id="button'+language["Name"]+'" onclick="loadLanguage('+unescape("%27")+language["Name"]+unescape("%27")+')" class="button">'+language["Name"]+'</a>';
+			console.log(languageButtons);
 		});
 	});
 	$("#language").append(languageButtons);
