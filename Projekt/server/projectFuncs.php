@@ -46,7 +46,7 @@ function getColumnFromAllProjects($database, $column)
 
 function getNameDesProjects($database)
 {
-   $sql = "SELECT projekt.Benennung AS name, projekt.ProjektID AS id, beschreibung.Text AS description FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID";
+   $sql = "SELECT projekt.Benennung AS name, projekt.ProjektID AS id, projekt.Zustand AS state, beschreibung.Text AS description FROM projekt INNER JOIN beschreibung ON projekt.ProjektID = beschreibung.ProjektID";
    //$projectData = dbsSelect($database, $sql);
    $projects = array();
    $projectData = $database->query($sql);
