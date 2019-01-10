@@ -314,8 +314,7 @@ $(function (){
       alert(layoutfile);
       if(themeOrLayout == "layout"){
           alert("bla");
-          $.when(LAYOUT.addLayout(layoutname,  layoutfile)).then(function(data){
-            alert(data);
+          $.when(LAYOUT.addLayout(layoutname,  layoutfile)).then(function(){
             alert("bsdsfds");
           });
       }

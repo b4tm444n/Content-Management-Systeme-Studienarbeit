@@ -3,13 +3,14 @@ require_once "db.lib.php";
 
 function getCurrentLanguage($database)
 {
-  $data = dbsSingleValue($database, "Sprache", "Name", "Standard=1");
+  $data = dbsSingleValue($database, "Sprache", "Name", "Standard='1'");
   return($data);
 }
 
 function getCurrentLaguageLabels($database, $website)
 {
-  $selectionSQL = "SELECT Text, Element.Html_ID
+  $selectionSQL = //"SELECT * FROM projekt";
+  "SELECT Text, Element.Html_ID
                    FROM ELEMENT_SPRACHE
                    INNER JOIN Sprache
                     ON ELEMENT_SPRACHE.SpracheID = Sprache.SpracheID
@@ -28,7 +29,8 @@ function getCurrentLaguageLabels($database, $website)
 
 function getLaguageLabels($database, $language, $website)
 {
-  $selectionSQL = "SELECT Text, Element.Html_ID
+  $selectionSQL = //"SELECT * FROM projekt";
+  "SELECT Text, Element.Html_ID
                    FROM ELEMENT_SPRACHE
                    INNER JOIN Sprache
                     ON ELEMENT_SPRACHE.SpracheID = Sprache.SpracheID
@@ -59,10 +61,10 @@ function getAllLanguages($database)
 
 function activateLanguage($database, $languageID)
 {
-  $deactivateSQL = "UPDATE sprache SET Standard=0 WHERE Standard=1";
+  $deactivateSQL = "UPDATE sprache SET Standard=0 WHERE Standard='1'";
   if(dbsBeginTransaction($database, $deactivateSQL))
   {
-    $activateSQL = "UPDATE sprache SET Standard=1 WHERE SpracheID=".$languageID;
+    $activateSQL = "UPDATE sprache SET Standard='1' WHERE SpracheID=".$languageID;
     if(dbsEndTransaction($database, $activateSQL)) return true;
   }
   return false;
