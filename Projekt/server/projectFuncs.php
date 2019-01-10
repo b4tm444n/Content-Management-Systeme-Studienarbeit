@@ -128,20 +128,45 @@ function getUserProjects($database, $NutzerID)
    return null;
 }
 
-function checkForProjectMembership($database, $projectID, $nutzerID)
+function setProjectState($database, $projectID, $state)
+{
+  if(is_numeric($projectID))
+  {
+    $stateSQL = "UPDATE projekt SET Zustand='".$state."' WHERE ProjektID=".$projectID;
+    if(dbsExecuteSQL($database, $stateSQL))
+    {
+      return true;
+    }
+    else return false;
+  }
+}
+
+function checkForProjectLeadership($database, $projectID, $nutzerID)
 {
   if(is_numeric($projectID) && is_numeric($nutzerID))
   {
     $checkLeaderSQL = "SELECT * FROM projekt WHERE Projektleiter=$nutzerID AND ProjektID=$projectID";
-    $checkMemberSQL = "SELECT * FROM projekt_nutzer WHERE NutzerID=$nutzerID AND ProjektID=$projectID";
     $leaderEntry = dbsSelect($database, $checkLeaderSQL);
-    $memberEntry = dbsSelect($database, $checkMemberSQL);
-    if($leaderEntry != null || $memberEntry != null)
+    if($leaderEntry != null)
     {
       return true;
     }
-    return false;
   }
+  return false;
+}
+
+function checkForProjectMembership($database, $projectID, $nutzerID)
+{
+  if(is_numeric($projectID) && is_numeric($nutzerID))
+  {
+    $checkMemberSQL = "SELECT * FROM projekt_nutzer WHERE NutzerID=$nutzerID AND ProjektID=$projectID";
+    $memberEntry = dbsSelect($database, $checkMemberSQL);
+    if(checkForProjectLeadership($database, $projectID, $nutzerID) || $memberEntry != null)
+    {
+      return true;
+    }
+  }
+  return false;
 }
 
 function getMemberProjects($database, $NutzerID)
