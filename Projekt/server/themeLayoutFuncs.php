@@ -4,14 +4,14 @@ require_once "db.lib.php";
 //Funktionen für Themes
 function getCurrentThemePath($database)
 {
-  $data = dbsSingleValue($database, "Theme", "ThemeDateiPfad", "Verwendet='1'");
+  $data = dbsSingleValue($database, "Theme", "ThemeDateiPfad", "Verwendet=1");
   return($data);
 }
 
   //ID des verwendeten themes
 function getCurrentThemeID($database)
 {
-  $data = dbsSingleValue($database, "Theme", "ThemeID", "Verwendet='1'");
+  $data = dbsSingleValue($database, "Theme", "ThemeID", "Verwendet=1");
   return($data);
 }
 
@@ -35,10 +35,10 @@ function getThemePathByID($database, $themeID)
 
 function activateTheme($database, $themeID)
 {
-  $deactivateSQL = "UPDATE theme SET Verwendet=0 WHERE Verwendet='1'";
+  $deactivateSQL = "UPDATE theme SET Verwendet=0 WHERE Verwendet=1";
   if(dbsBeginTransaction($database, $deactivateSQL))
   {
-    $activateSQL = "UPDATE theme SET Verwendet='1' WHERE ThemeID=".$themeID;
+    $activateSQL = "UPDATE theme SET Verwendet=1 WHERE ThemeID=".$themeID;
     if(dbsEndTransaction($database, $activateSQL)) return true;
   }
   return false;
@@ -48,13 +48,13 @@ function activateTheme($database, $themeID)
 //Funktionen für Layouts
 function getCurrentLayoutPath($database)
 {
-  $data = dbsSingleValue($database, "layout", "LayoutDateiPfad", "Verwendet='1'");
+  $data = dbsSingleValue($database, "layout", "LayoutDateiPfad", "Verwendet=1");
   return($data);
 }
 
 function getCurrentLayoutID($database)
 {
-  $data = dbsSingleValue($database, "layout", "LayoutID", "Verwendet='1'");
+  $data = dbsSingleValue($database, "layout", "LayoutID", "Verwendet=1");
   return($data);
 }
 
@@ -78,10 +78,10 @@ function getLayoutPathByID($database, $themeID)
 
 function activateLayout($database, $themeID)
 {
-  $deactivateSQL = "UPDATE layout SET Verwendet=0 WHERE Verwendet='1'";
+  $deactivateSQL = "UPDATE layout SET Verwendet=0 WHERE Verwendet=1";
   if(dbsBeginTransaction($database, $deactivateSQL))
   {
-    $activateSQL = "UPDATE layout SET Verwendet='1' WHERE LayoutID=".$themeID;
+    $activateSQL = "UPDATE layout SET Verwendet=1 WHERE LayoutID=".$themeID;
     if(dbsEndTransaction($database, $activateSQL)) return true;
   }
   return false;
@@ -89,9 +89,9 @@ function activateLayout($database, $themeID)
 
 function createLayout($database, $layoutName, $layoutFile)
 {
-  $SQL = "INSERT INTO LAYOUT (LayoutDateiPfad, Verwendet, Name) VALUES ($layoutFile,0,$layoutName)";
-  dbsExecuteSQL($database, $SQL);
-  return true;
+  $SQL = "INSERT INTO LAYOUT (LayoutDateiPfad, Verwendet, Name) VALUES (".$layoutFile.",0,".$layoutName.")";
+  return dbsExecuteSQL($database, $SQL);
+  //return true;
 }
 
 ?>
