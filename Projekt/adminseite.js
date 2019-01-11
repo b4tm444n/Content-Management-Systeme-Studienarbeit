@@ -211,29 +211,39 @@ $(function (){
       $("#Content").empty();
       //Dropdown aus Datenbank initialisieren
       $.when(ADMIN.getIndexPicture()).then(function(data) {
-        help = "<h3>Titelbild anpassen</h3><label id='picturesLabel' for='pictures'>Titelbild auswählen:<select id='pictures' name='pictures'>";
+        help = "<div class='col span_2_of_3'><div id='picSelection'><h3>Titelbild auswaehlen</h3><label id='picturesLabel' for='pictures'>Titelbild auswählen:<select id='pictures' name='pictures'>";
         //Object.keys(data).forEach(function  x (picture) {
-        console.log(data);
-        data.forEach(function  x (picture) {
+        data['picData'].forEach(function  x (picture) {
           help += "<option value=" + picture['IndexTitelbildID'] + ">" + picture['Name']+"</option>";
         });
-        help += "</select></label><br><br>";
+        help += "</select></label></div>";
+        help += '<div id="picUpload"><h3>Titelbild hochladen</h3>'+
+          '<label for="titlePicName">Titelbildname:</label><input id="titlePicName" name="titlePicUpload" type="text"><br><br>'+
+           '<label for="titlePicUpload">Datei auswählen:</label><input id="titlePicUpload" name="titlePicUpload" type="file" accept="image/png, image/jpeg">'+
+          '<a class="button" id ="SubmitPictureUpload">Upload</a>'+
+          '<a class="button" id ="CancelPictureUpload">Cancel</a></div></div>';
         $("#Content").append(help);
-        $("#Content").append('<label id="titlePicLabel" for="titlePicUpload">Titelbild hochladen:'+
-           ' <input id="titlePicUpload" name="titlePicUpload" type="file" accept="image/png, image/jpeg">'+
-          '</label>'+
-          '<a class="button" id ="SubmitNewThemeLayout">Submit</a>'+
-          '<a class="button" id ="CancelNewThemeLayout">Cancel</a>');
-          $('#pictures').change(function(){
-            $.when(ADMIN.setTitlePic($('#pictures').val())).then(function(data){
-              if(data)
-              {
-                console.log("Bild geändert");
-              }
-              else console.log("Fehlgeschlagen");
-            });
-              //wert in Datenbank schreiben
+        $('#pictures').val(data['curID']);
+        $('#pictures').change(function(){
+          $.when(ADMIN.setTitlePic($('#pictures').val())).then(function(result){
+            if(result)
+            {
+              console.log("Bild geändert");
+            }
+            else console.log("Fehlgeschlagen");
           });
+            //wert in Datenbank schreiben
+        });
+        $('#SubmitPictureUpload').click(function(event) {
+          $.when(ADMIN.uploadTitlePic($('#titlePicName').val(), $("#titlePicUpload").prop('files')[0])).then(function(result)
+          {
+            if(result == true)
+            {
+              console.log("guter upload");
+            }
+            else console.log("kein upload");
+          });
+        });
       });
     },
     refreshStandartLanguageContent: function()

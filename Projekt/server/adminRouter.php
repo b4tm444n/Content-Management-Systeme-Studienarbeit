@@ -20,11 +20,18 @@ else if($_POST['route'] == 'getIndexPicture')
 }
 else if($_POST['route'] == 'uploadTitlePic')
 {
-  if(!empty($_POST['picPath']) && !empty($_POST['name']) && isset($_FILES['picFile']))
+  if(!empty($_POST['picPath']) && !empty($_POST['picName']) && isset($_FILES['picFile']))
   {
-    echo json_encode(true);
+    error_log("Start upload");
+    $data = uploadTitlePic($database, $_POST['picPath'], $_POST['picName'], $_FILES['picFile']);
+    echo json_encode($data);
   }
   else echo json_encode(null);
+}
+else if($_POST['route'] == 'getCurrentIndexPicture')
+{
+  $data = getCurrentIndexPicture($database);
+  echo json_encode($data);
 }
 else return null;
 ?>

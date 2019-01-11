@@ -339,23 +339,6 @@ PROJECT = {
               return null;
             }
         }).promise();
-      /*return $.ajax({
-            method: "POST",
-            processData: false,
-            contentType: false,
-            url: "server/projectRouter.php",
-            data: { route: "create", picturePath: "projectImages/", pictureType: picType, projectName: projName,
-                    description: projDescription, descriptionLanguage: projDesLanguage, knowHow: searchedKnowHow,
-                    state: projState, rights: projRights, webLink: projWebLink,
-                    gitLink: projGitLink, categoryIDs: projCatIDs, picFile: pictureFile},
-            dataType: "json",
-            success: function (response) {
-                return response;
-            },
-            fail: function (output){
-              return null;
-            }
-        }).promise();*/
     },
     deleteProject: function(projectID)
     {
@@ -639,6 +622,44 @@ LANGUAGE =
                 return null;
               }
           }).promise();
-      }
+      },
+    getCurrentIndexPicture: function()
+      {
+        return $.ajax({
+              method: "POST",
+              url: "server/adminRouter.php",
+              data: { route: "getCurrentIndexPicture" },
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
+      },
+    uploadTitlePic: function(pictureName, pictureFile)
+      {
+        var formdata = new FormData();
+        formdata.append("route", "uploadTitlePic");
+        formdata.append("picPath", "titleImages/");
+        formdata.append("picName", pictureName);
+        formdata.append("picFile", pictureFile);
+        console.log(pictureFile);
+        return $.ajax({
+              method: "POST",
+              processData: false,
+              contentType: false,
+              url: "server/adminRouter.php",
+              data: formdata,
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
+      },
     };
 });

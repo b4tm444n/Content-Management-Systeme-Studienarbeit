@@ -89,7 +89,6 @@ function addProject()
 	$('#popup3').css('opacity',1)
 	//$('createProject').css("position", "fixed");
 	//$('createProject').css("top","0");
-	alert(help);
 
 	var categoryNumber = 1;
 	var categoryArr = [0];
@@ -221,7 +220,6 @@ function loadProjects() {
 	$.when(PROJECT.searchMemberProjects() ).then(function(projects){
 		$('.col.span_2_of_3').empty();
 		projects.forEach(function x (project) {
-				console.log(project);
 			add_projekt(project['Benennung'], project['beschreibung'], project['state'], project['id']);
 		});
 	});
@@ -231,7 +229,6 @@ function myProjects() {
 	$.when(PROJECT.searchUserProjects() ).then(function(projects){
 		$('.col.span_2_of_3').empty();
 		projects.forEach(function x (project) {
-				console.log(project);
 			add_projekt(project['Benennung'], project['beschreibung'], project['state'], project['id']);
 		});
 	});
@@ -367,14 +364,12 @@ function loadLanguageButtons(){
 	$.when(LANGUAGE.getAllLanguages()).then(function(languages){
 		languages.forEach(function(language){
 			languageButtons += '<a id="button'+language["Name"]+'" onclick="loadLanguage('+unescape("%27")+language["Name"]+unescape("%27")+')" class="button">'+language["Name"]+'</a>';
-			console.log(languageButtons);
 		});
 	});
 	$("#language").append(languageButtons);
 }
 
 function loadLanguage(language = "Deutsch"){
-	alert(language);
 	site = "index";
 
 	$.when(LANGUAGE.getLanguageLabels(language, site)).then(function(elements){
@@ -400,7 +395,6 @@ function add_projekt(title, content, state, id){
 	//Projektdetails anzeigen
 	$('#post-link'+id).click(function(){
 					projectname = id;
-					alert("Id der Auswahl: " + id);
 
 					/*
 					help = encodeURI("projektDetails.html?projektname="+ projectname);
@@ -479,7 +473,6 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 			{
 				$("#projStateSetBtn").click(function(event)
 				{
-					console.log($('#projStateInput').val());
 					$.when(PROJECT.setProjectState(id, $("#projStateInput").val())).then(function(result){
 						$('.col.span_2_of_3').empty();
 						$.when(PROJECT.getProjectDetails(id) ).then(function(project){
@@ -514,8 +507,9 @@ function test(){
 		});
 
 	});
-
-	load_img('1400x200&text=img.png')
+	$.when(ADMIN.getCurrentIndexPicture()).then(function(path){
+		load_img(path);
+	});
 	//algorithmus um für jedes projekt add projet aufzurufen
 	if(AUTHENTICATION.checkTokenWithoutRedirection("admin2")['status'] || AUTHENTICATION.checkTokenWithoutRedirection("admin")['status'])
 	{
@@ -534,7 +528,6 @@ function test(){
 		//data = JSON.parse(projects);
 		//data.forEach(function x (project) {
 		projects.forEach(function x (project) {
-				console.log(project);
     	//add_projekt(project['Benennung'], "bla", project['ProjektID']); //@zuBearbeiten  Austauschen von bla gegen Projektbeschreibung
 			//add_projekt(project['projectName'], project['projectDescription'], project['state'], project['projectID']);
 			add_projekt(project['Benennung'], project['text'], project['Zustand'], project['ProjektID']);
@@ -569,7 +562,6 @@ $( function categorie(){
 	$( '.menu' ).append( helpString );
 
 	$( ".category-button:nth-of-type(1)" ).click(function(event){
-		alert('');
 		//Projekt liste leeren
 		$('.col.span_2_of_3').empty();
 		//Projekte hinzufügen
@@ -585,14 +577,12 @@ $( function categorie(){
 		//hinzufügen der Kategorien aus Datenbank
 	$.post( "server/DisplayCategories.php").done(function( data ) {
 		data = JSON.parse(data);
-		//console.log('test')
 		var i = 2;	//Varible für n-te Position von <ProjectCategories>
 		data.forEach(function x (item) {
 				var helpString = '<a onclick="" class="button category-button">' + item + '</a>';
 				$( '.menu' ).append( helpString );
 				//click Event
 				$( ".category-button:nth-of-type("+ i +")" ).on("click", function(){
-					alert($(this).text());
 					//Code  um Projekte neu zu laden
 					//...
 					$('.col.span_2_of_3').empty();
@@ -601,7 +591,6 @@ $( function categorie(){
 					setTimeout(function(){
 					//$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: $(this).text() }).done(function( data ) {
 					$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: categorieName }).done(function( data ) {
-						alert(data);
 						data = JSON.parse(data);
 						data.forEach(function x (item) {
 								add_projekt(item['Benennung'], item['beschreibung'], item['state'], item['id']);
