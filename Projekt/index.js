@@ -587,17 +587,12 @@ $( function categorie(){
 					//...
 					$('.col.span_2_of_3').empty();
 					var categorieName = $(this).text();
-					//Timout zum besseren Debuggen
-					setTimeout(function(){
-					//$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: $(this).text() }).done(function( data ) {
 					$.post( "server/projectRouter.php", { route: "KategorieNames",categorie: categorieName }).done(function( data ) {
 						data = JSON.parse(data);
 						data.forEach(function x (item) {
 								add_projekt(item['Benennung'], item['beschreibung'], item['state'], item['id']);
 							});
 					});
-				}, 1000);
-
 				});
 				i++;
 			});

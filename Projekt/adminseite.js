@@ -92,14 +92,14 @@ $(function (){
         {
           var currentID = result[i]['NutzerID'];
           $("#Content").append('<div class="admin-content" id="'+currentID+'"></div')
-          $("#"+currentID).append("<h3 style='float: left;'>"+i+" "+result[i]['Username']+"</h3>");
+          $("#"+currentID).append("<h3>"+result[i]['Username']+"</h3><br>");
           $("#"+currentID).append("<fieldset id='userTypeSet"+i+"'><legend>Nutzertyp: </legend>"+
               "<label for='userRadio"+i+"'>Benutzer</label>"+
-              "<input type='radio' name='usertypeRadio"+i+"' id='userRadio"+i+"' value='0'>"+
+              "<input type='radio' name='usertypeRadio"+i+"' id='userRadio"+i+"' value='0'><br>"+
               "<label 'adminRadio"+i+"'>Redakteur</label>"+
-              "<input type='radio' name='usertypeRadio"+i+"' id='adminRadio"+i+"' value='1'>"+
+              "<input type='radio' name='usertypeRadio"+i+"' id='adminRadio"+i+"' value='1'><br>"+
               "<label for='admin2Radio"+i+"'>Administrator</label>"+
-              "<input type='radio' name='usertypeRadio"+i+"' id='admin2Radio"+i+"' value='2'>"+
+              "<input type='radio' name='usertypeRadio"+i+"' id='admin2Radio"+i+"' value='2'><br>"+
           "</fieldset>");
           $("#"+currentID).append("<button class='ui-button ui-widget ui-corner-all' id='userbtn"+i+"'><span class='ui-icon ui-icon-trash'></span></button><br>");
           console.log(result[i]['admin']);
@@ -223,6 +223,12 @@ $(function (){
           '<a class="button" id ="SubmitPictureUpload">Upload</a>'+
           '<a class="button" id ="CancelPictureUpload">Cancel</a></div></div>';
         $("#Content").append(help);
+        $("#titlePicName").on("input", function(){
+          var regexp = /[^a-zA-Z0-9]/g;
+          if($("#titlePicName").val().match(regexp)){
+            $("#titlePicName").val( $("#titlePicName").val().replace(regexp,'') );
+          }
+        });
         $('#pictures').val(data['curID']);
         $('#pictures').change(function(){
           $.when(ADMIN.setTitlePic($('#pictures').val())).then(function(result){
@@ -239,9 +245,9 @@ $(function (){
           {
             if(result == true)
             {
-              console.log("guter upload");
+              alert("Upload success!");
             }
-            else console.log("kein upload");
+            else alert("Upload failed!");
           });
         });
       });
@@ -275,7 +281,6 @@ $(function (){
       $("#Content").append(help);
       $("#SubmitLanguage").click(function(){
         langID = $("#defaultLanguageSelect :selected").val();
-        alert(langID);
         $.when(LANGUAGE.activateLanguage(langID)).then(function(){
             alert("Standardsprache wurde übernommen");
             $("#Content").empty();
@@ -409,15 +414,14 @@ $(function (){
       $('#selectTheme').change(function(){
         var themeID = $("#selectTheme :selected").val();
         $.when(THEME.activateTheme(themeID) ).then(function(){
-          alert("true");
+          alert("Theme loaded");
         });
         document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
       });
       $('#selectLayout').change(function(){
         var layout_ID = $("#selectLayout :selected").val();
-        alert(layout_ID);
         $.when(LAYOUT.activateLayout(layout_ID) ).then(function(){
-          alert("true");
+          alert("Layout loaded");
         });
         document.getElementById("previewLayoutTheme").contentDocument.location.reload(true);
       });
@@ -451,8 +455,9 @@ $(function (){
     {
       $("#Content").empty();
       help = "<h3>Layout oder Theme hinzufügen</h3>"+
-              '<label id="pictureLabel" for="pictureLabel">Projektbild:'+
-                ' <input id="themeOrLayoutFile" name="picture" type="file" accept="txt">'+
+            '<label for="themeLayName">Theme- oder Layoutname:</label><input id="themeLayName" name="themeLayName" type="text"><br><br>'+
+              '<label id="tLFileLabel" for="themeOrLayoutFile">Theme- oder Layoutdatei:'+
+                ' <input id="themeOrLayoutFile" name="themeOrLayoutFile" type="file" accept="text/css">'+
               '</label>'+
               '<select id="themeOrLayout">'+
                 '<option value="layout">Layout</option>'+
@@ -461,21 +466,31 @@ $(function (){
               '<a class="button" id ="SubmitNewThemeLayout">Submit</a>' +
               '<a class="button" id ="CancelNewThemeLayout">Cancel</a>' ;
       $("#Content").append(help);
+      $("#themeLayName").on("input", function(){
+        var regexp = /[^a-zA-Z0-9]/g;
+        if($("#themeLayName").val().match(regexp)){
+          $("#themeLayName").val( $("#themeLayName").val().replace(regexp,'') );
+        }
+      });
       $("#SubmitNewThemeLayout").click(function(){
         var themeOrLayout = $("#themeOrLayout :selected").val();
-        alert(themeOrLayout);
-        var layoutfile = $("#themeOrLayoutFile").prop('files')[0]["name"];
-        //var fileName = cssFile["name"][0];
-        layoutname ="test";
-        alert(layoutfile);
         if(themeOrLayout == "layout"){
-            alert("bla");
-            $.when(LAYOUT.addLayout(layoutname,  layoutfile)).then(function(){
-              alert("bsdsfds");
-            });
+          $.when(LAYOUT.uploadLayout($('#themeLayName').val(), $("#themeOrLayoutFile").prop('files')[0])).then(function(result){
+            if(result == true)
+            {
+              alert("Upload success!");
+            }
+            else alert("Upload failed!");
+          });
         }
         else if(themeOrLayout == "theme"){
-
+          $.when(THEME.uploadTheme($('#themeLayName').val(), $("#themeOrLayoutFile").prop('files')[0])).then(function(result){
+            if(result == true)
+            {
+              alert("Upload success!");
+            }
+            else alert("Upload failed!");
+          });
         }
         else alert ("Es ist ein Fehler aufgetreten");
       });

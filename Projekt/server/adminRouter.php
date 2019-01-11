@@ -22,7 +22,6 @@ else if($_POST['route'] == 'uploadTitlePic')
 {
   if(!empty($_POST['picPath']) && !empty($_POST['picName']) && isset($_FILES['picFile']))
   {
-    error_log("Start upload");
     $data = uploadTitlePic($database, $_POST['picPath'], $_POST['picName'], $_FILES['picFile']);
     echo json_encode($data);
   }

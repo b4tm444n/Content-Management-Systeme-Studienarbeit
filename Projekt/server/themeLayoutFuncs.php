@@ -87,11 +87,58 @@ function activateLayout($database, $themeID)
   return false;
 }
 
-function createLayout($database, $layoutName, $layoutFile)
+function uploadLayout($database, $layoutPath, $layoutName, $layoutFile)
 {
-  $SQL = "INSERT INTO LAYOUT (LayoutDateiPfad, Verwendet, Name) VALUES (".$layoutFile.",0,".$layoutName.")";
-  return dbsExecuteSQL($database, $SQL);
-  //return true;
+  $maxIDSQL = "SELECT MAX(LayoutID) AS maxID FROM layout";
+  if($maxID = dbsSelect($database, $maxIDSQL))
+  {
+    $maxID = $maxID->fetch_assoc();
+    $curID = intval($maxID['maxID']) + 1;
+    $layoutType = pathinfo($layoutFile['name'], PATHINFO_EXTENSION);
+    $finalPath = $layoutPath.$layoutName."_".strval($curID).".".$layoutType;
+    $layoutSQL = "INSERT INTO layout (LayoutDateiPfad, Verwendet, Name) VALUES ('".$finalPath."', 0, '".$layoutName."')";
+    if(dbsBeginTransaction($database, $layoutSQL))
+    {
+      if(dbsUploadFile($layoutFile, $layoutName."_".strval($curID).".".$layoutType, $layoutPath))
+      {
+        $database->commit();
+        return true;
+      }
+      else
+      {
+        $database->rollback();
+        return false;
+      }
+    }
+  }
+  else return false;
+}
+
+function uploadTheme($database, $themePath, $themeName, $themeFile)
+{
+  $maxIDSQL = "SELECT MAX(ThemeID) AS maxID FROM theme";
+  if($maxID = dbsSelect($database, $maxIDSQL))
+  {
+    $maxID = $maxID->fetch_assoc();
+    $curID = intval($maxID['maxID']) + 1;
+    $themeType = pathinfo($themeFile['name'], PATHINFO_EXTENSION);
+    $finalPath = $themePath.$themeName."_".strval($curID).".".$themeType;
+    $themeSQL = "INSERT INTO theme (ThemeDateiPfad, Verwendet, Name) VALUES ('".$finalPath."', 0, '".$themeName."')";
+    if(dbsBeginTransaction($database, $themeSQL))
+    {
+      if(dbsUploadFile($themeFile, $themeName."_".strval($curID).".".$themeType, $themePath))
+      {
+        $database->commit();
+        return true;
+      }
+      else
+      {
+        $database->rollback();
+        return false;
+      }
+    }
+  }
+  else return false;
 }
 
 ?>

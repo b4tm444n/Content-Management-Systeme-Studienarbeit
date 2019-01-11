@@ -75,7 +75,29 @@ THEME =
             return null;
           }
       }).promise();
-  }
+  },
+  uploadTheme: function(themeName, themeFile)
+    {
+      var formdata = new FormData();
+      formdata.append("route", "uploadTheme");
+      formdata.append("themePath", "themeFiles/");
+      formdata.append("themeName", themeName);
+      formdata.append("themeFile", themeFile);
+      return $.ajax({
+            method: "POST",
+            processData: false,
+            contentType: false,
+            url: "server/themeLayoutRouter.php",
+            data: formdata,
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    }
 };
 
 LAYOUT =
@@ -155,20 +177,27 @@ LAYOUT =
           }
       }).promise();
   },
-  addLayout: function(layoutname, layoutfile)
-  {
-    return $.ajax({
-          method: "POST",
-          url: "server/themeLayoutRouter.php",
-          data: { route: "createLayout", layoutName: layoutname, layoutFile: layoutfile },
-          dataType: "json",
-          success: function (response) {
-              return response;
-          },
-          fail: function (output){
-            return null;
-          }
-      }).promise();
+  uploadLayout: function(layoutName, layoutFile)
+    {
+      var formdata = new FormData();
+      formdata.append("route", "uploadLayout");
+      formdata.append("layoutPath", "layoutFiles/");
+      formdata.append("layoutName", layoutName);
+      formdata.append("layoutFile", layoutFile);
+      return $.ajax({
+            method: "POST",
+            processData: false,
+            contentType: false,
+            url: "server/themeLayoutRouter.php",
+            data: formdata,
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
     }
 };
 
@@ -324,7 +353,6 @@ PROJECT = {
       formdata.append("gitLink", projGitLink);
       formdata.append("categoryIDs", projCatIDs);
       formdata.append("picFile", pictureFile);
-      console.log(pictureFile);
       return $.ajax({
             method: "POST",
             processData: false,
@@ -645,7 +673,6 @@ LANGUAGE =
         formdata.append("picPath", "titleImages/");
         formdata.append("picName", pictureName);
         formdata.append("picFile", pictureFile);
-        console.log(pictureFile);
         return $.ajax({
               method: "POST",
               processData: false,

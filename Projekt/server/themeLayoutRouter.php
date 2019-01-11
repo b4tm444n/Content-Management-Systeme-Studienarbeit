@@ -56,12 +56,23 @@ else if($_POST['route'] == 'activateLayout'  && isset($_POST['layoutID']))
   $data = activateLayout($database, $_POST['layoutID']);
   echo json_encode($data);
 }
-
-else if ($_POST['route'] == 'createLayout')
+else if($_POST['route'] == 'uploadLayout')
 {
-    $data = createLayout($database, $_POST['layoutName'], $_POST['layoutFile'] );
+  if(!empty($_POST['layoutPath']) && !empty($_POST['layoutName']) && isset($_FILES['layoutFile']))
+  {
+    $data = uploadLayout($database, $_POST['layoutPath'], $_POST['layoutName'], $_FILES['layoutFile']);
     echo json_encode($data);
+  }
+  else echo json_encode(null);
 }
-
+else if($_POST['route'] == 'uploadTheme')
+{
+  if(!empty($_POST['themePath']) && !empty($_POST['themeName']) && isset($_FILES['themeFile']))
+  {
+    $data = uploadTheme($database, $_POST['themePath'], $_POST['themeName'], $_FILES['themeFile']);
+    echo json_encode($data);
+  }
+  else echo json_encode(null);
+}
 else return null;
 ?>

@@ -38,19 +38,15 @@ function setTitlePic($database, $index)
 function uploadTitlePic($database, $picturePath, $pictureName, $pictureFile)
 {
   $maxIDSQL = "SELECT MAX(IndexTitelbildID) AS maxID FROM indextitelbild";
-  error_log("getting ID");
   if($maxID = dbsSelect($database, $maxIDSQL))
   {
     $maxID = $maxID->fetch_assoc();
-    error_log($maxID['maxID']);
     $curID = intval($maxID['maxID']) + 1;
-    error_log("id says: ".$curID);
     $picType = pathinfo($pictureFile['name'], PATHINFO_EXTENSION);
     $finalPath = $picturePath.$pictureName."_".strval($curID).".".$picType;
     $pictureSQL = "INSERT INTO indextitelbild(BildDateiPfad, Verwendet, Name) VALUES ('".$finalPath."', 0, '".$pictureName."')";
     if(dbsBeginTransaction($database, $pictureSQL))
     {
-      error_log("uploadingFile");
       if(dbsUploadFile($pictureFile, $pictureName."_".strval($curID).".".$picType, $picturePath))
       {
         $database->commit();
