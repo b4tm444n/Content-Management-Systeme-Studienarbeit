@@ -85,6 +85,17 @@ else if($_POST['route'] == 'join' && isset($_POST['projectID']))
   }
   else echo json_encode(null);
 }
+else if ($_POST['route'] == 'leave' && isset($_POST['projectID']))
+{
+  $token = explode(",", $_SESSION['token']);
+  $userid = $token[2];
+  if(isset($userid))
+  {
+   $data = leaveProject($database, $userid, $_POST['projectID']);
+   echo json_encode($data);
+  }
+  else echo json_encode(null);
+}
 else if($_POST['route'] == 'checkMembership' && isset($_POST['projectID']))
 {
   if(isset($_SESSION['token']))

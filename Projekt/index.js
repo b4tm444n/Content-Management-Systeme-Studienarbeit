@@ -420,6 +420,7 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 				'<h1 class="projekt-title">'+title+'</h1>'+
 				'<p class="projekt-content">'+content+'</p>';
 	var joinButtonCreated = false;
+	var leaveButtonCreated = false;
 	var stateInputCreated = false;
 	$.when(PROJECT.checkProjectLeadership(id)).then(function(result){
 		if(result)
@@ -442,6 +443,11 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 				newElements += '<a class="button" id="joinProjectBtn"">Teilnehmen</a>';
 				joinButtonCreated = true;
 			}
+			else
+			{
+				newElements += '<a class="button" id="leaveProjectBtn"">Verlassen</a>';
+				leaveButtonCreated = true;
+			}
 		}).always(function(){
 			newElements += '</div>';
 			$('.col.span_2_of_3').append(newElements);
@@ -454,6 +460,24 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 						$.when(PROJECT.getProjectDetails(id) ).then(function(project){
 							add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
 						});
+					});
+				});
+			}
+			if(leaveButtonCreated)
+			{
+				$('#leaveProjectBtn').click(function(event){
+					alert("laeve Button");
+
+					var id = $('.col.span_2_of_3').children(":first").attr("id");
+					alert(id);
+
+					//@implement: leave Project
+					
+
+					//ProjektDetails nach verlassen wieder anzeigen
+					$('.col.span_2_of_3').empty();
+					$.when(PROJECT.getProjectDetails(id) ).then(function(project){
+						add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
 					});
 				});
 			}

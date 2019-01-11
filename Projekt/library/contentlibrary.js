@@ -293,6 +293,21 @@ PROJECT = {
             }
         }).promise();
     },
+    leaveProject: function(projID)
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/projectRouter.php",
+            data: { route: "leave", projectID: projID },
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
     createProject: function(picPath, picType, projName, projDescription, projDesLanguage, searchedKnowHow, projState, projRights, projWebLink, projGitLink, projCatIDs, pictureFile)
     {
       var formdata = new FormData();

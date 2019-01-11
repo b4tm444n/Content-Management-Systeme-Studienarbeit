@@ -246,7 +246,12 @@ function createProject($database, $projectLeader, $picturePath, $pictureType, $p
 
 function joinProject($database, $userid, $projectID)
 {
-  $insertUserProjectSql = "INSERT INTO projekt_nutzer (NutzerID, ProjektID)
+  $insertUserProjectSql = "DELETE FROM projekt_nutzer WHERE NutzerID=$userid AND ProjektID=$projectID";
+  return dbsExecuteSQL($database, $insertUserProjectSql);
+}
+function leaveProject($database, $userid, $projectID)
+{
+  $insertUserProjectSql = "UPDATE projekt_nutzer (NutzerID, ProjektID)
                           VALUES ($userid, $projectID) ";
   return dbsExecuteSQL($database, $insertUserProjectSql);
 }
