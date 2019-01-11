@@ -80,6 +80,7 @@ else if($_POST['route'] == 'join' && isset($_POST['projectID']))
   $userid = $token[2];
   if(isset($userid))
   {
+   error_log("Stufe1");
    $data = joinProject($database, $userid, $_POST['projectID']);
    echo json_encode($data);
   }

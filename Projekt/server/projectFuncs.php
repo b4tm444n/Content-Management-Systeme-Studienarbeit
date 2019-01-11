@@ -244,14 +244,16 @@ function createProject($database, $projectLeader, $picturePath, $pictureType, $p
   return $result;
 }
 
-function joinProject($database, $userid, $projectID)
+function leaveProject($database, $userid, $projectID)
 {
+  error_log($userid. " .. ".$projectID);
   $insertUserProjectSql = "DELETE FROM projekt_nutzer WHERE NutzerID=$userid AND ProjektID=$projectID";
   return dbsExecuteSQL($database, $insertUserProjectSql);
 }
-function leaveProject($database, $userid, $projectID)
+function joinProject($database, $userid, $projectID)
 {
-  $insertUserProjectSql = "UPDATE projekt_nutzer (NutzerID, ProjektID)
+  error_log($userid. " .. ".$projectID);
+  $insertUserProjectSql = "INSERT INTO projekt_nutzer (NutzerID, ProjektID)
                           VALUES ($userid, $projectID) ";
   return dbsExecuteSQL($database, $insertUserProjectSql);
 }

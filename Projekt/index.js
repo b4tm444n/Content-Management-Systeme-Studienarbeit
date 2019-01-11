@@ -443,7 +443,7 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 				newElements += '<a class="button" id="joinProjectBtn"">Teilnehmen</a>';
 				joinButtonCreated = true;
 			}
-			else
+			else if(result == true)
 			{
 				newElements += '<a class="button" id="leaveProjectBtn"">Verlassen</a>';
 				leaveButtonCreated = true;
@@ -466,18 +466,12 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 			if(leaveButtonCreated)
 			{
 				$('#leaveProjectBtn').click(function(event){
-					alert("laeve Button");
-
-					var id = $('.col.span_2_of_3').children(":first").attr("id");
-					alert(id);
-
-					//@implement: leave Project
-					
-
 					//ProjektDetails nach verlassen wieder anzeigen
-					$('.col.span_2_of_3').empty();
-					$.when(PROJECT.getProjectDetails(id) ).then(function(project){
-						add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
+					$.when(PROJECT.leaveProject(id)).then(function(result){
+						$('.col.span_2_of_3').empty();
+						$.when(PROJECT.getProjectDetails(id) ).then(function(project){
+							add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
+						});
 					});
 				});
 			}
