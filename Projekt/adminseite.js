@@ -394,20 +394,20 @@ $(function (){
 
       //Theme und Layout Menü zusammensetzen
       menuLayoutTheme = '<div id="menuLayoutTheme">' +
-              '<h2>Theme und Layout</h2>'+
-              '<h3>Theme</h3>'+
+              '<h2 id="addThemeLayoutTitle">Theme und Layout</h2>'+
+              '<h3 class="addThemeLayoutText">Theme</h3>'+
               '<select id="selectTheme">' +
               optionsThemes +
               '</select>'+
-              '<h3>Layout</h3>'+
+              '<h3 class="addThemeLayoutText">Layout</h3>'+
               '<select id="selectLayout">' +
               optionsLayouts
               '</select>'+
               '</div>';
       $('#Content').append(menuLayoutTheme);
       buttonsLayoutTheme = '<div>' +
-                  '<a class="button" id ="SubmitThemeLayout">Submit</a>' +
-                  '<a class="button" id ="CancelThemeLayout">Cancel</a>' +
+                  '<a class="button btnThemeLayout" id ="SubmitThemeLayout">Submit</a>' +
+                  '<a class="button btnThemeLayout" id ="CancelThemeLayout">Cancel</a>' +
                 '</div>';
       $('#menuLayoutTheme').append(buttonsLayoutTheme);
 

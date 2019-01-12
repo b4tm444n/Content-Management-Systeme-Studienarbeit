@@ -421,14 +421,44 @@ input{
   *margin-Left im negativen ist als workaround!
 */
 #menuLayoutTheme{
-  margin-left: -20%;
-  background-color:rgb(255, 99, 71);
+  margin-left: -12%;
+  background-color:rgb(255, 255, 255);
   float: left;
+  width: 19%;
+  height: 60%;
+}
+#addThemeLayoutTitle{
+  text-align: center
+}
+.addThemeLayoutText{
+  margin-left: 2%;
+}
+#selectTheme{
+  width: 80%;
+  margin-left: 10%;
+}
+#selectLayout{
+  width: 80%;
+  margin-left: 10%;
+}
+.btnThemeLayout{
+  margin-left: 2%;
+  width: 75%;
+}
+#CancelThemeLayout{
+
+  margin-bottom: 5%;
 }
 #previewLayoutTheme{
   margin-left: 2%;
+  /*
+  #Irgenwie soll das rechts noch weiter nach ausßen gehen ;)
+  #Außerdem muss! der Inhalt des Iframes so skalliert sein,
+  #dass der Inhalt normal dargestellt wird
+  */
   float: left;
 }
+
 
 
 /* ende*/
