@@ -417,8 +417,56 @@ input{
 }
 
 
+/* Sprache hinzufügen
+
+*/
+#DivaddLanguage{
+  background-color: white;
+  height: 80%;
+}
+#addLanguageTitel{
+  text-align: center;
+}
+.btnNewLanguage{
+  margin-left: 2%;
+  margin-right: 2%;
+}
+#submitNewLanguage{
+  margin-bottom: 2%;
+}
+
+
+/* Select Default LANGUAGE
+  *Titel Text lässt keinen Einzug zum oberen Ende des Divs zu
+  *unterer Button lässt keinen Einzug zum unteren Ende des Divs zu.
+*/
+#selectDefaultLanguage{
+  background-color: white;
+  text-align: center;
+  margin-top: 0%;
+  margin-left: 20%;
+  width: 60%;
+  height: 100%;
+}
+#selectDefaultLanguageTitel{
+  margin-top: 0%;
+}
+#defaultLanguageSelect{
+  width: 20%;
+  margin-left: 0%;
+}
+.btnselectDefaultLanguage{
+  width: 70%;
+  margin-left: 11%;
+}
+#CancelLanguage{
+  margin-bottom: 2%;
+}
+
+
 /* Hinzugefügt um Layout von "Layout und Theme verwalten" anzupassen
   *margin-Left im negativen ist als workaround!
+  *Iframe-Inhalt wird nicht richtig skaliert dargestellt!
 */
 #menuLayoutTheme{
   margin-left: -12%;
@@ -433,14 +481,11 @@ input{
 .addThemeLayoutText{
   margin-left: 2%;
 }
-#selectTheme{
+.selectThemeLayout{
   width: 80%;
   margin-left: 10%;
 }
-#selectLayout{
-  width: 80%;
-  margin-left: 10%;
-}
+
 .btnThemeLayout{
   margin-left: 2%;
   width: 75%;

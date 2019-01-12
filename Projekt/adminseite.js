@@ -270,13 +270,13 @@ $(function (){
           }
         });
       });
-      var help ='<div>' +
-                  '<h3>Select Default Language</h3>' +
+      var help ='<div id="selectDefaultLanguage">' +
+                  '<h3 id="selectDefaultLanguageTitel">Select Default Language</h3>' +
                   '<select id="defaultLanguageSelect">' +
                   languages +
                   '</select>' +
-                  '<a class="button" id ="SubmitLanguage">Submit</a>' +
-                  '<a class="button" id ="CancelLanguage">Cancel</a>' +
+                  '<a class="button btnselectDefaultLanguage" id ="SubmitLanguage">Submit</a>' +
+                  '<a class="button btnselectDefaultLanguage" id ="CancelLanguage">Cancel</a>' +
                 '</div>';
       $("#Content").append(help);
       $("#SubmitLanguage").click(function(){
@@ -293,14 +293,15 @@ $(function (){
     refreshAddLanguageContent: function()
     {
       $("#Content").empty();
-      var help ='<div>' +
+      var help ='<div id="DivaddLanguage">' +
+                '<h2 id="addLanguageTitel">Neue Sprache hinzufügen</h2>'+
                  '<br>'+
                   '<label id="pictureLabel" for="pictureLabel">Sprachdatei:'+
                     ' <input id="newLanguage" name="picture" type="file" accept="txt">'+
                   '</label>'+
                  '<br>' +
-                 '<a class="button" id ="cancelNewLanguage">Cancel</a>' +
-                 '<a class="button" id ="submitNewLanguage">Submit</a>' +
+                 '<a class="button btnNewLanguage" id ="cancelNewLanguage">Cancel</a>' +
+                 '<a class="button btnNewLanguage" id ="submitNewLanguage">Submit</a>' +
                 '</div>';
       $("#Content").append(help);
       $("#cancelNewLanguage").click(function (){
@@ -396,11 +397,11 @@ $(function (){
       menuLayoutTheme = '<div id="menuLayoutTheme">' +
               '<h2 id="addThemeLayoutTitle">Theme und Layout</h2>'+
               '<h3 class="addThemeLayoutText">Theme</h3>'+
-              '<select id="selectTheme">' +
+              '<select class="selectThemeLayout" id="selectTheme">' +
               optionsThemes +
               '</select>'+
               '<h3 class="addThemeLayoutText">Layout</h3>'+
-              '<select id="selectLayout">' +
+              '<select class="selectThemeLayout" id="selectLayout">' +
               optionsLayouts
               '</select>'+
               '</div>';
