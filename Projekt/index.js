@@ -416,7 +416,9 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 	var joinButtonCreated = false;
 	var leaveButtonCreated = false;
 	var stateInputCreated = false;
+	var projectLeader = false;
 	$.when(PROJECT.checkProjectLeadership(id)).then(function(result){
+		projectLeader = result;
 		if(result)
 		{
 			newElements += "<input class='projekt-state' type='text' id='projStateInput' value='"+state+"'><label for='projStateInput'>Status:</label>";
@@ -437,7 +439,7 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 				newElements += '<a class="button" id="joinProjectBtn"">Teilnehmen</a>';
 				joinButtonCreated = true;
 			}
-			else if(result == true)
+			else if(result == true && projectLeader == false)
 			{
 				newElements += '<a class="button" id="leaveProjectBtn"">Verlassen</a>';
 				leaveButtonCreated = true;

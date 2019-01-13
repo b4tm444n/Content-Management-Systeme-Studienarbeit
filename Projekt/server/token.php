@@ -9,6 +9,10 @@ $user = dbsSingleRow($db, "SELECT Passwort AS pw, Admin, NutzerID AS id FROM nut
 //User authentifizieren
 if($user != null && $user['pw'] == $_POST['pw'])
 {
+  // Setze Tokentyp je nach Typ des Nutzers
+  // Tokenzusammensetzung: Typ, Zeitstempel, $NutzerID
+  // -> Token sollte man eigentlich verschlüsseln, jedoch hier zu Anschauungs-
+  //    zwecken nicht verschlüsselt
   if($user['Admin']=="1")
   {
     $_SESSION['token'] = "isAdmin" . "," . time() . "," . $user['id'];
@@ -28,6 +32,7 @@ if($user != null && $user['pw'] == $_POST['pw'])
 }
 else
 {
+  // Falls Authentifizierung fehlschlägt -> Fehlermeldung
   $data = array('status' => false, 'msg' => "Authentifizierung fehlgeschlagen");
 }
 echo json_encode($data);

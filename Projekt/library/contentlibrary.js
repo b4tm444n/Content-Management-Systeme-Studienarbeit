@@ -1,6 +1,16 @@
+// Liste von AJAX-Befehlen zum Aufrufen von PHP-Methoden -> Abrufen
+// und Manipulieren der gewünschten Daten aus der Datenbank. Hierbei
+// werden hauptsächlich die jeweiligen Router-Elemente angesteuert.
+// .promise() dient bei den Aufrufen dazu, dass versprochen wird ein
+// Ergebnis zurückzuliefern und somit ein $.when(Funktion) Aufruf,
+// der Funktion ermöglicht wird.
 $(document).ready(function(){
+// Theme Funktionsnamespace beinhaltet Methoden um Theme Daten aus
+// der Datenbank abzurufen oder zu manipulieren.
 THEME =
 {
+  // getCurrentThemePath: Gibt den aktuellen Dateipfad der entsprechenden
+  // css-Datei für das aktuell gewählte Theme zurück.
   getCurrentThemePath: function()
   {
     return $.ajax({
@@ -16,6 +26,7 @@ THEME =
           }
       }).promise();
   },
+  // getCurrentThemeID: Gibt die ID des aktuellen Themes zurück.
   getCurrentThemeID: function()
     {
       return $.ajax({
@@ -31,6 +42,8 @@ THEME =
             }
         }).promise();
     },
+  // getAllThemeNamesIDs: Gibt alle Themeeinträge zurück. Jeweils Name,
+  // Dateipfad und ID.
   getAllThemeNamesIDs: function()
   {
     return $.ajax({
@@ -46,6 +59,7 @@ THEME =
           }
       }).promise();
   },
+  // getThemePathByID: Gibt den Dateipfad anhand der Theme-ID zurück.
   getThemePathByID: function(themID)
   {
     return $.ajax({
@@ -61,6 +75,8 @@ THEME =
           }
       }).promise();
   },
+  // activateTheme: Deaktiviert das aktuelle Theme und aktiviert das gewünschte
+  // Theme anhand dessen ID.
   activateTheme: function(themID)
   {
     return $.ajax({
@@ -76,6 +92,8 @@ THEME =
           }
       }).promise();
   },
+  // uploadTheme: Lädt die übergebene Datei in einen Ordner(themeFiles) des Projekts hoch
+  // und führt die entsprechenden Datenbankeinträge für das neue Theme durch.
   uploadTheme: function(themeName, themeFile)
     {
       var formdata = new FormData();
@@ -99,9 +117,12 @@ THEME =
         }).promise();
     }
 };
-
+// Layout Funktionsnamespace beinhaltet Methoden um Layout Daten aus
+// der Datenbank abzurufen oder zu manipulieren.
 LAYOUT =
 {
+  // getCurrentLayoutPath: Gibt den aktuellen Dateipfad der entsprechenden
+  // css-Datei für das aktuell gewählte Layout zurück.
   getCurrentLayoutPath: function()
   {
     return $.ajax({
@@ -117,6 +138,7 @@ LAYOUT =
           }
       }).promise();
   },
+  // getCurrentLayoutID: Gibt die ID des aktuellen Layouts zurück.
   getCurrentLayoutID: function()
   {
     return $.ajax({
@@ -132,6 +154,8 @@ LAYOUT =
           }
       }).promise();
   },
+  // getAllLayoutNamesIDs: Gibt alle Themeeinträge zurück. Jeweils Name,
+  // Dateipfad und ID.
   getAllLayoutNamesIDs: function()
   {
     return $.ajax({
@@ -147,6 +171,7 @@ LAYOUT =
           }
       }).promise();
   },
+  // getLayoutPathByID: Gibt den Dateipfad anhand der Theme-ID zurück.
   getLayoutPathByID: function(layout_ID)
   {
     return $.ajax({
@@ -162,6 +187,8 @@ LAYOUT =
           }
       }).promise();
   },
+  // activateLayout: Deaktiviert das aktuelle Layout und aktiviert das gewünschte
+  // Layout anhand dessen ID.
   activateLayout: function(layout_ID)
   {
     return $.ajax({
@@ -177,6 +204,8 @@ LAYOUT =
           }
       }).promise();
   },
+  // uploadLayout: Lädt die übergebene Datei in einen Ordner(layoutFiles) des Projekts hoch
+  // und führt die entsprechenden Datenbankeinträge für das neue Layout durch.
   uploadLayout: function(layoutName, layoutFile)
     {
       var formdata = new FormData();
@@ -200,8 +229,11 @@ LAYOUT =
         }).promise();
     }
 };
-
+// Project Funktionsnamespace beinhaltet Methoden um Projekt Daten aus
+// der Datenbank abzurufen oder zu manipulieren.
 PROJECT = {
+    // searchAllProjects: Gibt alle Projektdaten und die Beschreibungen für
+    // alle Projekteinträge zurück.
     searchAllProjects: function()
     {
       return $.ajax({
@@ -217,6 +249,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // searchMemberProjects: Liefert Namen, Zustand, ID und Beschreibung aller
+    // Projekte an denen der Nutzer beteiligt ist.
     searchMemberProjects: function()
     {
       return $.ajax({
@@ -232,6 +266,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // searchUserProjects: Liefert Namen, Zustand, ID und Beschreibung aller
+    // Projekte von denen der Nutzer Projektleiter ist.
     searchUserProjects: function()
     {
       return $.ajax({
@@ -247,6 +283,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // getProjectDetails: Liefert alle Projektdaten eines Projekts anhand der
+    // übergebenen ID.
     getProjectDetails: function(projID)
     {
       return $.ajax({
@@ -262,6 +300,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // setProjectState: Ändert den Zustandseintrag eines Projekts anhand der
+    // übergebenen ID.
     setProjectState: function(projID, projState)
     {
       return $.ajax({
@@ -277,6 +317,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // checkProjectMembership: Überprüft anhand der übergebenen ID, ob der
+    // aktuelle Nutzer an einem Projekt teilnimmt oder dessen Projektleiter ist.
     checkProjectMembership: function(projID)
     {
       return $.ajax({
@@ -292,6 +334,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // checkProjectLeadership: Überprüft anhand der übergebenen ID, ob der
+    // aktuelle Nutzer der Projektleiter eines Projekts ist.
     checkProjectLeadership: function(projID)
     {
       return $.ajax({
@@ -307,6 +351,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // joinProject: Fügt den aktuellen Nutzer als Teilnehmer eines Projekts
+    // anhand der übergebenen ID hinzu.
     joinProject: function(projID)
     {
       return $.ajax({
@@ -322,6 +368,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // leaveProject: Entfernt den aktuellen Nutzer aus der Teilnehmerliste eines
+    // Projekts anhand der übergebenen ID.
     leaveProject: function(projID)
     {
       return $.ajax({
@@ -337,6 +385,9 @@ PROJECT = {
             }
         }).promise();
     },
+    // createProject: Erzeugt die benötigten Einträge für das Projekt in der
+    // Datenbank und lädt das gewünschte Projektbild in einen Ordner im
+    // Projekt(projectImages) hoch.
     createProject: function(picPath, picType, projName, projDescription, projDesLanguage, searchedKnowHow, projState, projRights, projWebLink, projGitLink, projCatIDs, pictureFile)
     {
       var formdata = new FormData();
@@ -368,6 +419,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // deleteProject: Löscht alle zugehörigen Datenbankeinträge eines Projekts
+    // aus der Datenbank anhand der übergebenen ID.
     deleteProject: function(projectID)
     {
       return $.ajax({
@@ -383,6 +436,8 @@ PROJECT = {
             }
         }).promise();
     },
+    // getCategories: Liefert alle Kategorien ausschließlich der übergebenen IDs
+    // zurück.
     getCategories: function(excludedCategories)
     {
       return $.ajax({
@@ -399,8 +454,11 @@ PROJECT = {
       }).promise();
     }
 };
+// User Funktionsnamespace beinhaltet Methoden um Nutzer Daten aus
+// der Datenbank abzurufen oder zu manipulieren.
 USER =
 {
+  // getAllUsers: Gibt die Daten aller Nutzer(außer der eigenen Daten) zurück.
   getAllUsers: function()
   {
     return $.ajax({
@@ -416,6 +474,8 @@ USER =
           }
       }).promise();
   },
+  // setUserType: Ändert den Typ eines Nutzers anhand der übergebenen Nutzer-
+  // ID und der Typ-ID(Nutzer, Redakteur, Admin).
   setUserType: function(userID, userTypeID)
   {
     return $.ajax({
@@ -431,6 +491,8 @@ USER =
           }
       }).promise();
   },
+  // deleteUser: Löscht alle zugehörigen Datenbankeinträge eines Nutzers anhand
+  // der übergebenen ID.
   deleteUser: function(userID)
   {
     return $.ajax({
@@ -446,6 +508,8 @@ USER =
           }
       }).promise();
   },
+  // getUserName: Liefer den Vor- und Nachnamen eines Nutzers anhand der über-
+  // gebenen ID zurück.
   getUserName: function(userID)
   {
     return $.ajax({
@@ -462,8 +526,11 @@ USER =
       }).promise();
   }
 };
+// Categorie Funktionsnamespace beinhaltet Methoden um Kategorie Daten aus
+// der Datenbank abzurufen oder zu manipulieren.
 CATEGORIE =
 {
+  // getAllCategories: Liefert alle Daten von allen Kategorien zurück.
   getAllCategories: function()
   {
     return $.ajax({
@@ -479,6 +546,8 @@ CATEGORIE =
           }
       }).promise();
   },
+  // deleteCategorie: Löscht alle zugehörigen Daten einer Kategorie anhand der
+  // übergebenen ID aus der Datenbank.
   deleteCategorie: function(categoryID)
   {
     return $.ajax({
@@ -494,6 +563,7 @@ CATEGORIE =
           }
       }).promise();
   },
+  // createCategorie: Erstellt die Datenbankeinträge für eine neue Kategorie.
   createCategorie: function(catName)
   {
     return $.ajax({
@@ -510,9 +580,11 @@ CATEGORIE =
       }).promise();
   }
 };
-
+// Language Funktionsnamespace beinhaltet Methoden um Sprache Daten aus
+// der Datenbank abzurufen oder zu manipulieren.
 LANGUAGE =
 {
+  // getCurrentLanguage: Liefert den Namen der aktuellen Sprache zurück.
   getCurrentLanguage: function()
     {
       return $.ajax({
@@ -528,6 +600,8 @@ LANGUAGE =
             }
         }).promise();
     },
+  // getCurrentLanguageLabels: Liefert die Textwerte für HTML-Elemente eines
+  // bestimmten Webseitenbereichs zurück.
   getCurrentLanguageLabels: function(site)
     {
       return $.ajax({
@@ -543,6 +617,8 @@ LANGUAGE =
             }
         }).promise();
     },
+    // getLanguageLabels: Liefert die Textwerte für HTML-Elemente eines
+    // bestimmten Webseitenbereichs anhand der übergebenen Sprache zurück.
     getLanguageLabels: function(lang, site)
       {
         return $.ajax({
@@ -558,6 +634,8 @@ LANGUAGE =
               }
           }).promise();
       },
+    // getAllLanguages: Liefert den Namen und die ID aller Spracheinträge aus
+    // der Datenbank.
     getAllLanguages: function()
     {
         return $.ajax({
@@ -573,6 +651,8 @@ LANGUAGE =
               }
           }).promise();
     },
+    // activateLanguage: Deaktiviert die aktuelle Sprache und aktiviert die
+    // gewünschte Sprache anhand der übergebenen ID.
     activateLanguage: function(langID)
     {
       return $.ajax({
@@ -588,6 +668,7 @@ LANGUAGE =
             }
         }).promise();
     },
+    // insertLanguage: Fügt die gewünschte Sprache in die Datenbank ein.
     insertLanguage: function(langData, standard)
     {
         return $.ajax({
@@ -603,6 +684,8 @@ LANGUAGE =
               }
           }).promise();
     },
+    // insertLanguageElements: Fügt die Texte einer Sprache für die HTML-Elemente
+    // in die Datenbank ein.
     insertLanguageElements: function(allElements)
     {
         return $.ajax({
@@ -619,8 +702,12 @@ LANGUAGE =
           }).promise();
     }
   };
+  // Admin Funktionsnamespace beinhaltet Methoden um Daten für den Admin aus
+  // der Datenbank abzurufen oder zu manipulieren.
   ADMIN =
   {
+    // getIndexPicture: Liefert die Daten aller Titelbilder für die Webseite und
+    // zusätzlich die ID des aktuell ausgewählten Titelbilds zurück.
     getIndexPicture: function()
       {
         return $.ajax({
@@ -636,6 +723,8 @@ LANGUAGE =
               }
           }).promise();
       },
+    // setTitlePic: Deaktiviert das aktuelle Titelbild und aktiviert das gewünschte
+    // Titelbild anhand der übergebenen ID.
     setTitlePic: function(index)
       {
         return $.ajax({
@@ -651,6 +740,8 @@ LANGUAGE =
               }
           }).promise();
       },
+    // getCurrentIndexPicture: Liefert den Dateipfad des aktuellen aktivierten
+    // Titelbilds zurück.
     getCurrentIndexPicture: function()
       {
         return $.ajax({
@@ -666,6 +757,8 @@ LANGUAGE =
               }
           }).promise();
       },
+    // uploadTitlePic: Erstellt die benötigten Tabelleneinträge für ein Titelbild
+    // und lädt die übergebene Datei in einen Ordner(titleImages) im Projekt hoch.
     uploadTitlePic: function(pictureName, pictureFile)
       {
         var formdata = new FormData();

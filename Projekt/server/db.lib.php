@@ -26,6 +26,13 @@ function dbsEntryExists($database, $table, $clause)
   return false;
 }
 
+/*Funktion zur Überprüfung ob ein Tabelleneintrag nur einmal existiert
+* Input:  $database - Datenbankverbindung
+*         $table - Zu durchsuchende Tabelle
+*         $clause - WHERE-Statement einer SQL-Anfrage
+* Output: boolean - true(Eintrag existiert nur einmal)/false(Eintrag existiert nicht/öfter)
+* Beispiel $clause: "id=1"
+*/
 function dbsCheckIfSingleEntry($database, $table, $clause)
 {
   $query = "SELECT * FROM $table WHERE $clause";
@@ -92,14 +99,9 @@ function dbsMultipleValues($database, $table, $field, $clause, $stringify = fals
   return null;
 }
 
-/*Liefert alle gefundenen Einträge zurück
-* Input:  $database - Datenbankverbindung
-*         $query - Eine komplette SELECT SQL-Anfrage
-* Output: $result - Gefundene Tabellenreihe / null
-* Outputaccess -> while($row = $result->fetch_assoc())
-* Beispiel $query: "SELECT * FROM table1 WHERE name='vorname'"
+/* Liefert alle gefundenen Einträge zurück
+*  Keine WHERE Klausel!
 */
-
 function dbsMultipleValuesNoClause ($database, $table, $field)
 {
   $query = "SELECT $field FROM $table";
@@ -115,12 +117,14 @@ function dbsMultipleValuesNoClause ($database, $table, $field)
   }
   return null;
 }
-/* Liefert alle gefundenen Einträge zurück
-*  Keine WHERE Klausel!
+
+/*Liefert alle gefundenen Einträge zurück
+* Input:  $database - Datenbankverbindung
+*         $query - Eine komplette SELECT SQL-Anfrage
+* Output: $result - Gefundene Tabellenreihe / null
+* Outputaccess -> while($row = $result->fetch_assoc())
+* Beispiel $query: "SELECT * FROM table1 WHERE name='vorname'"
 */
-
-
-
 function dbsSelect($database, $query)
 {
   if($entrys = $database->query($query))
@@ -262,13 +266,23 @@ function dbsCheckNumOfEntrys($database, $comp, $number, $table, $clause)
   return false;
 }
 
+/*Lädt eine übergebene Datei in das angegebene Verzeichnis mit dem übergebenen Namen
+* hoch.
+* Input:  $file - Die übergebene Datei
+*         $filename - Der Name unter dem die Datei gespeichert werden soll
+*         $directoryPath - Verzeichnis, in welches die Datei hochgeladen werden soll
+* Output: boolean - true(Upload erfolgreich)/false(Upload fehlgeschlagen)
+*/
 function dbsUploadFile($file, $filename, $directoryPath)
 {
+  //Vorbereiten des Verzeichnispfads
   $uploadDir = '../' . $directoryPath;
+  //Falls Verzeichnis nicht existiert -> Rekursiv erzeugen und Rechte setzen
   if(!file_exists($uploadDir))
   {
     if(!mkdir($uploadDir, 0655, true)) return false;
   }
+  // Pfad erzeugen und Datei hochladen
   $uploadPath = $uploadDir;
   $uploadPath .= $filename;
   if(move_uploaded_file($file['tmp_name'], $uploadPath))
