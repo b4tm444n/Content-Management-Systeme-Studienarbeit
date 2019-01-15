@@ -19,3 +19,10 @@ Release Versionen
 	- Nutzer Passwörter sind nun verschlüsselt mit 512Bit
 1.3.1) Tabellen_3.2.1 und Daten_3.2.1:
 	- Layout und Theme verbessert
+1.4) Tabellen_4.0 und Daten_4.0
+
+
+1.5) Tabellen_4.1 und Daten_4.1:
+	-ELEMENT entfernt
+	-ELEMENT_SPRACHE bereinigt + neue Daten
+	-Sprache bereinigt
