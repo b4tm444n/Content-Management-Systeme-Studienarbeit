@@ -30,3 +30,5 @@ Release Versionen
 1.5.1) Tabellen_4.1 und Daten_4.2:
 	-IndexTitelbild weiterer Eintrag hinzugefügt
 	-Standardtitelbild repariert
+1.5.2) Tabellen_4.1 und Daten_4.3:
+	-Layout bereinigt
