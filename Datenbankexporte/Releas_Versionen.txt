@@ -26,3 +26,7 @@ Release Versionen
 	-ELEMENT entfernt
 	-ELEMENT_SPRACHE bereinigt + neue Daten
 	-Sprache bereinigt
+
+1.5.1) Tabellen_4.1 und Daten_4.2:
+	-IndexTitelbild weiterer Eintrag hinzugefügt
+	-Standardtitelbild repariert
