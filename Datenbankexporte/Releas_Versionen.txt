@@ -32,3 +32,6 @@ Release Versionen
 	-Standardtitelbild repariert
 1.5.2) Tabellen_4.1 und Daten_4.3:
 	-Layout bereinigt
+1.5.3) Tabellen_4.1 und Daten_4.5
+	-Nutzer bereinigt
+	-Sprache "Standard" auf int statt bit
