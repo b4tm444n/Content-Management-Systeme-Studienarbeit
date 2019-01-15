@@ -255,6 +255,22 @@ ul{
   overflow: auto;
 }
 
+.group{
+  padding-bottom: 20px !important;
+}
+
+
+#largeTextField{
+  height: 20px;
+  margin-left: -15px;
+  width: 600px;
+}
+
+#description{
+  padding-bottom: 0px !important;
+}
+
+
 input{
   float: right;
 }
@@ -469,11 +485,12 @@ input{
   *Iframe-Inhalt wird nicht richtig skaliert dargestellt!
 */
 #menuLayoutTheme{
-  margin-left: -12%;
+  margin-left: -7%;
   background-color:rgb(255, 255, 255);
   float: left;
   width: 19%;
   height: 60%;
+  margin-left: 90%;
 }
 #addThemeLayoutTitle{
   text-align: center
@@ -502,6 +519,7 @@ input{
   #dass der Inhalt normal dargestellt wird
   */
   float: left;
+  margin-top: -340px;
 }
 
 

@@ -52,25 +52,37 @@ function addProject()
 	      					'	<label class="createProjectLabel">Name</label>'+
 	      					'</div>'+
 						' <br>'+
-						' <div class="group" for="description"><input class="createProjectInput" id="description" name="description" type="text" required>' +
+						' <div class="group" id="largeTextField" for="description"><textarea class="createProjectInput" id="description" name="description" type="text" required></textarea>'+
 						' <span class="highlight"></span>'+
 	      					'	<span class="bar"></span>'+
 	      						'<label class="createProjectLabel">Beschreibung</label>'+
 	      					'</div>'+
 						 '<br>'+
-						 '<label id="knowHowLabel" for="knowHow">Gesuchtes KnowHow: <input id="knowHow" name="knowHow"></label>'+
+						 ' <div class="group" for="knowHow"><input class="createProjectInput" id="knowHow" name="knowHow" required>'+
+						 ' <span class="highlight"></span>'+
+	      					'	<span class="bar"></span>'+
+	      						'<label class="createProjectLabel">Gesuchtes KnowHow</label>'+
+	      					'</div>'+
 						 '<br>'+
-						 '<label id="languageLabel" for="language">Sprache:'+
+						' <div class="group" for="git"><input class="createProjectInput" id="git" name="git" required>'+
+						' <span class="highlight"></span>'+
+	      					'	<span class="bar"></span>'+
+	      						'<label class="createProjectLabel">Github Link</label>'+
+	      					'</div>'+
+						'<br>'+
+						' <div class="group" for="web"><input class="createProjectInput" id="web" name="web" required>'+
+						' <span class="highlight"></span>'+
+	      					'	<span class="bar"></span>'+
+	      						'<label class="createProjectLabel">Web Link</label>'+
+	      					'</div>'+
+						'<br>'+
+						'<label id="languageLabel" for="language">Sprache:'+
 						   '<select name="language" id="language">'+
 						    ' <option value="de">Deutsch</option>'+
 						    ' <option value="en">English</option>'+
 						    ' <option value="lt">Latin</option>'+
 						   '</select>'+
 						'</label>'+
-						'<br>'+
-						'<label id="gitLabel" for="git">Github Link: <input id="git" name="git"></label>'+
-						'<br>'+
-						'<label id="webLabel" for="web">Web Link: <input id="web" name="web"></label>'+
 						'<br>'+
 						'<label id="pictureLabel" for="pictureLabel">Projektbild:'+
 						   ' <input id="picture" name="picture" type="file" accept="image/png, image/jpeg">'+

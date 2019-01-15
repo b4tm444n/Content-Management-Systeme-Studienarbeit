@@ -211,14 +211,18 @@ $(function (){
       $("#Content").empty();
       //Dropdown aus Datenbank initialisieren
       $.when(ADMIN.getIndexPicture()).then(function(data) {
-        help = "<div class='col span_2_of_3'><div id='picSelection'><h3>Titelbild auswaehlen</h3><label id='picturesLabel' for='pictures'>Titelbild auswählen:<select id='pictures' name='pictures'>";
+        help = "<div class='admin-content'><div id='picSelection'><h3>Titelbild auswaehlen</h3><label id='picturesLabel' for='pictures'>Titelbild auswählen:<select id='pictures' name='pictures'>";
         //Object.keys(data).forEach(function  x (picture) {
         data['picData'].forEach(function  x (picture) {
           help += "<option value=" + picture['IndexTitelbildID'] + ">" + picture['Name']+"</option>";
         });
         help += "</select></label></div>";
         help += '<div id="picUpload"><h3>Titelbild hochladen</h3>'+
-          '<label for="titlePicName">Titelbildname:</label><input id="titlePicName" name="titlePicUpload" type="text"><br><br>'+
+          ' <div class="group" for="titlePicName"><input id="titlePicName" class="createProjectInput" name="titlePicName" type="text" required>'+
+          ' <span class="highlight"></span>'+
+                  ' <span class="bar"></span>'+
+                    '<label class="createProjectLabel">Titelbildname</label>'+
+                  '</div>'+
            '<label for="titlePicUpload">Datei auswählen:</label><input id="titlePicUpload" name="titlePicUpload" type="file" accept="image/png, image/jpeg">'+
           '<a class="button" id ="SubmitPictureUpload">Upload</a>'+
           '<a class="button" id ="CancelPictureUpload">Cancel</a></div></div>';
@@ -270,7 +274,7 @@ $(function (){
           }
         });
       });
-      var help ='<div id="selectDefaultLanguage">' +
+      var help ='<div id="selectDefaultLanguage" class="admin-content">' +
                   '<h3 id="selectDefaultLanguageTitel">Select Default Language</h3>' +
                   '<select id="defaultLanguageSelect">' +
                   languages +
@@ -293,7 +297,7 @@ $(function (){
     refreshAddLanguageContent: function()
     {
       $("#Content").empty();
-      var help ='<div id="DivaddLanguage">' +
+      var help ='<div id="DivaddLanguage"^class="admin-content">' +
                 '<h2 id="addLanguageTitel">Neue Sprache hinzufügen</h2>'+
                  '<br>'+
                   '<label id="pictureLabel" for="pictureLabel">Sprachdatei:'+
@@ -428,7 +432,7 @@ $(function (){
       });
 
 
-      help = '<iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/indexPreview.html"></iframe>';
+      help = '<div class="admin-content" style="height:550px; margin-left:-10%;width: 950px;"><iframe id="previewLayoutTheme" width="900" height="500" src="http://localhost/Projekt/indexPreview.html"></iframe></div>';
       $('#Content').append(help);
 
       $("#SubmitThemeLayout").click( function(){
@@ -455,7 +459,8 @@ $(function (){
     refreshAddLayoutThemeContent: function()
     {
       $("#Content").empty();
-      help = "<h3>Layout oder Theme hinzufügen</h3>"+
+      help = '<div class="admin-content">'+
+      "<h3>Layout oder Theme hinzufügen</h3>"+
             '<label for="themeLayName">Theme- oder Layoutname:</label><input id="themeLayName" name="themeLayName" type="text"><br><br>'+
               '<label id="tLFileLabel" for="themeOrLayoutFile">Theme- oder Layoutdatei:'+
                 ' <input id="themeOrLayoutFile" name="themeOrLayoutFile" type="file" accept="text/css">'+
@@ -465,7 +470,8 @@ $(function (){
                 '<option value="theme">Theme</option>'+
               '</select>' +
               '<a class="button" id ="SubmitNewThemeLayout">Submit</a>' +
-              '<a class="button" id ="CancelNewThemeLayout">Cancel</a>' ;
+              '<a class="button" id ="CancelNewThemeLayout">Cancel</a>' +
+            '</div>';
       $("#Content").append(help);
       $("#themeLayName").on("input", function(){
         var regexp = /[^a-zA-Z0-9]/g;
