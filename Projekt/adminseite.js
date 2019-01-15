@@ -1,3 +1,25 @@
+var activeLanguageElements;
+
+function initiateSite(tokenInfo) {
+  $("#adminMenu").append('<a class="button admin-button" id="ManageCategories" type="submit" value="Kategorien Verwalten">'+activeLanguageElements[20]+'</a>'+
+  '<a class="button admin-button" id="ChangePicture" type="submit" value="Titelbild anpassen">'+activeLanguageElements[21]+'</a>'+
+  '<a class="button admin-button" id="ManageUsers" type="submit" value="Nutzer Verwalten">'+activeLanguageElements[22]+'</a>'+
+  '<a class="button admin-button" id="ManageProjects" type="submit" value="Projekte Verwalten">'+activeLanguageElements[23]+'</a>'+
+  '<a class="button admin-button" id="StandardLanguage" type="submit" value="Standard Sprache einstellen">'+activeLanguageElements[24]+'</a>'+
+  '<a class="button admin-button" id="AddLanguage" type="submit" value="Sprache hinzufügen">'+activeLanguageElements[25]+'</a>'+
+  '<a class="button admin-button" id="ManageLayoutTheme" type="submit" value="Layout und Theme verwalten">'+activeLanguageElements[26]+'</a>'+
+  '<a class="button admin-button" id="AddLayoutTheme" type="submit" value="Layout oder Theme hinzufügen">'+activeLanguageElements[27]+'</a>');
+  $("body").show();
+  var userType = tokenInfo['type'];    //Variable muss mit Typ aus Token admin,admin2 initialisiert werden
+
+  if (userType == "admin"){
+    //$("#ChangePicture").hide();
+    $("#ManageUsers").hide();
+    $("#StandardLanguage").hide();
+    $("#AddLanguage").hide();
+  }
+}
+
 $(document).ready(function(){
 
   //console.log("test1");
@@ -7,16 +29,17 @@ $(document).ready(function(){
   //console.log("test3");
   tokenInfo= AUTHENTICATION.checkToken("admin", "index.html");
   //console.log("test4");
-  if(tokenInfo['status']) $("body").show();
-
-
-  var userType = tokenInfo['type'];    //Variable muss mit Typ aus Token admin,admin2 initialisiert werden
-
-  if (userType == "admin"){
-    //$("#ChangePicture").hide();
-    $("#ManageUsers").hide();
-    $("#StandardLanguage").hide();
-    $("#AddLanguage").hide();
+  if(tokenInfo['status']) {
+    $.when(LANGUAGE.getSessionLanguage()).then(function(langID){
+  		$.when(LANGUAGE.getLanguageItems(langID)).then(function(data) {
+  			if(data != null)
+  			{
+  				activeLanguageElements = data;
+  			}
+  		}).always(function(res) {
+  			initiateSite(tokenInfo);
+  		});
+  	});
   }
 
 $( function() {
@@ -326,12 +349,14 @@ $(function (){
                 {
                   var help = langData.split('\n')[2];
                   var objekte = help.split(',');              // beinhaltet Text für Elemente mit zugehöriger ElementID [Zeile drei der Datei]
+                  console.log(objekte);
                   objekte.forEach(function(objekt){
                     var elementID = objekt.split(':')[0];
                     var text = objekt.split(':')[1];
                     var currentElement = {lanID: currentID, eleID: elementID, eleText: text};
                     allElements.push(currentElement);
                   });
+                  console.log(allElements);
                   $.when(LANGUAGE.insertLanguageElements(allElements)).then(function(result){
                     if(result)
                     {

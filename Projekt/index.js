@@ -1,3 +1,5 @@
+var activeLanguageElements;
+
 function load_css(url){
 	$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', url) );
 }
@@ -7,22 +9,13 @@ function load_img(url){
 }
 
 function load_buttons(){
-	$('#topbox').append('<a class="button" id ="LoginButton" onclick="create_login_popup()">login</a>')
-	$('#topbox').append('<a class="button" id ="CreateAccount" onclick="create_creation_popup()">Account erstellen</a>')
+	$('#topbox').append('<a class="button" id ="LoginButton" onclick="create_login_popup()">'+activeLanguageElements[3]+'</a>')
+	$('#topbox').append('<a class="button" id ="CreateAccount" onclick="create_creation_popup()">'+activeLanguageElements[6]+'</a>')
 }
 
 function load_adminButtons(){
-	$('#topbox').append('<a class="button" id ="manage" onclick="load_manage()">Verwaltung</a>')
+	$('#topbox').append('<a class="button" id ="manage" onclick="load_manage()">'+activeLanguageElements[10]+'</a>')
 	load_userButtons();
-	/*
-	$('#topbox').append('<a class="button" id ="ManageCategories" onclick="manage_Categories()">Kategorien verwalten</a>')
-	$('#topbox').append('<a class="button" id ="ChangePicture" onclick="myProjects()">Titelbild ändern</a>')
-	$('#topbox').append('<a class="button" id ="ManageUsers" onclick="addProject()">User verwalten</a>')
-	$('#topbox').append('<a class="button" id ="ManageProjects" onclick="loadProjects()">Projekte verwalten</a>')
-	$('#topbox').append('<a class="button" id ="StandardLanguage" onclick="myProjects()">Standard Sprache</a>')
-	$('#topbox').append('<a class="button" id ="ManageLayoutTheme" onclick="addProject()">Layout und Theme verwalten</a>')
-	$('#topbox').append('<a class="button" id ="logout" onclick="logout()">Logout</a>')
-	*/
 }
 function load_manage(){
 	CONNECT.toPage("Adminsite.html");
@@ -247,9 +240,9 @@ function myProjects() {
 }
 
 function load_userButtons(){
-	$('#topbox').append('<a class="button" id ="loadProject" onclick="loadProjects()">Projekte laden</a>')
-	$('#topbox').append('<a class="button" id ="myProjects" onclick="myProjects()">Meine Projekte</a>')
-	$('#topbox').append('<a class="button" id ="addProject" onclick="addProject()">Projekt hinzufügen</a>')
+	$('#topbox').append('<a class="button" id ="loadProject" onclick="loadProjects()">'+activeLanguageElements[11]+'</a>')
+	$('#topbox').append('<a class="button" id ="myProjects" onclick="myProjects()">'+activeLanguageElements[12]+'</a>')
+	$('#topbox').append('<a class="button" id ="addProject" onclick="addProject()">'+activeLanguageElements[13]+'</a>')
 	$('#topbox').append('<a class="button" id ="logout" onclick="logout()">Logout</a>')
 }
 function logout(){
@@ -267,12 +260,12 @@ function manage_Categories(){
 function create_login_popup(){
 	$('body').append('<div id="popup1" class="overlay">'
   +'<div class="popup">'
-  +  '<h2 id="loginWindow">Login</h2>'
+  +  '<h2 id="loginWindow">'+activeLanguageElements[3]+'</h2>'
   +  '<a class="close" onclick="remove_login_popup()">&times;</a>'
   +  '<div class="content">'
   +		'<form name="loginBox" method="post">'
-  +  '  <p><label id="LoginUsername" for="username">Benutzername: <input id="username" name="username"> </label></p>'
-  +  '  <p><label id="LoginPassword" for="password">Passwort: <input type="password" id="password" name="password"> </label></p>'
+  +  '  <p><label id="LoginUsername" for="username">'+activeLanguageElements[4]+': <input id="username" name="username"> </label></p>'
+  +  '  <p><label id="LoginPassword" for="password">'+activeLanguageElements[5]+': <input type="password" id="password" name="password"> </label></p>'
   +  '  <p>  <input id = "btnSubmit" type="submit" value="Login"/> </p>'
   +  '</form>'
   +  '</div>'
@@ -326,14 +319,14 @@ function remove_login_popup(){
 function create_creation_popup(){
 	$('body').append('<div id="popup2" class="overlay">'
   +'<div class="popup">'
-  +'  <h2 id="CreateAcWindow">Account erstellen</h2>'
+  +'  <h2 id="CreateAcWindow">'+activeLanguageElements[6]+'</h2>'
   +'  <a class="close" onclick="remove_creation_popup()">&times;</a>'
   +'  <div class="content">'
-  +'    <p><label id="CreateAcFamilyname" for="familyname">Nachname: <input id="familynameNew" name="familyname"> </label></p>'
-  +'    <p><label id="CreateAcName" for="name">Vorname: <input id="nameNew" name="name"> </label></p>'
-  +'    <p><label id="CreateAcUsername" for="username">Benutzername: <input id="usernameNew" name="username"> </label></p>'
-  +'    <p><label id="CreateAcPassword" for="password">Passwort: <input type="password" id="passwordNew" name="password"> </label></p>'
-  +'    <p>  <input id = "btnCreateAC" type="submit" value="Create Account"/> </p>'
+  +'    <p><label id="CreateAcFamilyname" for="familyname">'+activeLanguageElements[7]+': <input id="familynameNew" name="familyname"> </label></p>'
+  +'    <p><label id="CreateAcName" for="name">'+activeLanguageElements[8]+': <input id="nameNew" name="name"> </label></p>'
+  +'    <p><label id="CreateAcUsername" for="username">'+activeLanguageElements[4]+': <input id="usernameNew" name="username"> </label></p>'
+  +'    <p><label id="CreateAcPassword" for="password">'+activeLanguageElements[5]+': <input type="password" id="passwordNew" name="password"> </label></p>'
+  +'    <p>  <input id = "btnCreateAC" type="submit" value="'+activeLanguageElements[6]+'"/> </p>'
   +'  </div>'
   +'</div>'
 +'</div>')
@@ -361,45 +354,30 @@ function remove_creation_popup(){
 	$('#popup2').remove()
 }
 
-function load_language(language){
-	$.each($('.projekt-title'),function(key,value){
-		value.textContent='test'
-	});
-
-
-
-}
-
 //fügt einen Button pro Sprache aus Datenbank hinzu
 function loadLanguageButtons(){
-	var languageButtons = "";
+	$("#language").append('<h3 class="side-content">'+activeLanguageElements[28]+'</h3>');
 	$.when(LANGUAGE.getAllLanguages()).then(function(languages){
 		languages.forEach(function(language){
-			languageButtons += '<a id="button'+language["Name"]+'" onclick="loadLanguage('+unescape("%27")+language["Name"]+unescape("%27")+')" class="button">'+language["Name"]+'</a>';
+			var lanID = language["SpracheID"];
+			languageButton = '<a id="button'+lanID+'" class="button">'+language["Name"]+'</a>';
+			$("#language").append(languageButton);
+			$("#button"+lanID).attr('lanID', lanID).click(function(event) {
+				$.when(LANGUAGE.setSessionLanguage($(this).attr('lanID'))).then(function(result) {
+					if(result) {location.reload();}
+					else alert("Error");
+				});
+			});
 		});
 	});
-	$("#language").append(languageButtons);
-}
-
-function loadLanguage(language = "Deutsch"){
-	site = "index";
-
-	$.when(LANGUAGE.getLanguageLabels(language, site)).then(function(elements){
-		//alert(elements);
-		elements.forEach(function(element){
-			//alert (element["Html_ID"] + "   " + element["Text"]);
-			$('#' + element["Html_ID"]).text(element["Text"]);
-		});
-	});
-
 }
 
 function add_projekt(title, content, state, id){
 	$('.col.span_2_of_3').append('<div class="projekt-post" id="'+id+'">'+
         '<h1 class="projekt-title">'+title+'</h1>'+
         '<p class="projekt-content">'+content+'</p>'+
-				'<p class="projekt-state">'+"Status: " +state+'</p>' +
-        '<a class="post-link" id="post-link'+id+'" >Read More...</a>'+
+				'<p class="projekt-state">'+activeLanguageElements[15]+": " +state+'</p>' +
+        '<a class="post-link" id="post-link'+id+'" >'+activeLanguageElements[9]+'</a>'+
         '      </div>');
 
 
@@ -407,12 +385,6 @@ function add_projekt(title, content, state, id){
 	//Projektdetails anzeigen
 	$('#post-link'+id).click(function(){
 					projectname = id;
-
-					/*
-					help = encodeURI("projektDetails.html?projektname="+ projectname);
-					alert(help);
-					window.open(help,"_self");
-					*/
 					$('.col.span_2_of_3').empty();
 					$.when(PROJECT.getProjectDetails(id) ).then(function(project){
 						add_projektDetails(project['projectName'], project['projectDescription'], project['state'], project['projectLeader'], project['projectMembers'], project['picturePath'] ,project['projectID']);
@@ -439,21 +411,21 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 		}
 		else
 		{
-			newElements += '<p class="projekt-state">'+"Status: " +state+'</p>';
+			newElements += '<p class="projekt-state">'+activeLanguageElements[15]+": " +state+'</p>';
 		}
-		newElements += '<p class="projekt-leader">'+"Projektleiter: "+leader+'</p>'+
-									 '<p class="projekt-members">'+"Teilnehmer: "+members+'</p>'+
+		newElements += '<p class="projekt-leader">'+activeLanguageElements[16]+": "+leader+'</p>'+
+									 '<p class="projekt-members">'+activeLanguageElements[17]+": "+members+'</p>'+
 									 '<img src='+ image +' alt='+ image +'>';
 	}).always(function(){
 		$.when(PROJECT.checkProjectMembership(id) ).then(function(result){
 			if(result == false)
 			{
-				newElements += '<a class="button" id="joinProjectBtn"">Teilnehmen</a>';
+				newElements += '<a class="button" id="joinProjectBtn"">'+activeLanguageElements[18]+'</a>';
 				joinButtonCreated = true;
 			}
 			else if(result == true && projectLeader == false)
 			{
-				newElements += '<a class="button" id="leaveProjectBtn"">Verlassen</a>';
+				newElements += '<a class="button" id="leaveProjectBtn"">'+activeLanguageElements[19]+'</a>';
 				leaveButtonCreated = true;
 			}
 		}).always(function(){
@@ -499,19 +471,7 @@ function add_projektDetails(title, content, state, leader, members, image, id){
 	});
 }
 
-//test
-
-/*function getUrlVars() {
-	var vars = {};
-	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-			vars[key] = value;
-	});
-	return vars;
-}*/
-//testende
-
-function test(){
-	var content= 'Ut noster tractavissent, summis hic eiusmod te quem. Doctrina velit litteris eu eu fore ingeniis philosophari ne quid o ingeniis ne anim, illum ea iudicem. Pariatur duis dolor hic dolor ad vidisse amet elit ita summis, quo duis te  malis, velit nostrud ingeniis. Appellat elit tamen iudicem multos, mentitum quae sed appellat illustriora. Velit commodo cernantur se si anim do labore, probant ab aliqua aut non laborum fidelissimae. Ex quae se fugiat, et malis officia in et enim cillum ita incididunt, a irure amet an ingeniis.'
+function initiateSite(){
 	//$.post( "server/Theme.php", { route: "allNamesDes" }).done(function( data ) {
 	$.when(LAYOUT.getCurrentLayoutPath()).then(function(layout){
 		load_css(layout);
@@ -539,40 +499,22 @@ function test(){
 	}
 	$("body").show();
 	$.when(PROJECT.searchAllProjects() ).then(function(projects){
-		//data = JSON.parse(projects);
-		//data.forEach(function x (project) {
 		projects.forEach(function x (project) {
-    	//add_projekt(project['Benennung'], "bla", project['ProjektID']); //@zuBearbeiten  Austauschen von bla gegen Projektbeschreibung
-			//add_projekt(project['projectName'], project['projectDescription'], project['state'], project['projectID']);
 			add_projekt(project['Benennung'], project['text'], project['Zustand'], project['ProjektID']);
 		});
   });
 
-/*
-	$.post( "server/projectRouter.php", { route: "allNames" }).done(function( data ) {
-		data = JSON.parse(data);
-		data.forEach(function x (item) {
-				alert(data['projectID']);
-
-				add_projekt(item, content,'1'); //@zuBearbeiten 1 muss auf ProjectId geändert werden
-			});
-	});
-	*/
-
 	//Sprache Buttons hinzufügen
 	loadLanguageButtons();
-	//Default Sprache initialisieren
-	loadLanguage();
-
 }
 
 function db(){
 	//db verbindung
 }
 
-$( function categorie(){
+function categorie(){
 		//hinzufügen der Kategorie "Alle"
-	var helpString = '<a onclick="" class="button category-button">Alle</a>';
+	var helpString = '<a onclick="" class="button category-button">'+activeLanguageElements[2]+'</a>';
 	$( '.menu' ).append( helpString );
 
 	$( ".category-button:nth-of-type(1)" ).click(function(event){
@@ -612,7 +554,7 @@ $( function categorie(){
 			});
 	});
 
-});
+};
 
 
 
@@ -623,7 +565,16 @@ $(document).ready(function(){
 
 	//$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'your stylesheet url') );
 
-
-	test();
+	$.when(LANGUAGE.getSessionLanguage()).then(function(langID){
+		$.when(LANGUAGE.getLanguageItems(langID)).then(function(data) {
+			if(data != null)
+			{
+				activeLanguageElements = data;
+			}
+		}).always(function(res) {
+			categorie();
+			initiateSite();
+		});
+	});
 	//if(tokenInfo['status']) $("body").show();
 });

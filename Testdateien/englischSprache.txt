@@ -1,0 +1,3 @@
+English
+0
+1:Search,2:All,3:Login,4:Username,5:Password,6:Create Account,7:Lastname,8:Surname,9:Read More...,10:Management,11:Load Projects,12:My Projects,13:Create Project,14:Create Account,15:State,16:Projectleader,17:Members,18:Join Project,19:Leave Project,20:Manage Categories,21:Manage Titleimage,22:Manage Users,23:Manage Projects,24:Language Setup,25:Add Language,26:Manage Layout and Theme,27:Add Layout or Theme,28:Language Selection

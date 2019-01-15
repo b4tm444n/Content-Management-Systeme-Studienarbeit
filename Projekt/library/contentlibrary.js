@@ -600,6 +600,38 @@ LANGUAGE =
             }
         }).promise();
     },
+  // getCurrentLanguage: Setzt die Sprache der aktuellen Session.
+  setSessionLanguage: function(id)
+    {
+      return $.ajax({
+            method: "POST",
+            url: "server/languageRouter.php",
+            data: { route: "setSessionLanguage", languageID: id},
+            dataType: "json",
+            success: function (response) {
+                return response;
+            },
+            fail: function (output){
+              return null;
+            }
+        }).promise();
+    },
+    // getSessionLanguage: Liefert die SprachID der aktuellen Session zurück.
+    getSessionLanguage: function()
+      {
+        return $.ajax({
+              method: "POST",
+              url: "server/languageRouter.php",
+              data: { route: "getSessionLanguage"},
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
+      },
   // getCurrentLanguageLabels: Liefert die Textwerte für HTML-Elemente eines
   // bestimmten Webseitenbereichs zurück.
   getCurrentLanguageLabels: function(site)
@@ -642,6 +674,23 @@ LANGUAGE =
               method: "POST",
               url: "server/languageRouter.php",
               data: { route: "getAllLanguages"},
+              dataType: "json",
+              success: function (response) {
+                  return response;
+              },
+              fail: function (output){
+                return null;
+              }
+          }).promise();
+    },
+    // getLanguageItems: Gibt ein Array mit den ElementIDs und den zugehörigen
+    // Texten der gewünschten Sprache anhand der ID zurück.
+    getLanguageItems: function(id)
+    {
+        return $.ajax({
+              method: "POST",
+              url: "server/languageRouter.php",
+              data: { route: "getLanguageItems", languageID: id},
               dataType: "json",
               success: function (response) {
                   return response;

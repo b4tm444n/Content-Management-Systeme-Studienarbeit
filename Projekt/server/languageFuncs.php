@@ -8,6 +8,13 @@ function getCurrentLanguage($database)
   return($data);
 }
 
+// getCurrentLanguage: Liefert die ID der aktuellen Sprache zurück.
+function getCurrentLanguageID($database)
+{
+  $data = dbsSingleValue($database, "Sprache", "SpracheID", "Standard=1");
+  return($data);
+}
+
 // getCurrentLanguageLabels: Liefert die Textwerte für HTML-Elemente eines
 // bestimmten Webseitenbereichs zurück.
 function getCurrentLaguageLabels($database, $website)
@@ -116,6 +123,25 @@ function insertLanguageElements($database, $allElements)
   }
   $database->commit();
   return true;
+}
+
+// getLanguageItems: Gibt ein Array mit den ElementIDs und den zugehörigen
+// Texten der gewünschten Sprache anhand der ID zurück.
+function getLanguageItems($database, $id)
+{
+  // Erzeuge SQL-Befehl und starte Datenbankabfrage
+  $languageItemsSQL = "SELECT ElementID AS id, Text AS text FROM element_sprache WHERE SpracheID=".$id;
+  $languageItems = dbsSelect($database, $languageItemsSQL);
+  $allItems = array();
+  if(isset($languageItems))
+  {
+    while($row = $languageItems->fetch_assoc())
+    {
+      $allItems[$row['id']] = $row['text'];
+    }
+    return $allItems;
+  }
+  else return null;
 }
 
 ?>

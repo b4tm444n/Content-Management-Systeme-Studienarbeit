@@ -65,6 +65,35 @@ else if($_POST['route'] == 'insertLanguageElements')
   }
   else echo json_encode(null);
 }
-
+// Route zur Rückgabe eines Arrays mit allen Sprachtexten und deren IDs
+else if($_POST['route'] == 'getLanguageItems')
+{
+  //Prüfe ob benötigte Parameter übergeben wurden
+  if(isset($_POST['languageID']))
+  {
+    $data = getLanguageItems($database, $_POST['languageID']);
+    echo json_encode($data);
+  }
+  else echo json_encode(null);
+}
+// Route zum setzen der Session-Sprache
+else if($_POST['route'] == 'setSessionLanguage')
+{
+  if(is_numeric($_POST['languageID']))
+  {
+    $_SESSION['language'] = $_POST['languageID'];
+    echo json_encode(true);
+  }
+  else echo json_encode(false);
+}
+// Route zur Abfrage der Session-Sprache
+else if($_POST['route'] == 'getSessionLanguage')
+{
+  if(isset($_SESSION['language'])) echo json_encode($_SESSION['language']);
+  else {
+    $data = getCurrentLanguageID($database);
+    echo json_encode($data);
+  }
+}
 else echo json_encode(null);
 ?>
