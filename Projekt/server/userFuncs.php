@@ -42,7 +42,8 @@ function getUserName($database, $id)
 function createUser($database, $pw, $name, $lastname, $username)
 {
   // Erzeuge SQL-Befehl und starte Datenbankupdate
-  $sql = "INSERT INTO Nutzer (Passwort, Vorname, Nachname, Username, admin, ThemeID, LayoutID) VALUES ('".$pw."', '".$name."', '".$lastname."', '".$username."', 0, 1, 1)";
+  //$sql = "INSERT INTO Nutzer (Passwort, Vorname, Nachname, Username, admin, ThemeID, LayoutID) VALUES ('".$pw."', '".$name."', '".$lastname."', '".$username."', 0, 1, 1)";
+  $sql = "INSERT INTO Nutzer (Passwort, Vorname, Nachname, Username, admin) VALUES ('".$pw."', '".$name."', '".$lastname."', '".$username."', 0)";
   $execute = dbsExecuteSQL($database, $sql);
   return $execute;
 }
