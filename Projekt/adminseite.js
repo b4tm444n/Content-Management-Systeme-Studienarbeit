@@ -320,7 +320,7 @@ $(function (){
     refreshAddLanguageContent: function()
     {
       $("#Content").empty();
-      var help ='<div id="DivaddLanguage"^class="admin-content">' +
+      var help ='<div id="DivaddLanguage" class="admin-content">' +
                 '<h2 id="addLanguageTitel">Neue Sprache hinzufügen</h2>'+
                  '<br>'+
                   '<label id="pictureLabel" for="pictureLabel">Sprachdatei:'+
