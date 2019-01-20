@@ -5,7 +5,7 @@ function load_css(url){
 }
 
 function load_img(url){
-	$('header').append('<img src="'+url+'" alt="img">')
+	$('header').append('<img id="picture" src="'+url+'" alt="img">');
 }
 
 function load_buttons(){
@@ -15,6 +15,10 @@ function load_buttons(){
 
 function load_adminButtons(){
 	$('#topbox').append('<a class="button" id ="manage" onclick="load_manage()">'+activeLanguageElements[10]+'</a>')
+	$('#topbox').append('<a class="button" id ="myProjects" onclick="myProjects()">'+activeLanguageElements[12]+'</a>')
+	$('#topbox').append('<a class="button" id ="addProject" onclick="addProject()">'+activeLanguageElements[13]+'</a>')
+
+
 	load_userButtons();
 }
 function load_manage(){
@@ -241,8 +245,7 @@ function myProjects() {
 
 function load_userButtons(){
 	$('#topbox').append('<a class="button" id ="loadProject" onclick="loadProjects()">'+activeLanguageElements[11]+'</a>')
-	$('#topbox').append('<a class="button" id ="myProjects" onclick="myProjects()">'+activeLanguageElements[12]+'</a>')
-	$('#topbox').append('<a class="button" id ="addProject" onclick="addProject()">'+activeLanguageElements[13]+'</a>')
+	//$('#topbox').append('<a class="button" id ="addProject" onclick="addProject()">'+activeLanguageElements[13]+'</a>')
 	$('#topbox').append('<a class="button" id ="logout" onclick="logout()">Logout</a>')
 }
 function logout(){
